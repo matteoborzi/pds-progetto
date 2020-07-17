@@ -66,4 +66,117 @@ Client <- Server : Add/Delete/Modify response
   - Code
   - Message
 
+## Design
 
+### Client
+
+```plantuml
+
+class Configuration{
+    path : std::string
+    machineID : std::string
+    username : std::string
+    password : std::string
+    ipAddress : std::string
+    port : long
+}
+
+class Main{
+
+}
+
+
+
+class Socket{
+    fd : int
+}
+
+Main - Configuration
+Main -- Socket
+FileWatcher --"*" Job
+
+class DirectoryEntry{
+    name : std::string
+}
+
+class Job{
+    action : enum
+    sent : bool
+}
+
+Job "0..2" -- DirectoryEntry
+
+class File{
+    checksum : std::string
+    lastEditDateTime : time
+    std::string computeChecksum()
+}
+
+class Directory{}
+
+class FileWatcher{}
+
+Directory --|> DirectoryEntry
+File --|> DirectoryEntry
+
+Directory -- "*" DirectoryEntry : contains
+
+Main -- FileWatcher
+FileWatcher - Directory : root
+
+```
+
+Thread : 
+- scansione del file system periodica [dopo quella iniziale], aggiornamento data di modifica e inserimento in coda
+- invio dati al server dalla coda
+- ricezione dati dal server, rimozione della coda e aggiornamento checksum
+
+
+### Server
+```plantuml
+class Main{}
+
+Main -- ServerSocket
+
+
+class Workspace{
+    username : std::string
+    password : std::string
+    localPath : std::string
+    machineID : std::string
+    serverPath : std::string
+    lastActivity? : time
+    std::string computeServerPath()
+}
+
+Workspace -- Socket
+
+class Socket{
+    fd : int
+}
+
+class Authentication {
+    bool authenticate(user, pw)
+}
+
+Main -- "*" Workspace
+
+Workspace "*" -- Authentication
+
+class File{
+    checksum : std::string
+    lastEditDateTime : time
+    std::string computeChecksum()
+}
+
+class Directory{}
+
+
+Directory --|> DirectoryEntry
+File --|> DirectoryEntry
+
+Directory -- "*" DirectoryEntry : contains
+
+Workspace -- Directory : root
+
+```
