@@ -79,6 +79,18 @@ class Configuration{
     password : std::string
     ipAddress : std::string
     port : long
+
+    Constructor(configFile)
+}
+
+class PBAuthentication{
+    username : std::string
+    password : std::string
+}
+
+class PBWorkSpaceChoice{
+    path : std::string
+    machineID : std::string
 }
 
 class Main{
@@ -92,12 +104,22 @@ class Socket{
 }
 
 Main - Configuration
+Main -- PBAuthentication
+Main -- PBWorkSpaceChoice
 Main -- Socket
-FileWatcher --"*" Job
+FileWatcher -- JobQueue
 
 class DirectoryEntry{
     name : std::string
 }
+
+class JobQueue{
+  add(path, action)
+  getLastAndSetSent()
+  remove()
+}
+
+JobQueue --"*" Job
 
 class Job{
     action : enum
@@ -112,7 +134,10 @@ class File{
     std::string computeChecksum()
 }
 
-class Directory{}
+class Directory{
+    addFile(...) 
+    addDirectory(relativePath)
+}
 
 class FileWatcher{}
 
@@ -124,6 +149,20 @@ Directory -- "*" DirectoryEntry : contains
 Main -- FileWatcher
 FileWatcher - Directory : root
 
+class PBDirectoryEntry{
+    required name
+    required type
+    optional checksum
+    optional date  
+}
+
+DirectoryEntry --"0..1" PBDirectoryEntry 
+
+class Checksum{
+  std::string computeChecksum()
+}
+
+File--> Checksum 
 ```
 
 Thread : 
@@ -140,14 +179,21 @@ Main -- ServerSocket
 
 
 class Workspace{
-    username : std::string
-    password : std::string
-    localPath : std::string
-    machineID : std::string
-    serverPath : std::string
+    localFolder : std::string 
     lastActivity? : time
-    std::string computeServerPath()
+    std::string computeServerPath(user, machine, directory)
 }
+
+note top of Workspace
+localFolder è il path del server
+della cartella di cui eseguire il backup
+(es /user/Machine/folderID)
+ottenuto da computeServerPath().
+
+Per ogni cartella /user/Machine vi sarà un file
+mapping.csv che traduce absolute path client in 
+cartella relativa sul server
+end note
 
 Workspace -- Socket
 
@@ -159,24 +205,53 @@ class Authentication {
     bool authenticate(user, pw)
 }
 
+class PBAuthentication{
+    username : std::string
+    password : std::string
+}
+
+class PBWorkSpaceChoice{
+    path : std::string
+    machineID : std::string
+}
+
 Main -- "*" Workspace
+Workspace -- PBAuthentication
+Workspace -- PBWorkSpaceChoice
 
 Workspace "*" -- Authentication
 
-class File{
-    checksum : std::string
-    lastEditDateTime : time
+class Checksum{
     std::string computeChecksum()
 }
 
-class Directory{}
+class PBDirectoryEntry{
+    required name
+    required type
+    optional checksum
+    optional date  
+}
 
+Workspace "*" --> Checksum
+Workspace --"*" PBDirectoryEntry : contains >
 
-Directory --|> DirectoryEntry
-File --|> DirectoryEntry
+class PBMetaInfoReq {
+    required Action
+    required path
+    optional size
+}
 
-Directory -- "*" DirectoryEntry : contains
+class PBMetaInfoRes {
+    required Status
+    optional checksum
+}
 
-Workspace -- Directory : root
+```
 
+## Iteration 1
+Chi testa chi
+```plantuml
+:Angelica: --> :Roberto:
+:Roberto: -right-> :Matteo:
+:Matteo: --> :Angelica:
 ```
