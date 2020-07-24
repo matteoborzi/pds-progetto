@@ -111,6 +111,10 @@ FileWatcher -- JobQueue
 
 class DirectoryEntry{
     name : std::string
+    visited : bool
+    delete()
+    setVisited()
+    getNotVisited()
 }
 
 class JobQueue{
@@ -132,11 +136,15 @@ class File{
     checksum : std::string
     lastEditDateTime : time
     std::string computeChecksum()
+    setChecksum()
+    setLastEditDateTime()
 }
 
 class Directory{
     addFile(...) 
     addDirectory(relativePath)
+    getFile(path)
+    getDirectory(path)
 }
 
 class FileWatcher{}
