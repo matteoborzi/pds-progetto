@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <boost/algorithm/string.hpp>
+#include <boost/filesystem.hpp>
 #include "authentication.h"
 
 #define  SEPARATOR "\t"
@@ -10,6 +11,7 @@
 
 std::pair<std::string, std::string> splitLine(std::string s);
 void addUser(std::string user, std::string pw);
+void createUserFolder(std::string user);
 
 static std::shared_mutex _authentication;
 
@@ -40,6 +42,7 @@ bool authenticate(std::string username, std::string password){
 
 
     //TODO add new user folder
+    createUserFolder(username);
     return true;
 }
 
@@ -59,4 +62,12 @@ void addUser( std::string user, std::string pw){
     std::cout<<"Saving on file "<<user<<" "<<pw<<std::endl;
     f<<user<<SEPARATOR<<pw<<std::endl;
     f.close();
+}
+
+void createUserFolder(std::string user){
+    std::string dir_path{"./"+user};
+    boost::filesystem::path dir(dir_path);
+    if(!boost::filesystem::create_directory(dir))
+       throw std::runtime_error("Cannot create user folder");
+
 }
