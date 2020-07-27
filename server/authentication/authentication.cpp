@@ -2,7 +2,7 @@
 #include <shared_mutex>
 #include <iostream>
 #include <vector>
-#include <boost/split.hpp>
+#include <boost/algorithm/string.hpp>
 #include "authentication.h"
 
 #define  SEPARATOR "\t"
@@ -21,10 +21,10 @@ bool authenticate(std::string username, std::string password){
     std::ifstream file{filename};
     std::string line;
 
-
+    if(!file)
+        throw std::runtime_error("Cannot acess file");
     while(std::getline(file,line)) {
         auto infos = splitLine(line);
-        std::cout<<infos.first;
         if (infos.first == username) {
             file.close();
             if (infos.second == password)
@@ -54,6 +54,8 @@ void addUser( std::string user, std::string pw){
     std::unique_lock l{_authentication};
 
     std::ofstream f{filename, std::ios::out | std::ios::app};
+    if(!f)
+        throw std::runtime_error("Cannot add a new user");
     std::cout<<"Saving on file "<<user<<" "<<pw<<std::endl;
     f<<user<<SEPARATOR<<pw<<std::endl;
     f.close();
