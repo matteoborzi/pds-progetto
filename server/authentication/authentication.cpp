@@ -44,7 +44,10 @@ bool authenticate(std::string username, std::string password){
 }
 
 std::pair<std::string, std::string> splitLine(std::string s){
-    return std::pair{"pippo", "password"};
+    std::vector<std::string> vec{};
+    boost::split(vec, s, boost::is_any_of(SEPARATOR));
+
+    return std::pair{vec[0] , vec[1]};
 }
 
 void addUser( std::string user, std::string pw){
