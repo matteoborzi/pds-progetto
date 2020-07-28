@@ -17,8 +17,9 @@ public:
     int myType () const;
     void setChecksum(std::string);
     void setLastEditTime(std::time_t);
-    std::string computeChecksum();
     std::string getChecksum();
+
+    time_t getLastEditTime();
 };
 
 
