@@ -1,4 +1,3 @@
-#include <fstream>
 #include <shared_mutex>
 #include <iostream>
 #include <vector>
@@ -24,7 +23,7 @@ bool authenticate(std::string username, std::string password){
     std::string line;
 
     if(!file)
-        throw std::runtime_error("Cannot acess file");
+        throw std::runtime_error("Cannot access authentication file");
     while(std::getline(file,line)) {
         auto infos = splitLine(line);
         if (infos.first == username) {
@@ -59,7 +58,7 @@ void addUser( std::string user, std::string pw){
     std::ofstream f{filename, std::ios::out | std::ios::app};
     if(!f)
         throw std::runtime_error("Cannot add a new user");
-    std::cout<<"Saving on file "<<user<<" "<<pw<<std::endl;
+    //std::cout<<"Saving on file "<<user<<" "<<pw<<std::endl;
     f<<user<<SEPARATOR<<pw<<std::endl;
     f.close();
 }
