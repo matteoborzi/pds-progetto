@@ -31,12 +31,20 @@
 *.out
 *.app
 
+#Shell config scripts
+*.sh
+*.sh.1
+
 
 #CLion files
 server/.idea
 server/cmake-build-debug
 server/CMakeLists.txt
+server/cmake-build-debug-wsl
 
 client/.idea
 client/cmake-build-debug
 client/CMakeLists.txt
+client/cmake-build-debug-wsl
+
+
