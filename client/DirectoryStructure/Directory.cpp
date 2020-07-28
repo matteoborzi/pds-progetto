@@ -61,10 +61,13 @@ std::unordered_set<std::shared_ptr<DirectoryEntry>> Directory::getNotVisited() {
     for(std::pair<const std::basic_string<char>, std::shared_ptr<DirectoryEntry>> entry : this->children){
         if(!entry.second->getVisited())
             notVisited.insert(entry.second);
-        else if(entry.second->getVisited() && isadirectory)
-            recurr;
+        else if(entry.second->getVisited() && entry.second->myType() == DIRTYPE){
+            std::shared_ptr<Directory> dir = std::static_pointer_cast<Directory>(entry.second);
+            std::unordered_set<std::shared_ptr<DirectoryEntry>> result =dir->getNotVisited();
+            notVisited.insert(result.begin(), result.end());
+        }
     }
-
+    return notVisited;
 }
 
 
