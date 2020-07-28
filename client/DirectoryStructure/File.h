@@ -18,6 +18,7 @@ public:
     void setChecksum(std::string);
     void setLastEditTime(std::time_t);
     std::string computeChecksum();
+    std::string getChecksum();
 };
 
 

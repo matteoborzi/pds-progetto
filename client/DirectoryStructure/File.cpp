@@ -6,7 +6,7 @@
 
 std::string File::computeChecksum() {
     return std::string();
-    //this function should call the computeChecksum function
+    //TODO this function should call the computeChecksum function
 }
 
 void File::setLastEditTime(std::time_t last) {
@@ -16,6 +16,10 @@ void File::setLastEditTime(std::time_t last) {
 void File::setChecksum(std::string checksum) {
     this->checksum = checksum;
 }
+
+std::string File::getChecksum(){
+    return this->checksum;
+};
 
 int File::myType() const {
     return FILETYPE;
