@@ -13,8 +13,8 @@ std::time_t to_time_t(TP tp)
     return system_clock::to_time_t(sctp);
 }
 
-std::time_t last_edit_time(std::filesystem::directory_entry dir){
-    const std::chrono::time_point last = std::filesystem::last_write_time(dir);
+std::time_t last_edit_time(std::filesystem::directory_entry entry){
+    const std::chrono::time_point last = std::filesystem::last_write_time(entry);
     std::time_t last_time = to_time_t(last);
     return last_time;
 }
