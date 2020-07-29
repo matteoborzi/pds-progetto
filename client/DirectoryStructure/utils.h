@@ -6,6 +6,7 @@
 #define CLIENT_HTILS_H
 
 #include <boost/algorithm/string.hpp>
+#include "../../common/time_utils.h"
 #include "Directory.h"
 #include "File.h"
 
