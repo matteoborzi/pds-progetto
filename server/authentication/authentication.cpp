@@ -7,7 +7,7 @@
 #include "authentication.h"
 
 #define  SEPARATOR "\t"
-#define filename "authentication.txt"
+#define filename "../authentication/authentication.txt"
 
 std::pair<std::string, std::string> splitLine(std::string& s);
 void addUser(std::string& user, std::string& pw);
