@@ -8,6 +8,9 @@
 #include "../../common/Action.h"
 #include "Job.h"
 
+/**
+ * Thread-safe structure to manage Jobs
+ */
 class JobQueue {
     std::mutex m;
     std::condition_variable empty, full;
