@@ -25,11 +25,16 @@ std::optional<Configuration> Configuration::getConfiguration(std::string filenam
             configuration.emplace(Configuration(local_path, local_machineID, local_username, local_password, local_ipAddress, local_port));
         }
         catch ( boost::property_tree::ptree_bad_path exception) {
+            /* this exception is called in case the get method if the ptree
+             * is called with a parameter that does not correspond
+             * to any key contained in the ptree
+             */
             file.close();
             std::cerr << "missing field(s) in configuration file" << std::endl;
             return std::nullopt;
         }
         catch (...) {
+            // in any other case
             file.close();
             std::cerr << "something wrong in configuration file" << std::endl;
             return std::nullopt;

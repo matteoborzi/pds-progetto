@@ -12,6 +12,11 @@
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
 
+/* this class implements the singleton pattern
+ * the configuration field contains the unique reference to that object
+ * the getConfiguration methods return that field and (eventually) initialize it
+ */
+
 class Configuration {
 private:
     static std::optional<Configuration> configuration;
