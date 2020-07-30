@@ -4,19 +4,17 @@
 #include <string>
 #include <mutex>
 #include <condition_variable>
-#include <unordered_map>
-#include <queue>
+#include <list>
 #include "../../common/Action.h"
 #include "Job.h"
 
 class JobQueue {
     std::mutex m;
     std::condition_variable empty, full;
-    std::unordered_map<std::string,Action> to_send, sent;
-    std::queue<std::string> queue;
+    std::list<Job> queue, sent;
 
 public:
-    void add(std::string path, Action act);
+    void add(Job& j);
 
     Job getLastAndSetSent();
 
