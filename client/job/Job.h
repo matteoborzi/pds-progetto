@@ -16,6 +16,7 @@ public:
     void setAct(Action a);
     bool getIsFile() const;
     bool operator==(Job const& j) const;
+    bool operator!=(Job const& j) const;
 };
 
 

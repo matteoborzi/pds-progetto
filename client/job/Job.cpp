@@ -23,3 +23,8 @@ bool Job::operator==(Job const &j) const {
 }
 
 
+bool Job::operator!=(Job const &j) const {
+    return path!=j.path || isFile!=j.isFile;
+}
+
+
