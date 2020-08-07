@@ -1,8 +1,10 @@
-#define BOOST_TEST_MODULE My Test
+//
+// Created by Angelica on 07/08/2020.
+//
 
-#include <boost/test/included/unit_test.hpp>
+
+#include <boost/test/unit_test.hpp>
 #include "../client/job/Job.h"
-#include "../client/job/JobQueue.h"
 //#define BOOST_TEST_DYN_LINK
 //#define BOOST_TEST_MAIN
 
