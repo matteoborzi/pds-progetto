@@ -47,4 +47,11 @@ client/cmake-build-debug
 client/CMakeLists.txt
 client/cmake-build-debug-wsl
 
+test/.idea
+test/cmake-build-debug
+test/CMakeLists.txt
+test/cmake-build-debug-wsl
+
+
+
 
