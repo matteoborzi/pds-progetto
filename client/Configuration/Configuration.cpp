@@ -22,6 +22,15 @@ std::optional<Configuration> Configuration::getConfiguration(std::string filenam
             std::string local_ipAddress = pt.get<std::string>("ipAddress");
             int local_port = pt.get<int>("port");
 
+            /* TODO
+             * fare un controllo su:
+             * username: non deve contenere / nè caratteri strani
+             * password: non deve contenere caratteri strani
+             * machineID: vedi username
+             * ipAddress: deve avere 3 punti che separano 4 numeri tra 0 e 255
+             * path: controllare che esista sulla macchina
+             */
+
             configuration.emplace(Configuration(local_path, local_machineID, local_username, local_password, local_ipAddress, local_port));
         }
         catch ( boost::property_tree::ptree_bad_path exception) {
