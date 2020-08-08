@@ -5,8 +5,6 @@
 
 #include <boost/test/unit_test.hpp>
 #include "../client/job/Job.h"
-//#define BOOST_TEST_DYN_LINK
-//#define BOOST_TEST_MAIN
 
 BOOST_AUTO_TEST_SUITE( test_suite_job )
 
@@ -14,7 +12,7 @@ BOOST_AUTO_TEST_CASE( test_job_1 ){
     Job job{"/root/folder1", ADD_DIRECTORY, true};
 
     /* TODO
-     * aggiungere un controllo nel costruttore
+     * aggiungere un controllo nel costruttore e in setAct
      * per vedere se Action e isFile sono coerenti
      * (es. in questo caso NON sono coerenti)
      */
@@ -25,7 +23,7 @@ BOOST_AUTO_TEST_CASE( test_job_1 ){
 }
 
 BOOST_AUTO_TEST_CASE( test_job_2 ){
-    Job job{"/root/folder1", ADD_DIRECTORY, true};
+    Job job{"/root/folder1", ADD_DIRECTORY, false};
     BOOST_CHECK_EQUAL(job.getAct(), ADD_DIRECTORY);
     job.setAct(ADD_FILE);
     BOOST_CHECK_EQUAL(job.getAct(), ADD_FILE);
