@@ -1,11 +1,13 @@
 //
 // Created by Angelica on 30/07/2020.
 //
-
+#include <boost/locale.hpp>
+#include <arpa/inet.h>
+#include <filesystem>
 #include "Configuration.h"
 std::optional<Configuration> Configuration::configuration = std::nullopt;
 
-std::optional<Configuration> Configuration::getConfiguration(std::string filename) {
+std::optional<Configuration> Configuration::getConfiguration(std::string& filename) {
     if(!configuration.has_value()){
         std::ifstream file{filename, std::ifstream::in};
         if(!file) {
@@ -21,25 +23,42 @@ std::optional<Configuration> Configuration::getConfiguration(std::string filenam
             std::string local_password = pt.get<std::string>("password");
             std::string local_ipAddress = pt.get<std::string>("ipAddress");
             int local_port = pt.get<int>("port");
-
-            /* TODO
-             * fare un controllo su:
-             * username: non deve contenere / nè caratteri strani
-             * password: non deve contenere caratteri strani
-             * machineID: vedi username
-             * ipAddress: deve avere 3 punti che separano 4 numeri tra 0 e 255
-             * path: controllare che esista sulla macchina
+            /*
+             * if one of the expected fields is not present in the ptree
+             * ( that means that it/they were not in the configuration file)
+             * the boost::property_tree::ptree_bad_path is thrown
              */
 
-            configuration.emplace(Configuration(local_path, local_machineID, local_username, local_password, local_ipAddress, local_port));
+            /*
+             * check if username, password and machineID contains only utf8 characters
+             * otherwise a conversion_error is thrown
+             */
+            local_username = boost::locale::conv::to_utf<char>(local_username, "UTF-8", boost::locale::conv::stop);
+            local_password = boost::locale::conv::to_utf<char>(local_password, "UTF-8", boost::locale::conv::stop);
+            local_machineID = boost::locale::conv::to_utf<char>(local_machineID, "UTF-8", boost::locale::conv::stop);
+
+            if(local_username.find("/") != std::string::npos) //username should not contains a /
+                if(local_machineID.find("/") != std::string::npos) //same for machineID
+                    if(inet_pton(AF_INET, local_ipAddress.c_str(), nullptr) == 1){ //if returns 1, the ip address is valid
+                        std::filesystem::directory_entry dir{local_path};
+                        if(dir.exists() && dir.is_directory()) //check that the path exists and is a directory
+                            if(local_port >= 0 && local_port <= 65535) //check that the port is in a valid range
+                                configuration.emplace(Configuration(local_path, local_machineID, local_username, local_password, local_ipAddress, local_port));
+                    }
         }
         catch ( boost::property_tree::ptree_bad_path exception) {
-            /* this exception is called in case the get method if the ptree
+            /*
+             * this exception is called in case the get method if the ptree
              * is called with a parameter that does not correspond
              * to any key contained in the ptree
              */
             file.close();
             std::cerr << "missing field(s) in configuration file" << std::endl;
+            return std::nullopt;
+        }
+        catch (boost::locale::conv::conversion_error exception){
+            file.close();
+            std::cerr << "invalid character set used, only utf8 is allowed" << std::endl;
             return std::nullopt;
         }
         catch (...) {

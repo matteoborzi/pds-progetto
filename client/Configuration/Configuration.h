@@ -30,7 +30,7 @@ private:
 public:
     Configuration(const std::string &machineId);
 
-    static std::optional<Configuration> getConfiguration(std::string filename);
+    static std::optional<Configuration> getConfiguration(std::string& filename);
     static std::optional<Configuration> getConfiguration();
 
     std::string getPath();
