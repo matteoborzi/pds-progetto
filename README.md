@@ -97,7 +97,8 @@ class Main{
 
 }
 
-
+class sendToServer{}
+class receiveFromServer{}
 
 class Socket{
     fd : int
@@ -107,6 +108,8 @@ Main - Configuration
 Main -- PBAuthentication
 Main -- PBWorkSpaceChoice
 Main -- Socket
+receiveFromServer -- FileWatcher
+sendToServer -- FileWatcher
 FileWatcher -- JobQueue
 
 class DirectoryEntry{
@@ -174,9 +177,9 @@ File--> Checksum
 ```
 
 Thread : 
-- scansione del file system periodica [dopo quella iniziale], aggiornamento data di modifica e inserimento in coda
+- scansione del file system periodica [dopo quella iniziale], aggiornamento data di modifica e inserimento in coda e inserimento/rimozione/modifica della directoryEntry
 - invio dati al server dalla coda
-- ricezione dati dal server, rimozione della coda e aggiornamento checksum
+- ricezione dati dal server, rimozione della coda e controllo checksum
 
 
 ### Server
