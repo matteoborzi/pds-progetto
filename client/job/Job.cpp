@@ -1,3 +1,4 @@
+#include <stdexcept>
 #include "Job.h"
 
 const std::string &Job::getPath() const {
@@ -8,13 +9,16 @@ Action Job::getAct() const {
     return act;
 }
 
-Job::Job(const std::string &path, Action act, bool isFile) : path(path), act(act), isFile(isFile) {}
+Job::Job(const std::string &path, Action act, bool isFile) : path(path), act(act), isFile(isFile) {
+   validateAct(act);
+}
 
 bool Job::getIsFile() const {
     return isFile;
 }
 
 void Job::setAct(Action a) {
+    validateAct(a);
     act=a;
 }
 
@@ -25,6 +29,11 @@ bool Job::operator==(Job const &j) const {
 
 bool Job::operator!=(Job const &j) const {
     return path!=j.path || isFile!=j.isFile;
+}
+
+void Job::validateAct(Action a){
+    if((isFile && a == ADD_DIRECTORY) || (!isFile && a==ADD_FILE ))
+        throw std::logic_error("Impossible to set such an action on this file");
 }
 
 

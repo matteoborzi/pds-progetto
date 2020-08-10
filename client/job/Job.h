@@ -8,6 +8,8 @@ class Job {
     std::string path;
     Action act;
     bool isFile;
+    
+    void validateAct(Action a);
 
 public:
     Job(const std::string &path, Action act, bool isFile);
