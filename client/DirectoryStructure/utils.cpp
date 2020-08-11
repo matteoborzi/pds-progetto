@@ -3,6 +3,7 @@
 //
 
 #include "utils.h"
+#include "../Configuration/Configuration.h"
 
 std::shared_ptr<Directory> getParent(std::string& path){
     std::shared_ptr<Directory> result = Directory::getRoot();
@@ -94,14 +95,10 @@ bool addFile(std::string& path){
      * se il checksum non è ok
      * return res
      */
-
-    /*
-     * TODO
-     * il path assoluto della cartella che sto sincronizzando
-     * deve essere preso dal file di configurazione
-     * per poter passare la directory entry corretta
-     */
-    std::string abs_path = "";
+    std::optional<Configuration> conf=Configuration::getConfiguration();
+    if(!conf.has_value())
+        throw std::runtime_error("Impossible to get configuration");
+    std::string abs_path = conf.value().getPath();
     std::filesystem::directory_entry file{abs_path+path};
     //TODO chiamata da cambiare opportunamente sulla base del formato dei due path
     if(!file.exists() || !file.is_regular_file())
