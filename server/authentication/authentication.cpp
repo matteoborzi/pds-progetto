@@ -37,6 +37,8 @@ bool authenticate(std::string username, std::string password){
     while(std::getline(file,line)) {
         //extracting username and password for each line
         auto infos = splitLine(line);
+        boost::algorithm::trim(infos.first);
+        boost::algorithm::trim(infos.second);
         if (infos.first == username) {
             //same username, search ended
             file.close();
