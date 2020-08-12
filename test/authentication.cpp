@@ -30,4 +30,10 @@ BOOST_AUTO_TEST_CASE(test_authentication_1){
     BOOST_CHECK(res == true);
 }
 
+    BOOST_AUTO_TEST_CASE(test_authentication_2){
+        bool res = authenticate("pippo", "password1");
+        BOOST_CHECK(res == true);
+    }
+
+
 BOOST_AUTO_TEST_SUITE_END();
