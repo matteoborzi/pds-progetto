@@ -167,6 +167,17 @@ class PBDirectoryEntry{
     optional date  
 }
 
+class PBMetaInfoReq {
+    required Action
+    required path
+    optional size
+}
+
+class PBMetaInfoRes {
+    required Status
+    optional checksum
+}
+
 DirectoryEntry --"0..1" PBDirectoryEntry 
 
 class Checksum{
