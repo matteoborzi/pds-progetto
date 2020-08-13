@@ -22,7 +22,7 @@ class Directory: public DirectoryEntry {
 
 public:
     bool deleteEntry(const std::string& name);
-    std::unordered_set<std::string> getNotVisited();
+    std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> getNotVisited();
     static std::shared_ptr<Directory> makeDirectory(const std::string& name, std::weak_ptr<Directory> parent);
     static std::shared_ptr<Directory> getRoot();
     std::shared_ptr<Directory> addDirectory (const std::string& name);
