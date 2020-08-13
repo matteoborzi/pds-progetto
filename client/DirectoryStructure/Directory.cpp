@@ -65,6 +65,7 @@ std::unordered_set<std::shared_ptr<DirectoryEntry>> Directory::getNotVisited() {
             std::shared_ptr<Directory> dir = std::static_pointer_cast<Directory>(entry.second);
             std::unordered_set<std::shared_ptr<DirectoryEntry>> result =dir->getNotVisited();
             notVisited.insert(result.begin(), result.end());
+            //TODO absolute path should be needed here
         }
     }
     return notVisited;
