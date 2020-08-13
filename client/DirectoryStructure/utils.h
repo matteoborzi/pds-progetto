@@ -18,4 +18,7 @@ std::shared_ptr<Directory> getDirectory(std::string& path);
 std::shared_ptr<File> getFile(std::string& path);
 std::string getLast(std::string& path);
 
+//TODO add method to getNotVisited starting from the root (with relative path)
+//TODO add method to unclear visited flag for all element
+
 #endif //CLIENT_HTILS_H
