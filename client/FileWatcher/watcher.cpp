@@ -24,6 +24,7 @@ void watch(JobQueue &queue) {
             std::string path = element.path();
             if (abs_path != "/")
                 path = path.substr(abs_path.size(), path.size());
+
             if (element.is_directory()) {
                 std::shared_ptr<Directory> dir = getDirectory(path);
                 if (dir == nullptr) {
@@ -65,10 +66,10 @@ void watch(JobQueue &queue) {
                 }
             }
             for (auto &entry : Directory::getRoot()->getNotVisited()) {
-                // TODO fix path (only name now)
-                // entry->setVisited(false);
-                // deleteDirectoryOrFile(entry->getName());
-                Job deleteDoF{entry->getName(), DELETE, entry->myType()==FILETYPE };
+                std::string deletePath=entry.first;
+                deleteDirectoryOrFile(deletePath);
+
+                Job deleteDoF{entry.first, DELETE, entry.second->myType()==FILETYPE };
                 queue.add(deleteDoF);
             }
         }
