@@ -30,9 +30,10 @@ std::shared_ptr<Directory> getParent(std::string& path){
     for(std::string field : fields){
         boost::algorithm::trim(field);
         if(field == "") {
-            if (index == 0)
+            if (index == 0) {
+                index++;
                 continue;
-            else{
+            }else{
                 //errore nel path es. /folder1//folder2
                 result = std::shared_ptr<Directory>(nullptr);
                 break;
