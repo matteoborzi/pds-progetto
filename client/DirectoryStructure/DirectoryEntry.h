@@ -30,9 +30,11 @@ public:
         return visited;
     }
     virtual int myType () const = 0;
-    void unsetVisited(){
+
+    virtual void unsetVisited(){
         visited=false;
     };
+
     ~DirectoryEntry(){};
 };
 

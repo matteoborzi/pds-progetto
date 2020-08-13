@@ -3,6 +3,7 @@
 //
 
 #include <algorithm>
+#include <iostream>
 #include "Directory.h"
 
 std::shared_ptr<Directory> Directory::root = nullptr;
@@ -61,13 +62,13 @@ std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> Directory::getN
     std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> notVisited{};
     for(std::pair<const std::basic_string<char>, std::shared_ptr<DirectoryEntry>> entry : this->children){
         if(!entry.second->getVisited())
-            notVisited["/" + entry.second->getName()] = entry.second;
+            notVisited[ ( root.get() != this ? this->getName() : "") +"/" + entry.first] = entry.second;
         else if(entry.second->getVisited() && entry.second->myType() == DIRTYPE){
             std::shared_ptr<Directory> dir = std::static_pointer_cast<Directory>(entry.second);
             std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> result =dir->getNotVisited();
 
             std::for_each(result.begin(), result.end(), [this, &notVisited](std::pair<std::string, std::shared_ptr<DirectoryEntry>> x){
-               notVisited["/"+this->getName()+"/"+x.first] = x.second ;
+               notVisited[( root.get() != this ? this->getName() : "")+"/"+x.first] = x.second ;
             });
             //notVisited.insert(result.begin(), result.end());
         }

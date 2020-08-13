@@ -27,7 +27,7 @@ public:
     static std::shared_ptr<Directory> getRoot();
     std::shared_ptr<Directory> addDirectory (const std::string& name);
     std::shared_ptr<DirectoryEntry> get(const std::string& name);
-    virtual void unsetVisited() override;
+    virtual void unsetVisited() ;
     virtual int myType () const override ;
     std::shared_ptr<File> addFile (const std::string& name, std::string checksum, long time);
     ~Directory(){};
