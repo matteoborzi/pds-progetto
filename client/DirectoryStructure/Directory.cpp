@@ -25,7 +25,7 @@ std::shared_ptr<Directory> Directory::makeDirectory(const std::string& name, std
 }
 
 std::shared_ptr<Directory> Directory::addDirectory(const std::string &name) {
-    if(name == "." || name == ".." || this->children.find(name) == children.end())
+    if(name == "." || name == ".." || this->children.find(name) != children.end())
         return std::shared_ptr<Directory>(nullptr);
     std::shared_ptr<Directory> child = Directory::makeDirectory(name, self);
     this->children.insert(std::make_pair(child->getName(), child));
@@ -45,7 +45,7 @@ std::shared_ptr<DirectoryEntry> Directory::get(const std::string &name) {
 }
 
 std::shared_ptr<File> Directory::addFile(const std::string &name, std::string checksum, long time) {
-    if(name == "." || name == ".." || this->children.find(name) == children.end())
+    if(name == "." || name == ".." || this->children.find(name) != children.end())
         return std::shared_ptr<File>(nullptr);
     std::shared_ptr<File> file(new File(name, checksum, time));
     children.insert(std::make_pair(file->getName(), file));
