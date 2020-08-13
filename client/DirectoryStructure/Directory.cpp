@@ -2,6 +2,7 @@
 // Created by Angelica on 24/07/2020.
 //
 
+#include <algorithm>
 #include "Directory.h"
 
 std::shared_ptr<Directory> Directory::root = nullptr;
@@ -56,16 +57,19 @@ bool Directory::deleteEntry(const std::string &name) {
     return this->children.erase(name) != 0;
 }
 
-std::unordered_set<std::shared_ptr<DirectoryEntry>> Directory::getNotVisited() {
-    std::unordered_set<std::shared_ptr<DirectoryEntry>> notVisited{};
+std::unordered_set<std::string> Directory::getNotVisited() {
+    std::unordered_set<std::string> notVisited{};
     for(std::pair<const std::basic_string<char>, std::shared_ptr<DirectoryEntry>> entry : this->children){
         if(!entry.second->getVisited())
-            notVisited.insert(entry.second);
+            notVisited.insert("/" + entry.second->getName());
         else if(entry.second->getVisited() && entry.second->myType() == DIRTYPE){
             std::shared_ptr<Directory> dir = std::static_pointer_cast<Directory>(entry.second);
-            std::unordered_set<std::shared_ptr<DirectoryEntry>> result =dir->getNotVisited();
-            notVisited.insert(result.begin(), result.end());
-            //TODO absolute path should be needed here
+            std::unordered_set<std::string> result =dir->getNotVisited();
+
+            std::for_each(result.begin(), result.end(), [this, &notVisited](std::string x){
+               notVisited.insert("/"+this->getName()+"/"+x);
+            });
+            //notVisited.insert(result.begin(), result.end());
         }
     }
     return notVisited;
