@@ -24,7 +24,6 @@ void watch(JobQueue &queue) {
             std::string path = element.path();
             if (abs_path != "/")
                 path = path.substr(abs_path.size(), path.size());
-            std::cout << path << std::endl;
             if (element.is_directory()) {
                 std::shared_ptr<Directory> dir = getDirectory(path);
                 if (dir == nullptr) {
@@ -33,7 +32,7 @@ void watch(JobQueue &queue) {
                     if (dir == nullptr) {
                         throw std::runtime_error("Unable to create metadata for dir " + path);
                     }
-                    Job addDir{element.path(), ADD_DIRECTORY, false};
+                    Job addDir{path, ADD_DIRECTORY, false};
                     queue.add(addDir);
                 }
 
@@ -48,7 +47,7 @@ void watch(JobQueue &queue) {
                     if (file == nullptr) {
                         throw std::runtime_error("Unable to create metadata for file " + path);
                     }
-                    Job addFile{element.path(), ADD_FILE, true};
+                    Job addFile{path, ADD_FILE, true};
                     queue.add(addFile);
 
                     file->setVisited();
@@ -57,7 +56,7 @@ void watch(JobQueue &queue) {
                     if (last_edit_time(element) > file->getLastEditTime() //file is newer than the server one
                         // (if first time, otherwise a simple update of the file)
                         || (first && file->getChecksum() != computeChecksum(element.path()))) { //different checksum
-                        Job update{element.path(), UPDATE, true};
+                        Job update{path, UPDATE, true};
                         queue.add(update);
 
                         file->setVisited();
