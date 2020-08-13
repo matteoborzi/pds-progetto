@@ -75,6 +75,12 @@ std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> Directory::getN
     return notVisited;
 }
 
+void Directory::unsetVisited() {
+    setVisited(false);
+    for(auto & element : children)
+        element.second->unsetVisited();
+}
+
 
 
 

@@ -22,14 +22,17 @@ public:
     std::string getName() const {
         return name;
     }
-    void setVisited(){
-        visited = true;
+    void setVisited(bool value = true){
+        visited = value;
         return;
     };
     bool getVisited(){
         return visited;
     }
     virtual int myType () const = 0;
+    void unsetVisited(){
+        visited=false;
+    };
     ~DirectoryEntry(){};
 };
 
