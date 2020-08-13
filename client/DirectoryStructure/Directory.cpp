@@ -57,22 +57,28 @@ bool Directory::deleteEntry(const std::string &name) {
     return this->children.erase(name) != 0;
 }
 
-std::unordered_set<std::string> Directory::getNotVisited() {
-    std::unordered_set<std::string> notVisited{};
+std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> Directory::getNotVisited() {
+    std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> notVisited{};
     for(std::pair<const std::basic_string<char>, std::shared_ptr<DirectoryEntry>> entry : this->children){
         if(!entry.second->getVisited())
-            notVisited.insert("/" + entry.second->getName());
+            notVisited["/" + entry.second->getName()] = entry.second;
         else if(entry.second->getVisited() && entry.second->myType() == DIRTYPE){
             std::shared_ptr<Directory> dir = std::static_pointer_cast<Directory>(entry.second);
-            std::unordered_set<std::string> result =dir->getNotVisited();
+            std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> result =dir->getNotVisited();
 
-            std::for_each(result.begin(), result.end(), [this, &notVisited](std::string x){
-               notVisited.insert("/"+this->getName()+"/"+x);
+            std::for_each(result.begin(), result.end(), [this, &notVisited](std::pair<std::string, std::shared_ptr<DirectoryEntry>> x){
+               notVisited["/"+this->getName()+"/"+x.first] = x.second ;
             });
             //notVisited.insert(result.begin(), result.end());
         }
     }
     return notVisited;
+}
+
+void Directory::unsetVisited() {
+    setVisited(false);
+    for(auto & element : children)
+        element.second->unsetVisited();
 }
 
 
