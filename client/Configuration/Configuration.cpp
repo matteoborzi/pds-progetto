@@ -37,17 +37,20 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
             local_password = boost::locale::conv::to_utf<char>(local_password, "UTF-8", boost::locale::conv::stop);
             local_machineID = boost::locale::conv::to_utf<char>(local_machineID, "UTF-8", boost::locale::conv::stop);
 
+            //TODO add messages for format error
             if(local_username.find("/") == std::string::npos) //username should not contains a /
                 if(local_machineID.find("/") == std::string::npos) {//same for machineID
                     int32_t addr;
                     if (inet_pton(AF_INET, local_ipAddress.c_str(), &addr) ==
                         1) { //if returns 1, the ip address is valid
                         std::filesystem::directory_entry dir{local_path};
-                        if (dir.exists() && dir.is_directory()) //check that the path exists and is a directory
+                        if (dir.exists() && dir.is_directory()) { //check that the path exists and is a directory
                             if (local_port >= 0 && local_port <= 65535) //check that the port is in a valid range
                                 configuration.emplace(
                                         Configuration(local_path, local_machineID, local_username, local_password,
                                                       local_ipAddress, local_port));
+                                std::cout<<"Configuration loaded correctly"<<std::endl;
+                        }
                     }
                 }
         }
