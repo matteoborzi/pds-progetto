@@ -19,7 +19,7 @@ void watch(JobQueue &queue) {
     bool first = true;
 
     while (true) {
-        //TODO clear flags
+        Directory::getRoot()->unsetVisited();
         for (auto element : std::filesystem::recursive_directory_iterator{abs_path}) {
             std::string path = element.path();
             if (abs_path != "/")
@@ -51,7 +51,7 @@ void watch(JobQueue &queue) {
                     Job addFile{path, ADD_FILE, true};
                     queue.add(addFile);
 
-                    file->setVisited();
+
                 } else {
 
                     if (last_edit_time(element) > file->getLastEditTime() //file is newer than the server one
@@ -60,20 +60,23 @@ void watch(JobQueue &queue) {
                         Job update{path, UPDATE, true};
                         queue.add(update);
 
-                        file->setVisited();
+
                     }
 
                 }
+                file->setVisited();
             }
-            for (auto &entry : Directory::getRoot()->getNotVisited()) {
-                std::string deletePath=entry.first;
-                deleteDirectoryOrFile(deletePath);
 
-                Job deleteDoF{entry.first, DELETE, entry.second->myType()==FILETYPE };
-                queue.add(deleteDoF);
-            }
         }
 
+        for (auto &entry : Directory::getRoot()->getNotVisited()) {
+            std::string deletePath=entry.first;
+            
+            Job deleteDoF{entry.first, DELETE, entry.second->myType()==FILETYPE };
+            queue.add(deleteDoF);
+
+            deleteDirectoryOrFile(deletePath);
+        }
         first = false;
         std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     }
