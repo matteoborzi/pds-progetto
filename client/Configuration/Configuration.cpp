@@ -4,6 +4,7 @@
 #include <boost/locale.hpp>
 #include <arpa/inet.h>
 #include <filesystem>
+#include <boost/algorithm/string.hpp>
 #include "Configuration.h"
 std::optional<Configuration> Configuration::configuration = std::nullopt;
 
@@ -17,7 +18,9 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
         boost::property_tree::read_json(file, pt);
 
         try{
-            std::string local_path = pt.get<std::string>("path");
+            std::string local_path = boost::algorithm::trim_copy(pt.get<std::string>("path"));
+            if(local_path.compare(local_path.size()-1,local_path.size()-1,"/") == 0 )
+                local_path = local_path.substr(0, local_path.size() -1);
             std::string local_machineID = pt.get<std::string>("machineID");
             std::string local_username = pt.get<std::string>("username") ;
             std::string local_password = pt.get<std::string>("password");
