@@ -59,6 +59,9 @@ void createMachineFolder(std::string user, std::string machineID, std::string cl
     std::ofstream mapping("./"+user+"/"+machineID+"/mapping.txt");
     if(!mapping)
         throw std::runtime_error("Cannot create ./"+user+"/"+machineID+"/mapping.txt file");
+    std::filesystem::path newdir("./"+user+"/"+machineID+"/1");
+    if(!std::filesystem::create_directory(newdir))
+        throw std::runtime_error("Cannot create new backup folder");
     mapping << client_path+"\t1" << std::endl;
     mapping.close();
 }
@@ -68,6 +71,9 @@ void addNewMapping(std::string user,std::string machineID,std::string client_pat
     if(!mapping){
         throw std::runtime_error("Cannot open ./"+user+"/"+machineID+"/mapping.txt file");
     }
+    std::filesystem::path newdir("./"+user+"/"+machineID+"/"+std::to_string(number));
+    if(!std::filesystem::create_directory(newdir))
+        throw std::runtime_error("Cannot create new backup folder");
     mapping << client_path+"\t"+std::to_string(number) << std::endl;
     mapping.close();
 }
