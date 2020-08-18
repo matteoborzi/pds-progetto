@@ -42,12 +42,14 @@ std::string computeServerPath(std::string user, std::string machineID, std::stri
         boost::algorithm::trim(infos.first);
         boost::algorithm::trim(infos.second);
         number = std::stol(infos.second, nullptr, 10);
+        //TODO check if folder really exists
         if(infos.first == client_path)
             return infos.second;
     }
     mapping.close();
     number++;
     addNewMapping(user, machineID, client_path, number);
+    // TODO return full relative path (user+folder_id) ??
     return std::to_string(number);
 }
 
