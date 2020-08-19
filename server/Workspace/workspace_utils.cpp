@@ -42,18 +42,17 @@ std::string computeServerPath(std::string user, std::string machineID, std::stri
         boost::algorithm::trim(infos.first);
         boost::algorithm::trim(infos.second);
         number = std::stol(infos.second, nullptr, 10);
-            return infos.second;
         if(infos.first == client_path){
             std::filesystem::directory_entry folder{"./"+user+"/"+machineID+"/"+infos.second};
             if(!folder.exists() || !folder.is_directory())
                 throw std::runtime_error("Backup folder ./"+user+"/"+machineID+"/"+infos.second+"does not exists");
+            return "/"+user+"/"+machineID+"/"+infos.second+"/";
         }
     }
     mapping.close();
     number++;
     addNewMapping(user, machineID, client_path, number);
-    // TODO return full relative path (user+folder_id) ??
-    return std::to_string(number);
+    return "/"+user+"/"+machineID+"/"+std::to_string(number)+"/";
 }
 
 void createMachineFolder(std::string user, std::string machineID, std::string client_path){
