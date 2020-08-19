@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+message Workspace{
+    required string path = 1;
+    required string machineID = 2;
+}
+
