@@ -166,3 +166,21 @@ std::string getLast(std::string& path){
     boost::algorithm::trim(last);
     return last;
 }
+
+DirectoryEntryMessage::Type toDirectoryEntryMessage(Type toConvert) {
+    switch (toConvert) {
+        case DIRTYPE:
+            return DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_DIRTYPE;
+        case FILETYPE:
+            return DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE;
+    }
+}
+
+Type toType(DirectoryEntryMessage::Type toConvert) {
+    switch (toConvert) {
+        case DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_DIRTYPE:
+            return DIRTYPE;
+        case DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE:
+            return FILETYPE;
+    }
+}
