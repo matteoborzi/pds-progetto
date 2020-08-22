@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+import "DirectoryEntryMessage.proto";
+
+message DirectoryEntryList{
+    repeated DirectoryEntryMessage list = 1;
+}
