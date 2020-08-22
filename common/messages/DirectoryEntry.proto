@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+message DirectoryEntry{
+    required string name = 1;
+    enum Type  {DIRTYPE =0; FILETYPE=1;}
+    required Type type  = 2;
+    optional string checksum = 3;
+    optional int32 date = 4;
+}
