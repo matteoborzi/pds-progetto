@@ -1,6 +1,6 @@
 syntax = "proto2";
 
-message DirectoryEntry{
+message DirectoryEntryMessage{
     required string name = 1;
     enum Type  {DIRTYPE =0; FILETYPE=1;}
     required Type type  = 2;
