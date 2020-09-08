@@ -21,9 +21,7 @@ Client -> Server : Login Request
 Client <- Server : Login Response
 
 Client -> Server : Workspace choice
-Client <- Server : Workspace status
 
-Client -> Server : Server Metadata Request
 Client <- Server : Server Metadata Response
 
 Client -> Server : Add/Delete/Modify message
@@ -33,38 +31,25 @@ Client <- Server : Add/Delete/Modify response
 ### Formato dei messaggi
 
 - Login request:  
-  - Code
   - Username
   - Password
-- Login response:
-  - Code 
+- Login response: 
   - Status
 - Workspace choice: 
-  - Code
   - Path
   - Machine ID
-- Workspace status
-  - Code
-  - New/Already exists
-- Server Metadata request
-  - Code
 - Server Metadata Response
-  - Code
+  - Status
   - [ Metadata information (<filename, checksum> or simply <directory, >) ]
 - Add/Delete/Modify message
-  - Code
   - Action (ADD_FILE, ADD_DIRECTORY, UPDATE, DELETE)
   - Path
   - Size*
   - Payload file*
 - Add/Delete/Modify response
-  - Code
   - Path
   - Status
   - Checksum*
-- Bad Request:
-  - Code
-  - Message
 
 ## Design
 
