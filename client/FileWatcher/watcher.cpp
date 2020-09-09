@@ -64,15 +64,15 @@ void watch(JobQueue &queue) {
 
                 } else {
 
-                    if (last_edit_time(element) > file->getLastEditTime() //file is newer than the server one
-                        // (if first time, otherwise a simple update of the file)
+                    if ((! first && last_edit_time(element) > file->getLastEditTime() ) //file is newer than one in DirectoryStructure
+                        //(only from second check)
                         || (first && file->getChecksum() != computeChecksum(element.path()))) { //different checksum
                         // (computing it only at first check)
 
                         //The file has been updated
                         Job update{path, UPDATE, true};
                         queue.add(update);
-                        
+
 
 
                     }
