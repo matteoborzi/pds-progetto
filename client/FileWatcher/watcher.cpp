@@ -73,9 +73,15 @@ void watch(JobQueue &queue) {
                         Job update{path, UPDATE, true};
                         queue.add(update);
 
+                        if(!first) //(otherwise this call is made in following lines)
+                            //updating information about file
+                            file->setLastEditTime(last_edit_time(element));
 
 
                     }
+                    if(first)
+                        //updating information about file (date not already present)
+                        file->setLastEditTime(last_edit_time(element));
 
                 }
                 file->setVisited();
