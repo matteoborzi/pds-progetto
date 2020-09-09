@@ -31,6 +31,7 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
+#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 #include "DirectoryEntryMessage.pb.h"
 // @@protoc_insertion_point(includes)
@@ -62,6 +63,29 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::DirectoryEntryList* Arena::CreateMaybeMessage<::DirectoryEntryList>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
+enum DirectoryEntryList_Status : int {
+  DirectoryEntryList_Status_OK = 0,
+  DirectoryEntryList_Status_NOT_OK = 1
+};
+bool DirectoryEntryList_Status_IsValid(int value);
+constexpr DirectoryEntryList_Status DirectoryEntryList_Status_Status_MIN = DirectoryEntryList_Status_OK;
+constexpr DirectoryEntryList_Status DirectoryEntryList_Status_Status_MAX = DirectoryEntryList_Status_NOT_OK;
+constexpr int DirectoryEntryList_Status_Status_ARRAYSIZE = DirectoryEntryList_Status_Status_MAX + 1;
+
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* DirectoryEntryList_Status_descriptor();
+template<typename T>
+inline const std::string& DirectoryEntryList_Status_Name(T enum_t_value) {
+  static_assert(::std::is_same<T, DirectoryEntryList_Status>::value ||
+    ::std::is_integral<T>::value,
+    "Incorrect type passed to function DirectoryEntryList_Status_Name.");
+  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
+    DirectoryEntryList_Status_descriptor(), enum_t_value);
+}
+inline bool DirectoryEntryList_Status_Parse(
+    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, DirectoryEntryList_Status* value) {
+  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<DirectoryEntryList_Status>(
+    DirectoryEntryList_Status_descriptor(), name, value);
+}
 // ===================================================================
 
 class DirectoryEntryList PROTOBUF_FINAL :
@@ -181,12 +205,43 @@ class DirectoryEntryList PROTOBUF_FINAL :
 
   // nested types ----------------------------------------------------
 
+  typedef DirectoryEntryList_Status Status;
+  static constexpr Status OK =
+    DirectoryEntryList_Status_OK;
+  static constexpr Status NOT_OK =
+    DirectoryEntryList_Status_NOT_OK;
+  static inline bool Status_IsValid(int value) {
+    return DirectoryEntryList_Status_IsValid(value);
+  }
+  static constexpr Status Status_MIN =
+    DirectoryEntryList_Status_Status_MIN;
+  static constexpr Status Status_MAX =
+    DirectoryEntryList_Status_Status_MAX;
+  static constexpr int Status_ARRAYSIZE =
+    DirectoryEntryList_Status_Status_ARRAYSIZE;
+  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
+  Status_descriptor() {
+    return DirectoryEntryList_Status_descriptor();
+  }
+  template<typename T>
+  static inline const std::string& Status_Name(T enum_t_value) {
+    static_assert(::std::is_same<T, Status>::value ||
+      ::std::is_integral<T>::value,
+      "Incorrect type passed to function Status_Name.");
+    return DirectoryEntryList_Status_Name(enum_t_value);
+  }
+  static inline bool Status_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
+      Status* value) {
+    return DirectoryEntryList_Status_Parse(name, value);
+  }
+
   // accessors -------------------------------------------------------
 
   enum : int {
-    kListFieldNumber = 1,
+    kListFieldNumber = 2,
+    kStatusFieldNumber = 1,
   };
-  // repeated .DirectoryEntryMessage list = 1;
+  // repeated .DirectoryEntryMessage list = 2;
   int list_size() const;
   private:
   int _internal_list_size() const;
@@ -204,6 +259,19 @@ class DirectoryEntryList PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage >&
       list() const;
 
+  // required .DirectoryEntryList.Status status = 1;
+  bool has_status() const;
+  private:
+  bool _internal_has_status() const;
+  public:
+  void clear_status();
+  ::DirectoryEntryList_Status status() const;
+  void set_status(::DirectoryEntryList_Status value);
+  private:
+  ::DirectoryEntryList_Status _internal_status() const;
+  void _internal_set_status(::DirectoryEntryList_Status value);
+  public:
+
   // @@protoc_insertion_point(class_scope:DirectoryEntryList)
  private:
   class _Internal;
@@ -211,8 +279,10 @@ class DirectoryEntryList PROTOBUF_FINAL :
   template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
   typedef void InternalArenaConstructable_;
   typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage > list_;
+  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage > list_;
+  int status_;
   friend struct ::TableStruct_DirectoryEntryList_2eproto;
 };
 // ===================================================================
@@ -226,7 +296,36 @@ class DirectoryEntryList PROTOBUF_FINAL :
 #endif  // __GNUC__
 // DirectoryEntryList
 
-// repeated .DirectoryEntryMessage list = 1;
+// required .DirectoryEntryList.Status status = 1;
+inline bool DirectoryEntryList::_internal_has_status() const {
+  bool value = (_has_bits_[0] & 0x00000001u) != 0;
+  return value;
+}
+inline bool DirectoryEntryList::has_status() const {
+  return _internal_has_status();
+}
+inline void DirectoryEntryList::clear_status() {
+  status_ = 0;
+  _has_bits_[0] &= ~0x00000001u;
+}
+inline ::DirectoryEntryList_Status DirectoryEntryList::_internal_status() const {
+  return static_cast< ::DirectoryEntryList_Status >(status_);
+}
+inline ::DirectoryEntryList_Status DirectoryEntryList::status() const {
+  // @@protoc_insertion_point(field_get:DirectoryEntryList.status)
+  return _internal_status();
+}
+inline void DirectoryEntryList::_internal_set_status(::DirectoryEntryList_Status value) {
+  assert(::DirectoryEntryList_Status_IsValid(value));
+  _has_bits_[0] |= 0x00000001u;
+  status_ = value;
+}
+inline void DirectoryEntryList::set_status(::DirectoryEntryList_Status value) {
+  _internal_set_status(value);
+  // @@protoc_insertion_point(field_set:DirectoryEntryList.status)
+}
+
+// repeated .DirectoryEntryMessage list = 2;
 inline int DirectoryEntryList::_internal_list_size() const {
   return list_.size();
 }
@@ -268,6 +367,16 @@ DirectoryEntryList::list() const {
 
 // @@protoc_insertion_point(namespace_scope)
 
+
+PROTOBUF_NAMESPACE_OPEN
+
+template <> struct is_proto_enum< ::DirectoryEntryList_Status> : ::std::true_type {};
+template <>
+inline const EnumDescriptor* GetEnumDescriptor< ::DirectoryEntryList_Status>() {
+  return ::DirectoryEntryList_Status_descriptor();
+}
+
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 

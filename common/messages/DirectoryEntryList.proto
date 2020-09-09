@@ -3,5 +3,7 @@ syntax = "proto2";
 import "DirectoryEntryMessage.proto";
 
 message DirectoryEntryList{
-    repeated DirectoryEntryMessage list = 1;
+    enum Status {OK=0; NOT_OK=1;}
+    required Status status = 1;
+    repeated DirectoryEntryMessage list = 2;
 }
