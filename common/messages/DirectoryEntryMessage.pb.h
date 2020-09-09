@@ -240,7 +240,6 @@ class DirectoryEntryMessage PROTOBUF_FINAL :
     kNameFieldNumber = 1,
     kChecksumFieldNumber = 3,
     kTypeFieldNumber = 2,
-    kDateFieldNumber = 4,
   };
   // required string name = 1;
   bool has_name() const;
@@ -295,19 +294,6 @@ class DirectoryEntryMessage PROTOBUF_FINAL :
   void _internal_set_type(::DirectoryEntryMessage_Type value);
   public:
 
-  // optional int32 date = 4;
-  bool has_date() const;
-  private:
-  bool _internal_has_date() const;
-  public:
-  void clear_date();
-  ::PROTOBUF_NAMESPACE_ID::int32 date() const;
-  void set_date(::PROTOBUF_NAMESPACE_ID::int32 value);
-  private:
-  ::PROTOBUF_NAMESPACE_ID::int32 _internal_date() const;
-  void _internal_set_date(::PROTOBUF_NAMESPACE_ID::int32 value);
-  public:
-
   // @@protoc_insertion_point(class_scope:DirectoryEntryMessage)
  private:
   class _Internal;
@@ -323,7 +309,6 @@ class DirectoryEntryMessage PROTOBUF_FINAL :
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr checksum_;
   int type_;
-  ::PROTOBUF_NAMESPACE_ID::int32 date_;
   friend struct ::TableStruct_DirectoryEntryMessage_2eproto;
 };
 // ===================================================================
@@ -512,34 +497,6 @@ inline void DirectoryEntryMessage::set_allocated_checksum(std::string* checksum)
   checksum_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), checksum,
       GetArena());
   // @@protoc_insertion_point(field_set_allocated:DirectoryEntryMessage.checksum)
-}
-
-// optional int32 date = 4;
-inline bool DirectoryEntryMessage::_internal_has_date() const {
-  bool value = (_has_bits_[0] & 0x00000008u) != 0;
-  return value;
-}
-inline bool DirectoryEntryMessage::has_date() const {
-  return _internal_has_date();
-}
-inline void DirectoryEntryMessage::clear_date() {
-  date_ = 0;
-  _has_bits_[0] &= ~0x00000008u;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 DirectoryEntryMessage::_internal_date() const {
-  return date_;
-}
-inline ::PROTOBUF_NAMESPACE_ID::int32 DirectoryEntryMessage::date() const {
-  // @@protoc_insertion_point(field_get:DirectoryEntryMessage.date)
-  return _internal_date();
-}
-inline void DirectoryEntryMessage::_internal_set_date(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _has_bits_[0] |= 0x00000008u;
-  date_ = value;
-}
-inline void DirectoryEntryMessage::set_date(::PROTOBUF_NAMESPACE_ID::int32 value) {
-  _internal_set_date(value);
-  // @@protoc_insertion_point(field_set:DirectoryEntryMessage.date)
 }
 
 #ifdef __GNUC__
