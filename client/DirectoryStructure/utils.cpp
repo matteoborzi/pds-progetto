@@ -85,7 +85,7 @@ bool addDirectory(std::string& path){
 
 bool addFile(std::string& path){
     bool res = false;
-    std::string checksum;
+    std::string checksum="checksum";
     /* TODO
      * checksum deve essere costruito
      * a partire dalla funzione che calcola il checksum
