@@ -12,22 +12,30 @@
 #include "../../common/Checksum.h"
 
 void watch(JobQueue &queue) {
+    // getting configuration
     std::optional<Configuration> conf = Configuration::getConfiguration();
     if (!conf.has_value())
         throw std::runtime_error("Impossible to get configuration");
+    //getting absolute path of folder to watch
     std::string abs_path = conf.value().getPath();
     bool first = true;
 
     while (true) {
+        //clearing all previously visited elements
         Directory::getRoot()->unsetVisited();
+
+        //scanning file system
         for (auto element : std::filesystem::recursive_directory_iterator{abs_path}) {
             std::string path = element.path();
             if (abs_path != "/")
+                //extracting relative path
                 path = path.substr(abs_path.size(), path.size());
 
             if (element.is_directory()) {
+                //looking for a directory in DirectoryStructure
                 std::shared_ptr<Directory> dir = getDirectory(path);
                 if (dir == nullptr) {
+                    //directory must be added
                     addDirectory(path);
                     dir = getDirectory(path);
                     if (dir == nullptr) {
@@ -36,13 +44,15 @@ void watch(JobQueue &queue) {
                     Job addDir{path, ADD_DIRECTORY, false};
                     queue.add(addDir);
                 }
-
+                //otherwise nothing to do (a directory cannot be updated)
                 dir->setVisited();
 
 
             } else {
+                //looking for a file
                 std::shared_ptr<File> file = getFile(path);
                 if (file == nullptr) {
+                    //file not existing
                     addFile(path);
                     file = getFile(path);
                     if (file == nullptr) {
@@ -57,8 +67,12 @@ void watch(JobQueue &queue) {
                     if (last_edit_time(element) > file->getLastEditTime() //file is newer than the server one
                         // (if first time, otherwise a simple update of the file)
                         || (first && file->getChecksum() != computeChecksum(element.path()))) { //different checksum
+                        // (computing it only at first check)
+
+                        //The file has been updated
                         Job update{path, UPDATE, true};
                         queue.add(update);
+                        
 
 
                     }
@@ -69,6 +83,7 @@ void watch(JobQueue &queue) {
 
         }
 
+        //getting not visited entry to be deleted
         for (auto &entry : Directory::getRoot()->getNotVisited()) {
             std::string deletePath=entry.first;
             
