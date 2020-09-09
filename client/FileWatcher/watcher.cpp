@@ -25,7 +25,7 @@ void watch(JobQueue &queue) {
         Directory::getRoot()->unsetVisited();
 
         //scanning file system
-        for (auto element : std::filesystem::recursive_directory_iterator{abs_path}) {
+        for (auto element : std::filesystem::recursive_directory_iterator{abs_path, std::filesystem::directory_options::skip_permission_denied}) {
             std::string path = element.path();
             if (abs_path != "/")
                 //extracting relative path
@@ -48,7 +48,7 @@ void watch(JobQueue &queue) {
                 dir->setVisited();
 
 
-            } else {
+            } else if(element.is_regular_file()){
                 //looking for a file
                 std::shared_ptr<File> file = getFile(path);
                 if (file == nullptr) {
