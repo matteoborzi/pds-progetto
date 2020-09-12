@@ -5,11 +5,11 @@
 #include <boost/algorithm/string.hpp>
 #include <cstddef>
 #include <filesystem>
-#include <cryptopp/cryptlib.h>
-#include <cryptopp/osrng.h> 
-#include <cryptopp/filters.h>
-#include <cryptopp/hex.h>
-#include <cryptopp/sha.h>
+#include <crypto++/cryptlib.h>
+#include <crypto++/osrng.h> 
+#include <crypto++/filters.h>
+#include <crypto++/hex.h>
+#include <crypto++/sha.h>
 #include "authentication.h"
 
 #define  SEPARATOR "\t"
