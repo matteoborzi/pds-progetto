@@ -5,6 +5,7 @@
 #include <boost/algorithm/string.hpp>
 #include <cstddef>
 #include <filesystem>
+#include <cryptopp/cryptlib.h>
 #include <cryptopp/osrng.h> 
 #include <cryptopp/filters.h>
 #include <cryptopp/hex.h>
