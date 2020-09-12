@@ -1,0 +1,10 @@
+syntax = "proto2";
+
+import "DirectoryEntryMessage.proto";
+
+message WorkspaceMetaInfo{
+	enum Status {OK=0; NEW_DIRECTORY=1; FAIL=2;}
+	required Status status = 1;
+	repeated DirectoryEntryMessage list = 2;
+}
+
