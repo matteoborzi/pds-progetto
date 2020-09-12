@@ -7,10 +7,13 @@
 #include <iostream>
 #include <boost/algorithm/string/trim.hpp>
 #include "workspace_utils.h"
-#include "../authentication/authentication.h"
+#include <boost/algorithm/string.hpp>
+
+#define  SEPARATOR "\t"
 
 void createMachineFolder(std::string user, std::string machineID, std::string client_path);
 void addNewMapping(std::string user,std::string machineID,std::string client_path,long number);
+std::pair<std::string, std::string> splitLine(std::string& s);
 
 /**
  * this function should be called to retrieve,
@@ -80,4 +83,15 @@ void addNewMapping(std::string user,std::string machineID,std::string client_pat
         throw std::runtime_error("Cannot create new backup folder");
     mapping << client_path+"\t"+std::to_string(number) << std::endl;
     mapping.close();
+}
+
+/**
+* Split each line of the DB file
+* @param line
+* @return pair with <username, password>
+*/
+std::pair<std::string, std::string> splitLine(std::string& s){
+    std::vector<std::string> vec{};
+    boost::split(vec, s, boost::is_any_of(SEPARATOR));
+    return std::pair{vec[0] , vec[1]};
 }
