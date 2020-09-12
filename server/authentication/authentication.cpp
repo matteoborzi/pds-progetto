@@ -17,6 +17,7 @@
 
 void addUser(std::string& user, std::string& pw);
 void createUserFolder(std::string& user);
+std::pair<std::string, std::pair<std::string, std::string>> splitLine(std::string& s);
 std::string computeSaltedHash(std::string& password, std::string& salt);
 std::string generateRandomSalt();
 
