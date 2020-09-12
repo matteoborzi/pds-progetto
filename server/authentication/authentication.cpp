@@ -11,6 +11,7 @@
 
 void addUser(std::string& user, std::string& pw);
 void createUserFolder(std::string& user);
+std::pair<std::string, std::string> splitLine(std::string& s);
 
 static std::shared_mutex _authentication;
 
