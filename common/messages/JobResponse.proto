@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+message JobResponse{
+	enum Status {OK=0; FAIL=1;}
+    required string path = 2;
+    required Status status = 1;	
+    optional string checksum = 3;
+}
+

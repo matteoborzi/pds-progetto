@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+message JobRequest{
+	enum PBAction { ADD_FILE=0; ADD_DIRECTORY=1; UPDATE=2; DELETE=3; CANCELLED=4;};
+    required PBAction pbaction = 1;
+    required string path = 2;
+    optional uint64 size = 3;
+}
+
