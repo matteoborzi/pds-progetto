@@ -86,7 +86,7 @@ bool addDirectory(std::string& path){
 
 bool addFile(std::string& path){
     bool res = false;
-    std::string checksum;
+    std::string checksum="checksum";
     /* TODO
      * checksum deve essere costruito
      * a partire dalla funzione che calcola il checksum
@@ -162,4 +162,22 @@ std::string getLast(std::string& path){
         last = fields[fields.size()-2];
     boost::algorithm::trim(last);
     return last;
+}
+
+DirectoryEntryMessage::Type toDirectoryEntryMessage(Type toConvert) {
+    switch (toConvert) {
+        case DIRTYPE:
+            return DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_DIRTYPE;
+        case FILETYPE:
+            return DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE;
+    }
+}
+
+Type toType(DirectoryEntryMessage::Type toConvert) {
+    switch (toConvert) {
+        case DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_DIRTYPE:
+            return DIRTYPE;
+        case DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE:
+            return FILETYPE;
+    }
 }

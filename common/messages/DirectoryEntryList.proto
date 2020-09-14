@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+import "DirectoryEntryMessage.proto";
+
+message DirectoryEntryList{
+    enum Status {OK=0; NOT_OK=1;}
+    required Status status = 1;
+    repeated DirectoryEntryMessage list = 2;
+}
