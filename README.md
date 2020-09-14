@@ -262,3 +262,35 @@ Chi testa chi
 :Roberto: -right-> :Matteo:
 :Matteo: --> :Angelica:
 ```
+
+# Client
+```
+ load_conf(file_configurazione)
+ connect()
+ send_auth()
+ wait_auth()
+ send_workspaceChoice()
+ receive_and_load_directoryStructure()
+ 1. watch()
+ 2. peek_from_queue_and_send()
+ 3. receive_check_checksum_and_delete_from_queue_or_retry() 
+```
+# Server
+```
+open_socket() [FILE DI CONFIGURAZIONE per PORTA o PARAMETRO]
+ad ogni connessione nuovo thread: [LIMITE DI THREAD]
+    wait_auth_message()
+    authenticate()
+    send_auth_response()
+    wait_workspace()
+    generate_list()
+    send_list()
+        wait_job_req()
+        receive_file_and_save()
+        compute_checksum() [CACHE con controllo di data di modifica rispetto al file]
+        send_job_res()
+```
+/pippo/MioPC/1
+
+/pippo/MioPC/1_cache
+
