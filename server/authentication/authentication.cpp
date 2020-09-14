@@ -51,7 +51,7 @@ bool authenticate(std::string username, std::string password){
         boost::algorithm::trim(infos.second.first);
 		boost::algorithm::trim(infos.second.second);
 		salt = infos.second.second;
-
+8
 		if (infos.first == username) {
             //same username, search ended
             file.close();
@@ -141,13 +141,13 @@ std::string computeSaltedHash( std::string& password, std::string& salt) {
  * @returns a string containing the random salt as a string encoded in hexadecimal
  */
 std::string generateRandomSalt() {
-	std::byte pcbScratch[BLOCKSIZE];
+	unsigned char pcbScratch[BLOCKSIZE];
 	std::string salt;
 
 	CryptoPP::AutoSeededRandomPool rng;
 	rng.GenerateBlock(pcbScratch, BLOCKSIZE);
 
-	CryptoPP::StringSource ss(pcbScratch, true, new HexEncoder(new StringSink(salt)));
+	CryptoPP::StringSource ss(pcbScratch, true, new CryptoPP::HexEncoder(new CryptoPP::StringSink(salt)));
 
 	return salt;
 }
