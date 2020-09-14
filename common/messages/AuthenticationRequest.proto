@@ -1,0 +1,6 @@
+syntax = "proto2";
+
+message AuthenticationRequest{
+	required string username = 1;
+	required string password = 2;
+}
