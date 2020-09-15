@@ -5,118 +5,84 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
-
-namespace protobuf_DirectoryEntryMessage_2eproto {
-extern PROTOBUF_INTERNAL_EXPORT_protobuf_DirectoryEntryMessage_2eproto ::google::protobuf::internal::SCCInfo<0> scc_info_DirectoryEntryMessage;
-}  // namespace protobuf_DirectoryEntryMessage_2eproto
+#include <google/protobuf/port_def.inc>
+extern PROTOBUF_INTERNAL_EXPORT_DirectoryEntryMessage_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_DirectoryEntryMessage_DirectoryEntryMessage_2eproto;
 class WorkspaceMetaInfoDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<WorkspaceMetaInfo>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<WorkspaceMetaInfo> _instance;
 } _WorkspaceMetaInfo_default_instance_;
-namespace protobuf_MetaInfo_2eproto {
-static void InitDefaultsWorkspaceMetaInfo() {
+static void InitDefaultsscc_info_WorkspaceMetaInfo_MetaInfo_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::_WorkspaceMetaInfo_default_instance_;
     new (ptr) ::WorkspaceMetaInfo();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::WorkspaceMetaInfo::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<1> scc_info_WorkspaceMetaInfo =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 1, InitDefaultsWorkspaceMetaInfo}, {
-      &protobuf_DirectoryEntryMessage_2eproto::scc_info_DirectoryEntryMessage.base,}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_WorkspaceMetaInfo_MetaInfo_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 1, 0, InitDefaultsscc_info_WorkspaceMetaInfo_MetaInfo_2eproto}, {
+      &scc_info_DirectoryEntryMessage_DirectoryEntryMessage_2eproto.base,}};
 
-void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_WorkspaceMetaInfo.base);
-}
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_MetaInfo_2eproto[1];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_MetaInfo_2eproto[1];
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_MetaInfo_2eproto = nullptr;
 
-::google::protobuf::Metadata file_level_metadata[1];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::WorkspaceMetaInfo, _has_bits_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::WorkspaceMetaInfo, _internal_metadata_),
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_MetaInfo_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  PROTOBUF_FIELD_OFFSET(::WorkspaceMetaInfo, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::WorkspaceMetaInfo, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::WorkspaceMetaInfo, status_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::WorkspaceMetaInfo, list_),
+  PROTOBUF_FIELD_OFFSET(::WorkspaceMetaInfo, status_),
+  PROTOBUF_FIELD_OFFSET(::WorkspaceMetaInfo, list_),
   0,
   ~0u,
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 7, sizeof(::WorkspaceMetaInfo)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_WorkspaceMetaInfo_default_instance_),
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_WorkspaceMetaInfo_default_instance_),
 };
 
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "MetaInfo.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, file_level_enum_descriptors, NULL);
-}
+const char descriptor_table_protodef_MetaInfo_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\016MetaInfo.proto\032\033DirectoryEntryMessage."
+  "proto\"\223\001\n\021WorkspaceMetaInfo\022)\n\006status\030\001 "
+  "\002(\0162\031.WorkspaceMetaInfo.Status\022$\n\004list\030\002"
+  " \003(\0132\026.DirectoryEntryMessage\"-\n\006Status\022\006"
+  "\n\002OK\020\000\022\021\n\rNEW_DIRECTORY\020\001\022\010\n\004FAIL\020\002"
+  ;
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_MetaInfo_2eproto_deps[1] = {
+  &::descriptor_table_DirectoryEntryMessage_2eproto,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_MetaInfo_2eproto_sccs[1] = {
+  &scc_info_WorkspaceMetaInfo_MetaInfo_2eproto.base,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_MetaInfo_2eproto_once;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_MetaInfo_2eproto = {
+  false, false, descriptor_table_protodef_MetaInfo_2eproto, "MetaInfo.proto", 195,
+  &descriptor_table_MetaInfo_2eproto_once, descriptor_table_MetaInfo_2eproto_sccs, descriptor_table_MetaInfo_2eproto_deps, 1, 1,
+  schemas, file_default_instances, TableStruct_MetaInfo_2eproto::offsets,
+  file_level_metadata_MetaInfo_2eproto, 1, file_level_enum_descriptors_MetaInfo_2eproto, file_level_service_descriptors_MetaInfo_2eproto,
+};
 
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\016MetaInfo.proto\032\033DirectoryEntryMessage."
-      "proto\"\223\001\n\021WorkspaceMetaInfo\022)\n\006status\030\001 "
-      "\002(\0162\031.WorkspaceMetaInfo.Status\022$\n\004list\030\002"
-      " \003(\0132\026.DirectoryEntryMessage\"-\n\006Status\022\006"
-      "\n\002OK\020\000\022\021\n\rNEW_DIRECTORY\020\001\022\010\n\004FAIL\020\002"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 195);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "MetaInfo.proto", &protobuf_RegisterTypes);
-  ::protobuf_DirectoryEntryMessage_2eproto::AddDescriptors();
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_MetaInfo_2eproto
-const ::google::protobuf::EnumDescriptor* WorkspaceMetaInfo_Status_descriptor() {
-  protobuf_MetaInfo_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_MetaInfo_2eproto::file_level_enum_descriptors[0];
+// Force running AddDescriptors() at dynamic initialization time.
+static bool dynamic_init_dummy_MetaInfo_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_MetaInfo_2eproto)), true);
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* WorkspaceMetaInfo_Status_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_MetaInfo_2eproto);
+  return file_level_enum_descriptors_MetaInfo_2eproto[0];
 }
 bool WorkspaceMetaInfo_Status_IsValid(int value) {
   switch (value) {
@@ -129,198 +95,172 @@ bool WorkspaceMetaInfo_Status_IsValid(int value) {
   }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const WorkspaceMetaInfo_Status WorkspaceMetaInfo::OK;
-const WorkspaceMetaInfo_Status WorkspaceMetaInfo::NEW_DIRECTORY;
-const WorkspaceMetaInfo_Status WorkspaceMetaInfo::FAIL;
-const WorkspaceMetaInfo_Status WorkspaceMetaInfo::Status_MIN;
-const WorkspaceMetaInfo_Status WorkspaceMetaInfo::Status_MAX;
-const int WorkspaceMetaInfo::Status_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr WorkspaceMetaInfo_Status WorkspaceMetaInfo::OK;
+constexpr WorkspaceMetaInfo_Status WorkspaceMetaInfo::NEW_DIRECTORY;
+constexpr WorkspaceMetaInfo_Status WorkspaceMetaInfo::FAIL;
+constexpr WorkspaceMetaInfo_Status WorkspaceMetaInfo::Status_MIN;
+constexpr WorkspaceMetaInfo_Status WorkspaceMetaInfo::Status_MAX;
+constexpr int WorkspaceMetaInfo::Status_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
 
 void WorkspaceMetaInfo::InitAsDefaultInstance() {
 }
+class WorkspaceMetaInfo::_Internal {
+ public:
+  using HasBits = decltype(std::declval<WorkspaceMetaInfo>()._has_bits_);
+  static void set_has_status(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static bool MissingRequiredFields(const HasBits& has_bits) {
+    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
+  }
+};
+
 void WorkspaceMetaInfo::clear_list() {
   list_.Clear();
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int WorkspaceMetaInfo::kStatusFieldNumber;
-const int WorkspaceMetaInfo::kListFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
-
-WorkspaceMetaInfo::WorkspaceMetaInfo()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_MetaInfo_2eproto::scc_info_WorkspaceMetaInfo.base);
+WorkspaceMetaInfo::WorkspaceMetaInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena),
+  list_(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:WorkspaceMetaInfo)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:WorkspaceMetaInfo)
 }
 WorkspaceMetaInfo::WorkspaceMetaInfo(const WorkspaceMetaInfo& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_),
       list_(from.list_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   status_ = from.status_;
   // @@protoc_insertion_point(copy_constructor:WorkspaceMetaInfo)
 }
 
 void WorkspaceMetaInfo::SharedCtor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_WorkspaceMetaInfo_MetaInfo_2eproto.base);
   status_ = 0;
 }
 
 WorkspaceMetaInfo::~WorkspaceMetaInfo() {
   // @@protoc_insertion_point(destructor:WorkspaceMetaInfo)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void WorkspaceMetaInfo::SharedDtor() {
+  GOOGLE_DCHECK(GetArena() == nullptr);
 }
 
+void WorkspaceMetaInfo::ArenaDtor(void* object) {
+  WorkspaceMetaInfo* _this = reinterpret_cast< WorkspaceMetaInfo* >(object);
+  (void)_this;
+}
+void WorkspaceMetaInfo::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void WorkspaceMetaInfo::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* WorkspaceMetaInfo::descriptor() {
-  ::protobuf_MetaInfo_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_MetaInfo_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const WorkspaceMetaInfo& WorkspaceMetaInfo::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_MetaInfo_2eproto::scc_info_WorkspaceMetaInfo.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_WorkspaceMetaInfo_MetaInfo_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void WorkspaceMetaInfo::Clear() {
 // @@protoc_insertion_point(message_clear_start:WorkspaceMetaInfo)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   list_.Clear();
   status_ = 0;
   _has_bits_.Clear();
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool WorkspaceMetaInfo::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:WorkspaceMetaInfo)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* WorkspaceMetaInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // required .WorkspaceMetaInfo.Status status = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          if (::WorkspaceMetaInfo_Status_IsValid(value)) {
-            set_status(static_cast< ::WorkspaceMetaInfo_Status >(value));
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          if (PROTOBUF_PREDICT_TRUE(::WorkspaceMetaInfo_Status_IsValid(val))) {
+            _internal_set_status(static_cast<::WorkspaceMetaInfo_Status>(val));
           } else {
-            mutable_unknown_fields()->AddVarint(
-                1, static_cast< ::google::protobuf::uint64>(value));
+            ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(1, val, mutable_unknown_fields());
           }
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+        } else goto handle_unusual;
+        continue;
       // repeated .DirectoryEntryMessage list = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadMessage(
-                input, add_list()));
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          ptr -= 1;
+          do {
+            ptr += 1;
+            ptr = ctx->ParseMessage(_internal_add_list(), ptr);
+            CHK_(ptr);
+            if (!ctx->DataAvailable(ptr)) break;
+          } while (::PROTOBUF_NAMESPACE_ID::internal::ExpectTag<18>(ptr));
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:WorkspaceMetaInfo)
-  return true;
+  _has_bits_.Or(has_bits);
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:WorkspaceMetaInfo)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void WorkspaceMetaInfo::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:WorkspaceMetaInfo)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // required .WorkspaceMetaInfo.Status status = 1;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      1, this->status(), output);
-  }
-
-  // repeated .DirectoryEntryMessage list = 2;
-  for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->list_size()); i < n; i++) {
-    ::google::protobuf::internal::WireFormatLite::WriteMessageMaybeToArray(
-      2,
-      this->list(static_cast<int>(i)),
-      output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:WorkspaceMetaInfo)
-}
-
-::google::protobuf::uint8* WorkspaceMetaInfo::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* WorkspaceMetaInfo::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:WorkspaceMetaInfo)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
   // required .WorkspaceMetaInfo.Status status = 1;
   if (cached_has_bits & 0x00000001u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      1, this->status(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_status(), target);
   }
 
   // repeated .DirectoryEntryMessage list = 2;
   for (unsigned int i = 0,
-      n = static_cast<unsigned int>(this->list_size()); i < n; i++) {
-    target = ::google::protobuf::internal::WireFormatLite::
-      InternalWriteMessageToArray(
-        2, this->list(static_cast<int>(i)), deterministic, target);
+      n = static_cast<unsigned int>(this->_internal_list_size()); i < n; i++) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(2, this->_internal_list(i), target, stream);
   }
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:WorkspaceMetaInfo)
   return target;
@@ -330,41 +270,40 @@ size_t WorkspaceMetaInfo::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:WorkspaceMetaInfo)
   size_t total_size = 0;
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
   // required .WorkspaceMetaInfo.Status status = 1;
-  if (has_status()) {
+  if (_internal_has_status()) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->status());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
   }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // repeated .DirectoryEntryMessage list = 2;
-  {
-    unsigned int count = static_cast<unsigned int>(this->list_size());
-    total_size += 1UL * count;
-    for (unsigned int i = 0; i < count; i++) {
-      total_size +=
-        ::google::protobuf::internal::WireFormatLite::MessageSize(
-          this->list(static_cast<int>(i)));
-    }
+  total_size += 1UL * this->_internal_list_size();
+  for (const auto& msg : this->list_) {
+    total_size +=
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void WorkspaceMetaInfo::MergeFrom(const ::google::protobuf::Message& from) {
+void WorkspaceMetaInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:WorkspaceMetaInfo)
   GOOGLE_DCHECK_NE(&from, this);
   const WorkspaceMetaInfo* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const WorkspaceMetaInfo>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<WorkspaceMetaInfo>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:WorkspaceMetaInfo)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:WorkspaceMetaInfo)
     MergeFrom(*source);
@@ -374,17 +313,17 @@ void WorkspaceMetaInfo::MergeFrom(const ::google::protobuf::Message& from) {
 void WorkspaceMetaInfo::MergeFrom(const WorkspaceMetaInfo& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:WorkspaceMetaInfo)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   list_.MergeFrom(from.list_);
-  if (from.has_status()) {
-    set_status(from.status());
+  if (from._internal_has_status()) {
+    _internal_set_status(from._internal_status());
   }
 }
 
-void WorkspaceMetaInfo::CopyFrom(const ::google::protobuf::Message& from) {
+void WorkspaceMetaInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:WorkspaceMetaInfo)
   if (&from == this) return;
   Clear();
@@ -399,36 +338,30 @@ void WorkspaceMetaInfo::CopyFrom(const WorkspaceMetaInfo& from) {
 }
 
 bool WorkspaceMetaInfo::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000001) != 0x00000001) return false;
-  if (!::google::protobuf::internal::AllAreInitialized(this->list())) return false;
+  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
+  if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(list_)) return false;
   return true;
 }
 
-void WorkspaceMetaInfo::Swap(WorkspaceMetaInfo* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void WorkspaceMetaInfo::InternalSwap(WorkspaceMetaInfo* other) {
   using std::swap;
-  CastToBase(&list_)->InternalSwap(CastToBase(&other->list_));
-  swap(status_, other->status_);
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  list_.InternalSwap(&other->list_);
+  swap(status_, other->status_);
 }
 
-::google::protobuf::Metadata WorkspaceMetaInfo::GetMetadata() const {
-  protobuf_MetaInfo_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_MetaInfo_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata WorkspaceMetaInfo::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::WorkspaceMetaInfo* Arena::CreateMaybeMessage< ::WorkspaceMetaInfo >(Arena* arena) {
-  return Arena::CreateInternal< ::WorkspaceMetaInfo >(arena);
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::WorkspaceMetaInfo* Arena::CreateMaybeMessage< ::WorkspaceMetaInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::WorkspaceMetaInfo >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>

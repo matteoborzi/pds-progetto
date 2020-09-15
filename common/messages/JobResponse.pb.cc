@@ -5,114 +5,82 @@
 
 #include <algorithm>
 
-#include <google/protobuf/stubs/common.h>
-#include <google/protobuf/stubs/port.h>
 #include <google/protobuf/io/coded_stream.h>
-#include <google/protobuf/wire_format_lite_inl.h>
+#include <google/protobuf/extension_set.h>
+#include <google/protobuf/wire_format_lite.h>
 #include <google/protobuf/descriptor.h>
 #include <google/protobuf/generated_message_reflection.h>
 #include <google/protobuf/reflection_ops.h>
 #include <google/protobuf/wire_format.h>
-// This is a temporary google only hack
-#ifdef GOOGLE_PROTOBUF_ENFORCE_UNIQUENESS
-#include "third_party/protobuf/version.h"
-#endif
 // @@protoc_insertion_point(includes)
-
+#include <google/protobuf/port_def.inc>
 class JobResponseDefaultTypeInternal {
  public:
-  ::google::protobuf::internal::ExplicitlyConstructed<JobResponse>
-      _instance;
+  ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<JobResponse> _instance;
 } _JobResponse_default_instance_;
-namespace protobuf_JobResponse_2eproto {
-static void InitDefaultsJobResponse() {
+static void InitDefaultsscc_info_JobResponse_JobResponse_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
     void* ptr = &::_JobResponse_default_instance_;
     new (ptr) ::JobResponse();
-    ::google::protobuf::internal::OnShutdownDestroyMessage(ptr);
+    ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
   ::JobResponse::InitAsDefaultInstance();
 }
 
-::google::protobuf::internal::SCCInfo<0> scc_info_JobResponse =
-    {{ATOMIC_VAR_INIT(::google::protobuf::internal::SCCInfoBase::kUninitialized), 0, InitDefaultsJobResponse}, {}};
+::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_JobResponse_JobResponse_2eproto =
+    {{ATOMIC_VAR_INIT(::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase::kUninitialized), 0, 0, InitDefaultsscc_info_JobResponse_JobResponse_2eproto}, {}};
 
-void InitDefaults() {
-  ::google::protobuf::internal::InitSCC(&scc_info_JobResponse.base);
-}
+static ::PROTOBUF_NAMESPACE_ID::Metadata file_level_metadata_JobResponse_2eproto[1];
+static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptors_JobResponse_2eproto[1];
+static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_JobResponse_2eproto = nullptr;
 
-::google::protobuf::Metadata file_level_metadata[1];
-const ::google::protobuf::EnumDescriptor* file_level_enum_descriptors[1];
-
-const ::google::protobuf::uint32 TableStruct::offsets[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::JobResponse, _has_bits_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::JobResponse, _internal_metadata_),
+const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_JobResponse_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
+  PROTOBUF_FIELD_OFFSET(::JobResponse, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::JobResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::JobResponse, path_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::JobResponse, status_),
-  GOOGLE_PROTOBUF_GENERATED_MESSAGE_FIELD_OFFSET(::JobResponse, checksum_),
+  PROTOBUF_FIELD_OFFSET(::JobResponse, path_),
+  PROTOBUF_FIELD_OFFSET(::JobResponse, status_),
+  PROTOBUF_FIELD_OFFSET(::JobResponse, checksum_),
   0,
   2,
   1,
 };
-static const ::google::protobuf::internal::MigrationSchema schemas[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
+static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, 8, sizeof(::JobResponse)},
 };
 
-static ::google::protobuf::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::google::protobuf::Message*>(&::_JobResponse_default_instance_),
+static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_JobResponse_default_instance_),
 };
 
-void protobuf_AssignDescriptors() {
-  AddDescriptors();
-  AssignDescriptors(
-      "JobResponse.proto", schemas, file_default_instances, TableStruct::offsets,
-      file_level_metadata, file_level_enum_descriptors, NULL);
-}
+const char descriptor_table_protodef_JobResponse_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
+  "\n\021JobResponse.proto\"n\n\013JobResponse\022\014\n\004pa"
+  "th\030\002 \002(\t\022#\n\006status\030\001 \002(\0162\023.JobResponse.S"
+  "tatus\022\020\n\010checksum\030\003 \001(\t\"\032\n\006Status\022\006\n\002OK\020"
+  "\000\022\010\n\004FAIL\020\001"
+  ;
+static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_JobResponse_2eproto_deps[1] = {
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_JobResponse_2eproto_sccs[1] = {
+  &scc_info_JobResponse_JobResponse_2eproto.base,
+};
+static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_JobResponse_2eproto_once;
+const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_JobResponse_2eproto = {
+  false, false, descriptor_table_protodef_JobResponse_2eproto, "JobResponse.proto", 131,
+  &descriptor_table_JobResponse_2eproto_once, descriptor_table_JobResponse_2eproto_sccs, descriptor_table_JobResponse_2eproto_deps, 1, 0,
+  schemas, file_default_instances, TableStruct_JobResponse_2eproto::offsets,
+  file_level_metadata_JobResponse_2eproto, 1, file_level_enum_descriptors_JobResponse_2eproto, file_level_service_descriptors_JobResponse_2eproto,
+};
 
-void protobuf_AssignDescriptorsOnce() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, protobuf_AssignDescriptors);
-}
-
-void protobuf_RegisterTypes(const ::std::string&) GOOGLE_PROTOBUF_ATTRIBUTE_COLD;
-void protobuf_RegisterTypes(const ::std::string&) {
-  protobuf_AssignDescriptorsOnce();
-  ::google::protobuf::internal::RegisterAllTypes(file_level_metadata, 1);
-}
-
-void AddDescriptorsImpl() {
-  InitDefaults();
-  static const char descriptor[] GOOGLE_PROTOBUF_ATTRIBUTE_SECTION_VARIABLE(protodesc_cold) = {
-      "\n\021JobResponse.proto\"n\n\013JobResponse\022\014\n\004pa"
-      "th\030\002 \002(\t\022#\n\006status\030\001 \002(\0162\023.JobResponse.S"
-      "tatus\022\020\n\010checksum\030\003 \001(\t\"\032\n\006Status\022\006\n\002OK\020"
-      "\000\022\010\n\004FAIL\020\001"
-  };
-  ::google::protobuf::DescriptorPool::InternalAddGeneratedFile(
-      descriptor, 131);
-  ::google::protobuf::MessageFactory::InternalRegisterGeneratedFile(
-    "JobResponse.proto", &protobuf_RegisterTypes);
-}
-
-void AddDescriptors() {
-  static ::google::protobuf::internal::once_flag once;
-  ::google::protobuf::internal::call_once(once, AddDescriptorsImpl);
-}
-// Force AddDescriptors() to be called at dynamic initialization time.
-struct StaticDescriptorInitializer {
-  StaticDescriptorInitializer() {
-    AddDescriptors();
-  }
-} static_descriptor_initializer;
-}  // namespace protobuf_JobResponse_2eproto
-const ::google::protobuf::EnumDescriptor* JobResponse_Status_descriptor() {
-  protobuf_JobResponse_2eproto::protobuf_AssignDescriptorsOnce();
-  return protobuf_JobResponse_2eproto::file_level_enum_descriptors[0];
+// Force running AddDescriptors() at dynamic initialization time.
+static bool dynamic_init_dummy_JobResponse_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_JobResponse_2eproto)), true);
+const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* JobResponse_Status_descriptor() {
+  ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_JobResponse_2eproto);
+  return file_level_enum_descriptors_JobResponse_2eproto[0];
 }
 bool JobResponse_Status_IsValid(int value) {
   switch (value) {
@@ -124,259 +92,216 @@ bool JobResponse_Status_IsValid(int value) {
   }
 }
 
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const JobResponse_Status JobResponse::OK;
-const JobResponse_Status JobResponse::FAIL;
-const JobResponse_Status JobResponse::Status_MIN;
-const JobResponse_Status JobResponse::Status_MAX;
-const int JobResponse::Status_ARRAYSIZE;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+#if (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
+constexpr JobResponse_Status JobResponse::OK;
+constexpr JobResponse_Status JobResponse::FAIL;
+constexpr JobResponse_Status JobResponse::Status_MIN;
+constexpr JobResponse_Status JobResponse::Status_MAX;
+constexpr int JobResponse::Status_ARRAYSIZE;
+#endif  // (__cplusplus < 201703) && (!defined(_MSC_VER) || _MSC_VER >= 1900)
 
 // ===================================================================
 
 void JobResponse::InitAsDefaultInstance() {
 }
-#if !defined(_MSC_VER) || _MSC_VER >= 1900
-const int JobResponse::kPathFieldNumber;
-const int JobResponse::kStatusFieldNumber;
-const int JobResponse::kChecksumFieldNumber;
-#endif  // !defined(_MSC_VER) || _MSC_VER >= 1900
+class JobResponse::_Internal {
+ public:
+  using HasBits = decltype(std::declval<JobResponse>()._has_bits_);
+  static void set_has_path(HasBits* has_bits) {
+    (*has_bits)[0] |= 1u;
+  }
+  static void set_has_status(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
+  static void set_has_checksum(HasBits* has_bits) {
+    (*has_bits)[0] |= 2u;
+  }
+  static bool MissingRequiredFields(const HasBits& has_bits) {
+    return ((has_bits[0] & 0x00000005) ^ 0x00000005) != 0;
+  }
+};
 
-JobResponse::JobResponse()
-  : ::google::protobuf::Message(), _internal_metadata_(NULL) {
-  ::google::protobuf::internal::InitSCC(
-      &protobuf_JobResponse_2eproto::scc_info_JobResponse.base);
+JobResponse::JobResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
-  // @@protoc_insertion_point(constructor:JobResponse)
+  RegisterArenaDtor(arena);
+  // @@protoc_insertion_point(arena_constructor:JobResponse)
 }
 JobResponse::JobResponse(const JobResponse& from)
-  : ::google::protobuf::Message(),
-      _internal_metadata_(NULL),
+  : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  path_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.has_path()) {
-    path_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.path_);
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (from._internal_has_path()) {
+    path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_path(),
+      GetArena());
   }
-  checksum_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  if (from.has_checksum()) {
-    checksum_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.checksum_);
+  checksum_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  if (from._internal_has_checksum()) {
+    checksum_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_checksum(),
+      GetArena());
   }
   status_ = from.status_;
   // @@protoc_insertion_point(copy_constructor:JobResponse)
 }
 
 void JobResponse::SharedCtor() {
-  path_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  checksum_.UnsafeSetDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_JobResponse_JobResponse_2eproto.base);
+  path_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  checksum_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   status_ = 0;
 }
 
 JobResponse::~JobResponse() {
   // @@protoc_insertion_point(destructor:JobResponse)
   SharedDtor();
+  _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
 void JobResponse::SharedDtor() {
-  path_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
-  checksum_.DestroyNoArena(&::google::protobuf::internal::GetEmptyStringAlreadyInited());
+  GOOGLE_DCHECK(GetArena() == nullptr);
+  path_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
+  checksum_.DestroyNoArena(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
 }
 
+void JobResponse::ArenaDtor(void* object) {
+  JobResponse* _this = reinterpret_cast< JobResponse* >(object);
+  (void)_this;
+}
+void JobResponse::RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena*) {
+}
 void JobResponse::SetCachedSize(int size) const {
   _cached_size_.Set(size);
 }
-const ::google::protobuf::Descriptor* JobResponse::descriptor() {
-  ::protobuf_JobResponse_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_JobResponse_2eproto::file_level_metadata[kIndexInFileMessages].descriptor;
-}
-
 const JobResponse& JobResponse::default_instance() {
-  ::google::protobuf::internal::InitSCC(&protobuf_JobResponse_2eproto::scc_info_JobResponse.base);
+  ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&::scc_info_JobResponse_JobResponse_2eproto.base);
   return *internal_default_instance();
 }
 
 
 void JobResponse::Clear() {
 // @@protoc_insertion_point(message_clear_start:JobResponse)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 3u) {
+  if (cached_has_bits & 0x00000003u) {
     if (cached_has_bits & 0x00000001u) {
-      path_.ClearNonDefaultToEmptyNoArena();
+      path_.ClearNonDefaultToEmpty();
     }
     if (cached_has_bits & 0x00000002u) {
-      checksum_.ClearNonDefaultToEmptyNoArena();
+      checksum_.ClearNonDefaultToEmpty();
     }
   }
   status_ = 0;
   _has_bits_.Clear();
-  _internal_metadata_.Clear();
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
 
-bool JobResponse::MergePartialFromCodedStream(
-    ::google::protobuf::io::CodedInputStream* input) {
-#define DO_(EXPRESSION) if (!GOOGLE_PREDICT_TRUE(EXPRESSION)) goto failure
-  ::google::protobuf::uint32 tag;
-  // @@protoc_insertion_point(parse_start:JobResponse)
-  for (;;) {
-    ::std::pair<::google::protobuf::uint32, bool> p = input->ReadTagWithCutoffNoLastTag(127u);
-    tag = p.first;
-    if (!p.second) goto handle_unusual;
-    switch (::google::protobuf::internal::WireFormatLite::GetTagFieldNumber(tag)) {
+const char* JobResponse::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  _Internal::HasBits has_bits{};
+  ::PROTOBUF_NAMESPACE_ID::Arena* arena = GetArena(); (void)arena;
+  while (!ctx->Done(&ptr)) {
+    ::PROTOBUF_NAMESPACE_ID::uint32 tag;
+    ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
+    CHK_(ptr);
+    switch (tag >> 3) {
       // required .JobResponse.Status status = 1;
-      case 1: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(8u /* 8 & 0xFF */)) {
-          int value;
-          DO_((::google::protobuf::internal::WireFormatLite::ReadPrimitive<
-                   int, ::google::protobuf::internal::WireFormatLite::TYPE_ENUM>(
-                 input, &value)));
-          if (::JobResponse_Status_IsValid(value)) {
-            set_status(static_cast< ::JobResponse_Status >(value));
+      case 1:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
+          ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+          if (PROTOBUF_PREDICT_TRUE(::JobResponse_Status_IsValid(val))) {
+            _internal_set_status(static_cast<::JobResponse_Status>(val));
           } else {
-            mutable_unknown_fields()->AddVarint(
-                1, static_cast< ::google::protobuf::uint64>(value));
+            ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(1, val, mutable_unknown_fields());
           }
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+        } else goto handle_unusual;
+        continue;
       // required string path = 2;
-      case 2: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(18u /* 18 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_path()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->path().data(), static_cast<int>(this->path().length()),
-            ::google::protobuf::internal::WireFormat::PARSE,
-            "JobResponse.path");
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 2:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
+          auto str = _internal_mutable_path();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          #ifndef NDEBUG
+          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "JobResponse.path");
+          #endif  // !NDEBUG
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       // optional string checksum = 3;
-      case 3: {
-        if (static_cast< ::google::protobuf::uint8>(tag) ==
-            static_cast< ::google::protobuf::uint8>(26u /* 26 & 0xFF */)) {
-          DO_(::google::protobuf::internal::WireFormatLite::ReadString(
-                input, this->mutable_checksum()));
-          ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-            this->checksum().data(), static_cast<int>(this->checksum().length()),
-            ::google::protobuf::internal::WireFormat::PARSE,
-            "JobResponse.checksum");
-        } else {
-          goto handle_unusual;
-        }
-        break;
-      }
-
+      case 3:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 26)) {
+          auto str = _internal_mutable_checksum();
+          ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
+          #ifndef NDEBUG
+          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "JobResponse.checksum");
+          #endif  // !NDEBUG
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
-        if (tag == 0) {
+        if ((tag & 7) == 4 || tag == 0) {
+          ctx->SetLastTag(tag);
           goto success;
         }
-        DO_(::google::protobuf::internal::WireFormat::SkipField(
-              input, tag, _internal_metadata_.mutable_unknown_fields()));
-        break;
+        ptr = UnknownFieldParse(tag,
+            _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+            ptr, ctx);
+        CHK_(ptr != nullptr);
+        continue;
       }
-    }
-  }
+    }  // switch
+  }  // while
 success:
-  // @@protoc_insertion_point(parse_success:JobResponse)
-  return true;
+  _has_bits_.Or(has_bits);
+  return ptr;
 failure:
-  // @@protoc_insertion_point(parse_failure:JobResponse)
-  return false;
-#undef DO_
+  ptr = nullptr;
+  goto success;
+#undef CHK_
 }
 
-void JobResponse::SerializeWithCachedSizes(
-    ::google::protobuf::io::CodedOutputStream* output) const {
-  // @@protoc_insertion_point(serialize_start:JobResponse)
-  ::google::protobuf::uint32 cached_has_bits = 0;
-  (void) cached_has_bits;
-
-  cached_has_bits = _has_bits_[0];
-  // required .JobResponse.Status status = 1;
-  if (cached_has_bits & 0x00000004u) {
-    ::google::protobuf::internal::WireFormatLite::WriteEnum(
-      1, this->status(), output);
-  }
-
-  // required string path = 2;
-  if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->path().data(), static_cast<int>(this->path().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "JobResponse.path");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      2, this->path(), output);
-  }
-
-  // optional string checksum = 3;
-  if (cached_has_bits & 0x00000002u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->checksum().data(), static_cast<int>(this->checksum().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
-      "JobResponse.checksum");
-    ::google::protobuf::internal::WireFormatLite::WriteStringMaybeAliased(
-      3, this->checksum(), output);
-  }
-
-  if (_internal_metadata_.have_unknown_fields()) {
-    ::google::protobuf::internal::WireFormat::SerializeUnknownFields(
-        _internal_metadata_.unknown_fields(), output);
-  }
-  // @@protoc_insertion_point(serialize_end:JobResponse)
-}
-
-::google::protobuf::uint8* JobResponse::InternalSerializeWithCachedSizesToArray(
-    bool deterministic, ::google::protobuf::uint8* target) const {
-  (void)deterministic; // Unused
+::PROTOBUF_NAMESPACE_ID::uint8* JobResponse::_InternalSerialize(
+    ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
   // @@protoc_insertion_point(serialize_to_array_start:JobResponse)
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
   // required .JobResponse.Status status = 1;
   if (cached_has_bits & 0x00000004u) {
-    target = ::google::protobuf::internal::WireFormatLite::WriteEnumToArray(
-      1, this->status(), target);
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
+      1, this->_internal_status(), target);
   }
 
   // required string path = 2;
   if (cached_has_bits & 0x00000001u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->path().data(), static_cast<int>(this->path().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->_internal_path().data(), static_cast<int>(this->_internal_path().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
       "JobResponse.path");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        2, this->path(), target);
+    target = stream->WriteStringMaybeAliased(
+        2, this->_internal_path(), target);
   }
 
   // optional string checksum = 3;
   if (cached_has_bits & 0x00000002u) {
-    ::google::protobuf::internal::WireFormat::VerifyUTF8StringNamedField(
-      this->checksum().data(), static_cast<int>(this->checksum().length()),
-      ::google::protobuf::internal::WireFormat::SERIALIZE,
+    ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
+      this->_internal_checksum().data(), static_cast<int>(this->_internal_checksum().length()),
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
       "JobResponse.checksum");
-    target =
-      ::google::protobuf::internal::WireFormatLite::WriteStringToArray(
-        3, this->checksum(), target);
+    target = stream->WriteStringMaybeAliased(
+        3, this->_internal_checksum(), target);
   }
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    target = ::google::protobuf::internal::WireFormat::SerializeUnknownFieldsToArray(
-        _internal_metadata_.unknown_fields(), target);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
   // @@protoc_insertion_point(serialize_to_array_end:JobResponse)
   return target;
@@ -386,17 +311,17 @@ size_t JobResponse::RequiredFieldsByteSizeFallback() const {
 // @@protoc_insertion_point(required_fields_byte_size_fallback_start:JobResponse)
   size_t total_size = 0;
 
-  if (has_path()) {
+  if (_internal_has_path()) {
     // required string path = 2;
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->path());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_path());
   }
 
-  if (has_status()) {
+  if (_internal_has_status()) {
     // required .JobResponse.Status status = 1;
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->status());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
   }
 
   return total_size;
@@ -405,45 +330,49 @@ size_t JobResponse::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:JobResponse)
   size_t total_size = 0;
 
-  if (_internal_metadata_.have_unknown_fields()) {
-    total_size +=
-      ::google::protobuf::internal::WireFormat::ComputeUnknownFieldsSize(
-        _internal_metadata_.unknown_fields());
-  }
   if (((_has_bits_[0] & 0x00000005) ^ 0x00000005) == 0) {  // All required fields are present.
     // required string path = 2;
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->path());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_path());
 
     // required .JobResponse.Status status = 1;
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::EnumSize(this->status());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
 
   } else {
     total_size += RequiredFieldsByteSizeFallback();
   }
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
   // optional string checksum = 3;
-  if (has_checksum()) {
+  cached_has_bits = _has_bits_[0];
+  if (cached_has_bits & 0x00000002u) {
     total_size += 1 +
-      ::google::protobuf::internal::WireFormatLite::StringSize(
-        this->checksum());
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+        this->_internal_checksum());
   }
 
-  int cached_size = ::google::protobuf::internal::ToCachedSize(total_size);
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
+        _internal_metadata_, total_size, &_cached_size_);
+  }
+  int cached_size = ::PROTOBUF_NAMESPACE_ID::internal::ToCachedSize(total_size);
   SetCachedSize(cached_size);
   return total_size;
 }
 
-void JobResponse::MergeFrom(const ::google::protobuf::Message& from) {
+void JobResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_merge_from_start:JobResponse)
   GOOGLE_DCHECK_NE(&from, this);
   const JobResponse* source =
-      ::google::protobuf::internal::DynamicCastToGenerated<const JobResponse>(
+      ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<JobResponse>(
           &from);
-  if (source == NULL) {
+  if (source == nullptr) {
   // @@protoc_insertion_point(generalized_merge_from_cast_fail:JobResponse)
-    ::google::protobuf::internal::ReflectionOps::Merge(from, this);
+    ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
   // @@protoc_insertion_point(generalized_merge_from_cast_success:JobResponse)
     MergeFrom(*source);
@@ -453,19 +382,17 @@ void JobResponse::MergeFrom(const ::google::protobuf::Message& from) {
 void JobResponse::MergeFrom(const JobResponse& from) {
 // @@protoc_insertion_point(class_specific_merge_from_start:JobResponse)
   GOOGLE_DCHECK_NE(&from, this);
-  _internal_metadata_.MergeFrom(from._internal_metadata_);
-  ::google::protobuf::uint32 cached_has_bits = 0;
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 7u) {
+  if (cached_has_bits & 0x00000007u) {
     if (cached_has_bits & 0x00000001u) {
-      set_has_path();
-      path_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.path_);
+      _internal_set_path(from._internal_path());
     }
     if (cached_has_bits & 0x00000002u) {
-      set_has_checksum();
-      checksum_.AssignWithDefault(&::google::protobuf::internal::GetEmptyStringAlreadyInited(), from.checksum_);
+      _internal_set_checksum(from._internal_checksum());
     }
     if (cached_has_bits & 0x00000004u) {
       status_ = from.status_;
@@ -474,7 +401,7 @@ void JobResponse::MergeFrom(const JobResponse& from) {
   }
 }
 
-void JobResponse::CopyFrom(const ::google::protobuf::Message& from) {
+void JobResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
 // @@protoc_insertion_point(generalized_copy_from_start:JobResponse)
   if (&from == this) return;
   Clear();
@@ -489,38 +416,30 @@ void JobResponse::CopyFrom(const JobResponse& from) {
 }
 
 bool JobResponse::IsInitialized() const {
-  if ((_has_bits_[0] & 0x00000005) != 0x00000005) return false;
+  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
   return true;
 }
 
-void JobResponse::Swap(JobResponse* other) {
-  if (other == this) return;
-  InternalSwap(other);
-}
 void JobResponse::InternalSwap(JobResponse* other) {
   using std::swap;
-  path_.Swap(&other->path_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-  checksum_.Swap(&other->checksum_, &::google::protobuf::internal::GetEmptyStringAlreadyInited(),
-    GetArenaNoVirtual());
-  swap(status_, other->status_);
+  _internal_metadata_.Swap<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(&other->_internal_metadata_);
   swap(_has_bits_[0], other->_has_bits_[0]);
-  _internal_metadata_.Swap(&other->_internal_metadata_);
+  path_.Swap(&other->path_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  checksum_.Swap(&other->checksum_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
+  swap(status_, other->status_);
 }
 
-::google::protobuf::Metadata JobResponse::GetMetadata() const {
-  protobuf_JobResponse_2eproto::protobuf_AssignDescriptorsOnce();
-  return ::protobuf_JobResponse_2eproto::file_level_metadata[kIndexInFileMessages];
+::PROTOBUF_NAMESPACE_ID::Metadata JobResponse::GetMetadata() const {
+  return GetMetadataStatic();
 }
 
 
 // @@protoc_insertion_point(namespace_scope)
-namespace google {
-namespace protobuf {
-template<> GOOGLE_PROTOBUF_ATTRIBUTE_NOINLINE ::JobResponse* Arena::CreateMaybeMessage< ::JobResponse >(Arena* arena) {
-  return Arena::CreateInternal< ::JobResponse >(arena);
+PROTOBUF_NAMESPACE_OPEN
+template<> PROTOBUF_NOINLINE ::JobResponse* Arena::CreateMaybeMessage< ::JobResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::JobResponse >(arena);
 }
-}  // namespace protobuf
-}  // namespace google
+PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
+#include <google/protobuf/port_undef.inc>
