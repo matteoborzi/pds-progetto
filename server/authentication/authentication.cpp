@@ -51,7 +51,7 @@ bool authenticate(std::string username, std::string password){
         boost::algorithm::trim(infos.second.first);
 		boost::algorithm::trim(infos.second.second);
 		salt = infos.second.second;
-8
+
 		if (infos.first == username) {
             //same username, search ended
             file.close();
