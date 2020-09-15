@@ -4,10 +4,12 @@
 
 #include "waiter/Waiter.h"
 #include "pathPool/PathPool.h"
+#include "jobRequestQueue/JobRequestQueue.h"
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
-void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&);
+void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&, JobRequestQueue&);
+void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&);
 
 int main() {
 
@@ -39,8 +41,10 @@ int main() {
                 std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
                 if(poolItem->isValid()){
                     std::string path= poolItem->getPath();
+                    JobRequestQueue queue{};
+                    std::thread responder{sendResponses, s, queue};
                     while(true)
-                        serveJobRequest(s, path);
+                        serveJobRequest(s, path, queue);
                 }
 
             }
@@ -76,14 +80,29 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
 }
 
 
-void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&){
+void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPath, JobRequestQueue& queue){
     //get job request
 
     //switch Action
 
-        //add_file && update -> receive file, save, computeChecksum [AND CACHE] and generate response
+        //add_file && update -> receive file, save and put into queue
 
-        //add_dir -> create dir and respond [CREATE FOLDER IN CHECKSUM TOO]
+        //add_dir -> create dir [CREATE FOLDER IN CHECKSUM TOO] and put in queue
 
-        //delete -> delete file or directory [AND IN CACHE TOO] and respond
+
+        //delete -> delete file and or directory [AND IN CACHE TOO] put in queue
+
+}
+
+void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue){
+    while(true){
+        //pick a job from queue
+        //switch Action
+
+            //add_file && update -> computeChecksum [AND CACHE] and generate response
+
+            //add_dir ->respond
+
+            //delete -> respond
+    }
 }
