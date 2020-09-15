@@ -31,11 +31,11 @@ public:
     static std::optional<Configuration> getConfiguration(std::string& filename);
     static std::optional<Configuration> getConfiguration();
 
-    std::string getPath();
-    std::string getMachineID();
-    std::string getUsername();
-    std::string getPassword();
-    std::string getIpAddress();
+    std::string& getPath();
+    std::string& getMachineID();
+    std::string& getUsername();
+    std::string& getPassword();
+    std::string& getIpAddress();
     int getPort();
 
 };

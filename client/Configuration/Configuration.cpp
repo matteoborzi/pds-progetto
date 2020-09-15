@@ -90,23 +90,23 @@ std::optional<Configuration> Configuration::getConfiguration() {
 Configuration::Configuration( const std::string path, const std::string machineID, const std::string username, const std::string password, const std::string ipAddress, const int port):
 path(path), machineID(machineID), username(username), password(password), ipAddress(ipAddress), port(port){};
 
-std::string Configuration::getPath() {
+std::string& Configuration::getPath() {
     return path;
 }
 
-std::string Configuration::getMachineID() {
+std::string& Configuration::getMachineID() {
     return machineID;
 }
 
-std::string Configuration::getUsername() {
+std::string& Configuration::getUsername() {
     return username;
 }
 
-std::string Configuration::getPassword() {
+std::string& Configuration::getPassword() {
     return password;
 }
 
-std::string Configuration::getIpAddress() {
+std::string& Configuration::getIpAddress() {
     return ipAddress;
 }
 
