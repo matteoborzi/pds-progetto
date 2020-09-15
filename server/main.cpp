@@ -42,7 +42,7 @@ int main() {
                 if(poolItem->isValid()){
                     std::string path= poolItem->getPath();
                     JobRequestQueue queue{};
-                    std::thread responder{sendResponses, s, queue};
+                    std::thread responder{sendResponses, std::ref(s), std::ref(queue)};
                     while(true)
                         serveJobRequest(s, path, queue);
                 }
