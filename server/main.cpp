@@ -7,6 +7,7 @@
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
+void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&);
 
 int main() {
 
@@ -37,9 +38,9 @@ int main() {
             if(username.has_value()){
                 std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
                 if(poolItem->isValid()){
-
-                }else{
-
+                    std::string path= poolItem->getPath();
+                    while(true)
+                        serveJobRequest(s, path);
                 }
 
             }
@@ -63,13 +64,26 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
 
     //compute server path
 
-    //verify if used in the thread safe structure
+    //create pathPool with corresponding path
 
-        //error response [TO CLIENT] and return null opt
+        //error response [TO CLIENT] and return inValid PathPool
 
     //compute metadata and send back to client
 
-    //return server path
+    //return pathPool
 
     return nullptr;
+}
+
+
+void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&){
+    //get job request
+
+    //switch Action
+
+        //add_file && update -> receive file, save, computeChecksum [AND CACHE] and generate response
+
+        //add_dir -> create dir and respond [CREATE FOLDER IN CHECKSUM TOO]
+
+        //delete -> delete file or directory [AND IN CACHE TOO] and respond
 }
