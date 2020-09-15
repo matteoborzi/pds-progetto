@@ -3,7 +3,10 @@
 #include <thread>
 
 #include "waiter/Waiter.h"
+#include "pathPool/PathPool.h"
 
+std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
+std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
 
 int main() {
 
@@ -30,9 +33,16 @@ int main() {
         std::cout<<"Creating the thread..."<<std::endl;
         std::thread thread{[w](boost::asio::ip::tcp::socket&& s)->void{
 
+            std::optional<std::string> username = doAuthentication(s);
+            if(username.has_value()){
+                std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
+                if(poolItem->isValid()){
 
+                }else{
 
+                }
 
+            }
 
             return;
         }, std::move(socket)};
@@ -42,4 +52,24 @@ int main() {
 
 
     return 1;
+}
+
+std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
+    return std::nullopt;
+}
+
+std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::string& username){
+    //read message with path and machineID
+
+    //compute server path
+
+    //verify if used in the thread safe structure
+
+        //error response [TO CLIENT] and return null opt
+
+    //compute metadata and send back to client
+
+    //return server path
+
+    return nullptr;
 }
