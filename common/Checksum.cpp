@@ -8,6 +8,7 @@
 
 std::string computeChecksum(const std::string &path){
 	CryptoPP::Weak1::MD5 hash;
+	//TODO add checks if file exists
 	  const size_t size = CryptoPP::Weak1::MD5::DIGESTSIZE * 2;
 	  byte buf[size] = {0};
 	  CryptoPP::FileSource(
