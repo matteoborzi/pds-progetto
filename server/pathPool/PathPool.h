@@ -6,7 +6,25 @@
 #define SERVER_PATHPOOL_H
 
 
-class pathPool {
+#include <string>
+#include <unordered_set>
+#include <mutex>
+#include <memory>
+
+class PathPool {
+    std::optional<std::string> path;
+
+
+    static std::unordered_set<std::string> pool;
+    static std::mutex m;
+
+public:
+    PathPool(std::string& path);
+    ~PathPool();
+
+    std::string getPath();
+    bool isValid();
+
 
 };
 
