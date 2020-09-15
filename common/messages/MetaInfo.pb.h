@@ -65,8 +65,7 @@ PROTOBUF_NAMESPACE_CLOSE
 
 enum WorkspaceMetaInfo_Status : int {
   WorkspaceMetaInfo_Status_OK = 0,
-  WorkspaceMetaInfo_Status_NEW_DIRECTORY = 1,
-  WorkspaceMetaInfo_Status_FAIL = 2
+  WorkspaceMetaInfo_Status_FAIL = 1
 };
 bool WorkspaceMetaInfo_Status_IsValid(int value);
 constexpr WorkspaceMetaInfo_Status WorkspaceMetaInfo_Status_Status_MIN = WorkspaceMetaInfo_Status_OK;
@@ -209,8 +208,6 @@ class WorkspaceMetaInfo PROTOBUF_FINAL :
   typedef WorkspaceMetaInfo_Status Status;
   static constexpr Status OK =
     WorkspaceMetaInfo_Status_OK;
-  static constexpr Status NEW_DIRECTORY =
-    WorkspaceMetaInfo_Status_NEW_DIRECTORY;
   static constexpr Status FAIL =
     WorkspaceMetaInfo_Status_FAIL;
   static inline bool Status_IsValid(int value) {
