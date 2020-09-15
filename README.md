@@ -283,11 +283,11 @@ ad ogni connessione nuovo thread: [LIMITE DI THREAD]
     authenticate()
     send_auth_response()
     wait_workspace()
-    generate_list()
+    generate_list() [CACHE del Checksum con controllo di data di modifica rispetto al file]
     send_list()
         wait_job_req()
         receive_file_and_save()
-        compute_checksum() [CACHE con controllo di data di modifica rispetto al file]
+        compute_checksum() 
         send_job_res()
 ```
 /pippo/MioPC/1
