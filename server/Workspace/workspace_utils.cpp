@@ -13,7 +13,7 @@
 
 void createMachineFolder(std::string user, std::string machineID, std::string client_path);
 void addNewMapping(std::string user,std::string machineID,std::string client_path,long number);
-std::pair<std::string, std::string> splitLine(std::string& s);
+std::pair<std::string, std::string> splitLineWorkspace(std::string& s);
 
 /**
  * this function should be called to retrieve,
@@ -41,7 +41,7 @@ std::string computeServerPath(std::string user, std::string machineID, std::stri
     std::string line;
     long number = 0;
     while(std::getline(mapping,line)) {
-        auto infos = splitLine(line);
+        auto infos = splitLineWorkspace(line);
         boost::algorithm::trim(infos.first);
         boost::algorithm::trim(infos.second);
         number = std::stol(infos.second, nullptr, 10);
@@ -90,7 +90,7 @@ void addNewMapping(std::string user,std::string machineID,std::string client_pat
 * @param line
 * @return pair with <username, password>
 */
-std::pair<std::string, std::string> splitLine(std::string& s){
+std::pair<std::string, std::string> splitLineWorkspace(std::string& s){
     std::vector<std::string> vec{};
     boost::split(vec, s, boost::is_any_of(SEPARATOR));
     return std::pair{vec[0] , vec[1]};
