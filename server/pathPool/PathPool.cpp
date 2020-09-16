@@ -4,6 +4,9 @@
 
 #include "PathPool.h"
 
+std::unordered_set<std::string> PathPool::pool{};
+std::mutex PathPool::m{};
+
 PathPool::PathPool(std::string &path) {
     std::unique_lock l(m);
 

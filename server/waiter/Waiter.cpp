@@ -11,7 +11,7 @@ std::condition_variable Waiter::waitAvailable{};
 
 Waiter::Waiter() {
     std::unique_lock l(m);
-    waitAvailable.wait(l, [&counter]()->bool{return counter<=MAX_CONCURRENT_CLIENTS;});
+    waitAvailable.wait(l, []()->bool{return counter<=MAX_CONCURRENT_CLIENTS;});
     counter++;
 }
 
