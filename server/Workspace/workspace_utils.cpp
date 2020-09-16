@@ -81,6 +81,8 @@ void addNewMapping(std::string user,std::string machineID,std::string client_pat
     std::filesystem::path newdir("./"+user+"/"+machineID+"/"+std::to_string(number));
     if(!std::filesystem::create_directory(newdir))
         throw std::runtime_error("Cannot create new backup folder");
+    //TODO add also directory number_cache
+    //in case of problems delete also the number folder and throws an exception
     mapping << client_path+"\t"+std::to_string(number) << std::endl;
     mapping.close();
 }
