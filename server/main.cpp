@@ -4,8 +4,10 @@
 
 #include "waiter/Waiter.h"
 #include "pathPool/PathPool.h"
+#include "authentication/authentication.h"
 #include "jobRequestQueue/JobRequestQueue.h"
 
+#include "../common/messages/socket_utils.h"
 #include "../common/messages/AuthenticationRequest.pb.h"
 #include "../common/messages/AuthenticationResponse.pb.h"
 
@@ -53,17 +55,21 @@ int main(int argc, char* argv[]) {
         std::thread thread{[w](boost::asio::ip::tcp::socket&& s)->void{
 
             std::optional<std::string> username = doAuthentication(s);
-            if(username.has_value()){
-                std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
-                if(poolItem->isValid()){
-                    std::string path= poolItem->getPath();
-                    JobRequestQueue queue{};
-                    std::thread responder{sendResponses, std::ref(s), std::ref(queue)};
-                    while(true)
-                        serveJobRequest(s, path, queue);
-                }
+//            if(username.has_value()){
+//                std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
+//                if(poolItem->isValid()){
+//                    std::string path= poolItem->getPath();
+//                    JobRequestQueue queue{};
+//                    std::thread responder{sendResponses, std::ref(s), std::ref(queue)};
+//                    while(true)
+//                        serveJobRequest(s, path, queue);
+//                }
+//
+//            }
 
-            }
+            if(username.has_value())
+                std::cout<< "Username: " << username.value() << std::endl;
+            else std::cout << "Login failed (server)" << std::endl;
 
             return;
         }, std::move(socket)};
@@ -77,16 +83,22 @@ int main(int argc, char* argv[]) {
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
 
+    BackupPB::AuthenticationRequest authenticationRequest = readFromSocket<BackupPB::AuthenticationRequest>(s);
+    BackupPB::AuthenticationResponse authenticationResponse;
+    std::optional<std::string> username;
 
+    if(!authenticate(authenticationRequest.username(), authenticationRequest.password())){
+        std::cerr << "Login failed" << std::endl;
+        authenticationResponse.set_status(BackupPB::AuthenticationResponse_Status_FAIL);
+        username = std::nullopt;
+    } else {
+        authenticationResponse.set_status(BackupPB::AuthenticationResponse_Status_OK);
+        username = authenticationRequest.username();
+    }
 
-    // read AuthenticationRequest from socket
-    // call authenticate from authentication
-    // prepare AuthenticationResponse
-    // send AuthenticationResponse to socket
+    writeToSocket(s, authenticationResponse);
 
-
-
-    return std::nullopt;
+    return username;
 }
 
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::string& username){
