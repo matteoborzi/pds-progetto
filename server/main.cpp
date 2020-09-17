@@ -6,6 +6,9 @@
 #include "pathPool/PathPool.h"
 #include "jobRequestQueue/JobRequestQueue.h"
 
+#include "../common/messages/AuthenticationRequest.pb.h"
+#include "../common/messages/AuthenticationResponse.pb.h"
+
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
 void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&, JobRequestQueue&);
@@ -69,11 +72,19 @@ int main(int argc, char* argv[]) {
     }
 
 
-    return 1;
+//    return 1;
 }
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
-    std::optional<std::string> username;
+
+
+
+    // read AuthenticationRequest from socket
+    // call authenticate from authentication
+    // prepare AuthenticationResponse
+    // send AuthenticationResponse to socket
+
+
 
     return std::nullopt;
 }
