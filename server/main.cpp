@@ -13,6 +13,9 @@ void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&);
 
 int main() {
 
+    //TODO see how it works    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
+
     boost::asio::io_context my_context;
 
     boost::asio::ip::tcp::acceptor acceptor(my_context);
