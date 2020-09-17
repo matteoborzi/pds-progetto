@@ -9,10 +9,12 @@ void File::setLastEditTime(std::time_t last) {
 }
 
 void File::setChecksum(std::string checksum) {
+    std::unique_lock l(checksum_mutex);
     this->checksum = checksum;
 }
 
 std::string File::getChecksum(){
+    std::shared_lock l(checksum_mutex);
     return this->checksum;
 }
 
