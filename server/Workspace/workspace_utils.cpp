@@ -15,6 +15,9 @@ void createMachineFolder(std::string user, std::string machineID, std::string cl
 void addNewMapping(std::string user,std::string machineID,std::string client_path,long number);
 std::pair<std::string, std::string> splitLineWorkspace(std::string& s);
 
+//TODO accedere a tabella WORKSPACE(username*, machineID*, clientPath*, serverPath)
+//TO EDIT: addNewMapping(), computeServerPath()
+
 /**
  * this function should be called to retrieve,
  * basing on

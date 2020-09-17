@@ -24,6 +24,9 @@ std::string generateRandomSalt();
 
 static std::shared_mutex _authentication;
 
+//TODO tabella USER(username, salt, hash)
+//TO EDIT: authenticate, addUser
+
 /**
  * Function to authenticate a user. The user is also added whether the username is not yet present in the list
  * @param username
