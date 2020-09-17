@@ -18,6 +18,7 @@ int main(int argc, char* argv[]) {
 ////connection
 //    socket.connect( boost::asio::ip::tcp::endpoint( boost::asio::ip::address::from_string("127.0.0.1"), 8080 ));
 //    return 2;
+
     //TODO command line parameter checks
     std::string confFile{argv[1]};
     std::optional<Configuration> configuration = Configuration::getConfiguration(confFile);
@@ -64,6 +65,8 @@ void sendData(boost::asio::ip::tcp::socket& socket, JobQueue& queue){
         //get a job
 
         //choose what to do
+            //in case of add and update, check if file/folder still exists in file system and directory structure
+
 
         //compute checksum (if needed)
 
@@ -77,9 +80,9 @@ void receiveData(boost::asio::ip::tcp::socket& socket, JobQueue& queue){
     while(true){
         //receive data from socket
 
-        //if checksum is present compute equals
-
-        //retry or setConcluded job
+        //if checksum is present and file still exists in directory structure compute equals
+        //if it does not exists anymore do nothing (do not retry)
+        //otherwise retry or setConcluded job
     }
 }
 

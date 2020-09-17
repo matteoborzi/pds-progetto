@@ -77,6 +77,7 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
             // in any other case
             file.close();
             std::cerr << "something wrong in configuration file" << std::endl;
+            //TODO add an explanation of the fields that the configuration file should have (?)
             return std::nullopt;
         }
         file.close();

@@ -25,7 +25,7 @@ std::shared_ptr<Directory> getParent(std::string& path){
         last--;
     }
 
-    //corrisponde al caso in cui il pat è / oppure ./ ( root ha come padre nullptr)
+    //corrisponde al caso in cui il path è / oppure ./ ( root ha come padre nullptr)
     if(last == 0)
         return std::shared_ptr<Directory>(nullptr);
     int index = 0;

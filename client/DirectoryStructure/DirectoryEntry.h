@@ -38,11 +38,4 @@ public:
     ~DirectoryEntry(){};
 };
 
-/*
- * TODO
- * aggiungere un campo bool per settare se la entry è settata
- * come da cancellare oppure no,
- * per evitare di accedere ai campi di un oggetto
- * che a momenti verrà cancellato*/
-
 #endif //CLIENT_DIRECTORYENTRY_H
