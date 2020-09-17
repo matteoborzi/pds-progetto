@@ -1,6 +1,7 @@
 #include <iostream>
 #include <boost/asio/ip/tcp.hpp>
 #include <thread>
+#include "../common/messages/JobRequest.pb.h"
 
 #include "Configuration/Configuration.h"
 #include "job/JobQueue.h"
@@ -12,33 +13,53 @@ void sendData(boost::asio::ip::tcp::socket&, JobQueue& );
 void receiveData(boost::asio::ip::tcp::socket&, JobQueue& );
 
 int main(int argc, char* argv[]) {
+
 //    boost::asio::io_context io_service;
 ////socket creation
 //    boost::asio::ip::tcp::socket socket(io_service);
 ////connection
 //    socket.connect( boost::asio::ip::tcp::endpoint( boost::asio::ip::address::from_string("127.0.0.1"), 8080 ));
 //    return 2;
-    //TODO command line parameter checks
+    if( ( argc != 2 && argc != 3)  || (argc==3 && std::string{argv[2]}!="--r")){
+        std::cerr<<"Wrong parameters. Usage: client_executable configuration_file [--r]"<<std::endl;
+        return 1;
+    }
+
     std::string confFile{argv[1]};
     std::optional<Configuration> configuration = Configuration::getConfiguration(confFile);
-    //TODO checks on correct configuration
 
+    if(!configuration.has_value()){
+        std::cerr<<"Impossible to load configuration"<<std::endl;
+        return 2;
+    }
     Configuration conf= configuration.value();
 
     boost::asio::io_context io_service;
 
     boost::asio::ip::tcp::socket socket(io_service);
+    try {
+        socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(
+                conf.getIpAddress()), conf.getPort()));
+    } catch(boost::system::system_error& e){
+        //TODO evaluate a retry
+        std::cerr<<"Impossible to connect to the server"<<std::endl;
+        return 3;
+    }
 
-    socket.connect( boost::asio::ip::tcp::endpoint( boost::asio::ip::address::from_string(
-            conf.getIpAddress()), conf.getPort()));
-    //TODO checks on connection
 
 
-    login(socket,conf.getUsername(), conf.getPassword());
-    //TODO checks on login response
+    if(!login(socket,conf.getUsername(), conf.getPassword())){
+        std::cerr<<"Error during authentication"<<std::endl;
+        return 4;
+    }
 
-    chooseWorkspace(socket, conf.getMachineID(), conf.getPath());
-    //TODO checks on workspace selection
+
+    if(!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())){
+        std::cerr<<"Error during workspace choice"<<std::endl;
+        //TODO see if it is necessary to send some messages to the server
+        return 5;
+    }
+
 
     JobQueue queue{};
     std::thread sender{sendData, std::ref(socket), std::ref(queue)},
