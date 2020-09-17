@@ -14,19 +14,21 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+namespace BackupPB {
 class AuthenticationRequestDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<AuthenticationRequest> _instance;
 } _AuthenticationRequest_default_instance_;
+}  // namespace BackupPB
 static void InitDefaultsscc_info_AuthenticationRequest_AuthenticationRequest_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_AuthenticationRequest_default_instance_;
-    new (ptr) ::AuthenticationRequest();
+    void* ptr = &::BackupPB::_AuthenticationRequest_default_instance_;
+    new (ptr) ::BackupPB::AuthenticationRequest();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::AuthenticationRequest::InitAsDefaultInstance();
+  ::BackupPB::AuthenticationRequest::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_AuthenticationRequest_AuthenticationRequest_2eproto =
@@ -37,28 +39,28 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_AuthenticationRequest_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_AuthenticationRequest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::AuthenticationRequest, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::AuthenticationRequest, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::AuthenticationRequest, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::AuthenticationRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::AuthenticationRequest, username_),
-  PROTOBUF_FIELD_OFFSET(::AuthenticationRequest, password_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::AuthenticationRequest, username_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::AuthenticationRequest, password_),
   0,
   1,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 7, sizeof(::AuthenticationRequest)},
+  { 0, 7, sizeof(::BackupPB::AuthenticationRequest)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_AuthenticationRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BackupPB::_AuthenticationRequest_default_instance_),
 };
 
 const char descriptor_table_protodef_AuthenticationRequest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\033AuthenticationRequest.proto\";\n\025Authent"
-  "icationRequest\022\020\n\010username\030\001 \002(\t\022\020\n\010pass"
-  "word\030\002 \002(\t"
+  "\n\033AuthenticationRequest.proto\022\010BackupPB\""
+  ";\n\025AuthenticationRequest\022\020\n\010username\030\001 \002"
+  "(\t\022\020\n\010password\030\002 \002(\t"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_AuthenticationRequest_2eproto_deps[1] = {
 };
@@ -67,7 +69,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Aut
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_AuthenticationRequest_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_AuthenticationRequest_2eproto = {
-  false, false, descriptor_table_protodef_AuthenticationRequest_2eproto, "AuthenticationRequest.proto", 90,
+  false, false, descriptor_table_protodef_AuthenticationRequest_2eproto, "AuthenticationRequest.proto", 100,
   &descriptor_table_AuthenticationRequest_2eproto_once, descriptor_table_AuthenticationRequest_2eproto_sccs, descriptor_table_AuthenticationRequest_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_AuthenticationRequest_2eproto::offsets,
   file_level_metadata_AuthenticationRequest_2eproto, 1, file_level_enum_descriptors_AuthenticationRequest_2eproto, file_level_service_descriptors_AuthenticationRequest_2eproto,
@@ -75,6 +77,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Authen
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_AuthenticationRequest_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_AuthenticationRequest_2eproto)), true);
+namespace BackupPB {
 
 // ===================================================================
 
@@ -98,7 +101,7 @@ AuthenticationRequest::AuthenticationRequest(::PROTOBUF_NAMESPACE_ID::Arena* are
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:AuthenticationRequest)
+  // @@protoc_insertion_point(arena_constructor:BackupPB.AuthenticationRequest)
 }
 AuthenticationRequest::AuthenticationRequest(const AuthenticationRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
@@ -114,7 +117,7 @@ AuthenticationRequest::AuthenticationRequest(const AuthenticationRequest& from)
     password_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_password(),
       GetArena());
   }
-  // @@protoc_insertion_point(copy_constructor:AuthenticationRequest)
+  // @@protoc_insertion_point(copy_constructor:BackupPB.AuthenticationRequest)
 }
 
 void AuthenticationRequest::SharedCtor() {
@@ -124,7 +127,7 @@ void AuthenticationRequest::SharedCtor() {
 }
 
 AuthenticationRequest::~AuthenticationRequest() {
-  // @@protoc_insertion_point(destructor:AuthenticationRequest)
+  // @@protoc_insertion_point(destructor:BackupPB.AuthenticationRequest)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -151,7 +154,7 @@ const AuthenticationRequest& AuthenticationRequest::default_instance() {
 
 
 void AuthenticationRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:AuthenticationRequest)
+// @@protoc_insertion_point(message_clear_start:BackupPB.AuthenticationRequest)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -184,7 +187,7 @@ const char* AuthenticationRequest::_InternalParse(const char* ptr, ::PROTOBUF_NA
           auto str = _internal_mutable_username();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           #ifndef NDEBUG
-          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "AuthenticationRequest.username");
+          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "BackupPB.AuthenticationRequest.username");
           #endif  // !NDEBUG
           CHK_(ptr);
         } else goto handle_unusual;
@@ -195,7 +198,7 @@ const char* AuthenticationRequest::_InternalParse(const char* ptr, ::PROTOBUF_NA
           auto str = _internal_mutable_password();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           #ifndef NDEBUG
-          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "AuthenticationRequest.password");
+          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "BackupPB.AuthenticationRequest.password");
           #endif  // !NDEBUG
           CHK_(ptr);
         } else goto handle_unusual;
@@ -225,7 +228,7 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* AuthenticationRequest::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:AuthenticationRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:BackupPB.AuthenticationRequest)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -235,7 +238,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
       this->_internal_username().data(), static_cast<int>(this->_internal_username().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
-      "AuthenticationRequest.username");
+      "BackupPB.AuthenticationRequest.username");
     target = stream->WriteStringMaybeAliased(
         1, this->_internal_username(), target);
   }
@@ -245,7 +248,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
       this->_internal_password().data(), static_cast<int>(this->_internal_password().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
-      "AuthenticationRequest.password");
+      "BackupPB.AuthenticationRequest.password");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_password(), target);
   }
@@ -254,12 +257,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:AuthenticationRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:BackupPB.AuthenticationRequest)
   return target;
 }
 
 size_t AuthenticationRequest::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:AuthenticationRequest)
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:BackupPB.AuthenticationRequest)
   size_t total_size = 0;
 
   if (_internal_has_username()) {
@@ -279,7 +282,7 @@ size_t AuthenticationRequest::RequiredFieldsByteSizeFallback() const {
   return total_size;
 }
 size_t AuthenticationRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:AuthenticationRequest)
+// @@protoc_insertion_point(message_byte_size_start:BackupPB.AuthenticationRequest)
   size_t total_size = 0;
 
   if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
@@ -310,22 +313,22 @@ size_t AuthenticationRequest::ByteSizeLong() const {
 }
 
 void AuthenticationRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:AuthenticationRequest)
+// @@protoc_insertion_point(generalized_merge_from_start:BackupPB.AuthenticationRequest)
   GOOGLE_DCHECK_NE(&from, this);
   const AuthenticationRequest* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<AuthenticationRequest>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AuthenticationRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BackupPB.AuthenticationRequest)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:AuthenticationRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:BackupPB.AuthenticationRequest)
     MergeFrom(*source);
   }
 }
 
 void AuthenticationRequest::MergeFrom(const AuthenticationRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:AuthenticationRequest)
+// @@protoc_insertion_point(class_specific_merge_from_start:BackupPB.AuthenticationRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -343,14 +346,14 @@ void AuthenticationRequest::MergeFrom(const AuthenticationRequest& from) {
 }
 
 void AuthenticationRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:AuthenticationRequest)
+// @@protoc_insertion_point(generalized_copy_from_start:BackupPB.AuthenticationRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void AuthenticationRequest::CopyFrom(const AuthenticationRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:AuthenticationRequest)
+// @@protoc_insertion_point(class_specific_copy_from_start:BackupPB.AuthenticationRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -375,9 +378,10 @@ void AuthenticationRequest::InternalSwap(AuthenticationRequest* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::AuthenticationRequest* Arena::CreateMaybeMessage< ::AuthenticationRequest >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::AuthenticationRequest >(arena);
+template<> PROTOBUF_NOINLINE ::BackupPB::AuthenticationRequest* Arena::CreateMaybeMessage< ::BackupPB::AuthenticationRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::BackupPB::AuthenticationRequest >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
