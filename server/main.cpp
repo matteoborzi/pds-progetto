@@ -11,13 +11,26 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::stri
 void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&, JobRequestQueue&);
 void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&);
 
-int main() {
+int main(int argc, char* argv[]) {
+
+    int port;
+
+    if(argc < 2) {
+        std::cerr<<"Not enough arguments: port_number is missing" << std::endl;
+        return 1;
+    }
+
+    try{
+        port = std::stoi(argv[1]);
+    } catch (std::exception& e) {
+        std::cerr<<"Invalid port argument: not a number"<<std::endl;
+        return 2;
+    }
 
     boost::asio::io_context my_context;
-
     boost::asio::ip::tcp::acceptor acceptor(my_context);
-    //TODO porta da linea di comando
-    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), 8080);
+
+    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
     acceptor.open(endpoint.protocol());
     acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
     acceptor.bind(endpoint);
@@ -60,6 +73,8 @@ int main() {
 }
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
+    std::optional<std::string> username;
+
     return std::nullopt;
 }
 
