@@ -12,7 +12,7 @@
  4. Scansione periodica della cartella per eventuali modifiche tramite metadati del server [eventualmente cachato su file su client] (lato client) 
     1. Aggiornamento file sul server (aggiunta, cancellazione, modifica)
 
-## Protocollo
+## Protocollo Backup
 
 ```plantuml
 Client -> Server : connect()
@@ -26,6 +26,26 @@ Client <- Server : Server Metadata Response
 
 Client -> Server : Add/Delete/Modify message
 Client <- Server : Add/Delete/Modify response
+```
+
+## Protocollo Restore
+
+```plantuml
+Client -> Server : connect()
+
+Client -> Server : Login Request
+Client <- Server : Login Response
+
+Client -> Server : Workspace choice ( RESTORE_COPY / RESTORE_MOVE FLAGS)
+
+Client <- Server : Available worskpaces list [machine_id+path]
+
+Client -> Server : Restore workspace choice
+
+Client <- Server : ALL FILES
+
+Client <- Server : metadata response
+
 ```
 
 ### Formato dei messaggi
