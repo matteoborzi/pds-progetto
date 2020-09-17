@@ -33,6 +33,7 @@
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
 #include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
+#include "MachinePath.pb.h"
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 #define PROTOBUF_INTERNAL_EXPORT_AvailableWorkspaces_2eproto
@@ -48,7 +49,7 @@ struct TableStruct_AvailableWorkspaces_2eproto {
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::AuxiliaryParseTableField aux[]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
-  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[2]
+  static const ::PROTOBUF_NAMESPACE_ID::internal::ParseTable schema[1]
     PROTOBUF_SECTION_VARIABLE(protodesc_cold);
   static const ::PROTOBUF_NAMESPACE_ID::internal::FieldMetadata field_metadata[];
   static const ::PROTOBUF_NAMESPACE_ID::internal::SerializationTable serialization_table[];
@@ -58,12 +59,8 @@ extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table
 class AvailableWorkspaces;
 class AvailableWorkspacesDefaultTypeInternal;
 extern AvailableWorkspacesDefaultTypeInternal _AvailableWorkspaces_default_instance_;
-class AvailableWorkspaces_MachinePath;
-class AvailableWorkspaces_MachinePathDefaultTypeInternal;
-extern AvailableWorkspaces_MachinePathDefaultTypeInternal _AvailableWorkspaces_MachinePath_default_instance_;
 PROTOBUF_NAMESPACE_OPEN
 template<> ::AvailableWorkspaces* Arena::CreateMaybeMessage<::AvailableWorkspaces>(Arena*);
-template<> ::AvailableWorkspaces_MachinePath* Arena::CreateMaybeMessage<::AvailableWorkspaces_MachinePath>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
 enum AvailableWorkspaces_Status : int {
@@ -90,187 +87,6 @@ inline bool AvailableWorkspaces_Status_Parse(
     AvailableWorkspaces_Status_descriptor(), name, value);
 }
 // ===================================================================
-
-class AvailableWorkspaces_MachinePath PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AvailableWorkspaces.MachinePath) */ {
- public:
-  inline AvailableWorkspaces_MachinePath() : AvailableWorkspaces_MachinePath(nullptr) {}
-  virtual ~AvailableWorkspaces_MachinePath();
-
-  AvailableWorkspaces_MachinePath(const AvailableWorkspaces_MachinePath& from);
-  AvailableWorkspaces_MachinePath(AvailableWorkspaces_MachinePath&& from) noexcept
-    : AvailableWorkspaces_MachinePath() {
-    *this = ::std::move(from);
-  }
-
-  inline AvailableWorkspaces_MachinePath& operator=(const AvailableWorkspaces_MachinePath& from) {
-    CopyFrom(from);
-    return *this;
-  }
-  inline AvailableWorkspaces_MachinePath& operator=(AvailableWorkspaces_MachinePath&& from) noexcept {
-    if (GetArena() == from.GetArena()) {
-      if (this != &from) InternalSwap(&from);
-    } else {
-      CopyFrom(from);
-    }
-    return *this;
-  }
-
-  inline const ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet& unknown_fields() const {
-    return _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance);
-  }
-  inline ::PROTOBUF_NAMESPACE_ID::UnknownFieldSet* mutable_unknown_fields() {
-    return _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
-  }
-
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
-    return GetDescriptor();
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
-    return GetMetadataStatic().descriptor;
-  }
-  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
-    return GetMetadataStatic().reflection;
-  }
-  static const AvailableWorkspaces_MachinePath& default_instance();
-
-  static void InitAsDefaultInstance();  // FOR INTERNAL USE ONLY
-  static inline const AvailableWorkspaces_MachinePath* internal_default_instance() {
-    return reinterpret_cast<const AvailableWorkspaces_MachinePath*>(
-               &_AvailableWorkspaces_MachinePath_default_instance_);
-  }
-  static constexpr int kIndexInFileMessages =
-    0;
-
-  friend void swap(AvailableWorkspaces_MachinePath& a, AvailableWorkspaces_MachinePath& b) {
-    a.Swap(&b);
-  }
-  inline void Swap(AvailableWorkspaces_MachinePath* other) {
-    if (other == this) return;
-    if (GetArena() == other->GetArena()) {
-      InternalSwap(other);
-    } else {
-      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
-    }
-  }
-  void UnsafeArenaSwap(AvailableWorkspaces_MachinePath* other) {
-    if (other == this) return;
-    GOOGLE_DCHECK(GetArena() == other->GetArena());
-    InternalSwap(other);
-  }
-
-  // implements Message ----------------------------------------------
-
-  inline AvailableWorkspaces_MachinePath* New() const final {
-    return CreateMaybeMessage<AvailableWorkspaces_MachinePath>(nullptr);
-  }
-
-  AvailableWorkspaces_MachinePath* New(::PROTOBUF_NAMESPACE_ID::Arena* arena) const final {
-    return CreateMaybeMessage<AvailableWorkspaces_MachinePath>(arena);
-  }
-  void CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) final;
-  void CopyFrom(const AvailableWorkspaces_MachinePath& from);
-  void MergeFrom(const AvailableWorkspaces_MachinePath& from);
-  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
-  bool IsInitialized() const final;
-
-  size_t ByteSizeLong() const final;
-  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
-  ::PROTOBUF_NAMESPACE_ID::uint8* _InternalSerialize(
-      ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
-  int GetCachedSize() const final { return _cached_size_.Get(); }
-
-  private:
-  inline void SharedCtor();
-  inline void SharedDtor();
-  void SetCachedSize(int size) const final;
-  void InternalSwap(AvailableWorkspaces_MachinePath* other);
-  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
-  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "AvailableWorkspaces.MachinePath";
-  }
-  protected:
-  explicit AvailableWorkspaces_MachinePath(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  private:
-  static void ArenaDtor(void* object);
-  inline void RegisterArenaDtor(::PROTOBUF_NAMESPACE_ID::Arena* arena);
-  public:
-
-  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
-  private:
-  static ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadataStatic() {
-    ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&::descriptor_table_AvailableWorkspaces_2eproto);
-    return ::descriptor_table_AvailableWorkspaces_2eproto.file_level_metadata[kIndexInFileMessages];
-  }
-
-  public:
-
-  // nested types ----------------------------------------------------
-
-  // accessors -------------------------------------------------------
-
-  enum : int {
-    kMachineIDFieldNumber = 1,
-    kPathFieldNumber = 2,
-  };
-  // required string machineID = 1;
-  bool has_machineid() const;
-  private:
-  bool _internal_has_machineid() const;
-  public:
-  void clear_machineid();
-  const std::string& machineid() const;
-  void set_machineid(const std::string& value);
-  void set_machineid(std::string&& value);
-  void set_machineid(const char* value);
-  void set_machineid(const char* value, size_t size);
-  std::string* mutable_machineid();
-  std::string* release_machineid();
-  void set_allocated_machineid(std::string* machineid);
-  private:
-  const std::string& _internal_machineid() const;
-  void _internal_set_machineid(const std::string& value);
-  std::string* _internal_mutable_machineid();
-  public:
-
-  // required string path = 2;
-  bool has_path() const;
-  private:
-  bool _internal_has_path() const;
-  public:
-  void clear_path();
-  const std::string& path() const;
-  void set_path(const std::string& value);
-  void set_path(std::string&& value);
-  void set_path(const char* value);
-  void set_path(const char* value, size_t size);
-  std::string* mutable_path();
-  std::string* release_path();
-  void set_allocated_path(std::string* path);
-  private:
-  const std::string& _internal_path() const;
-  void _internal_set_path(const std::string& value);
-  std::string* _internal_mutable_path();
-  public:
-
-  // @@protoc_insertion_point(class_scope:AvailableWorkspaces.MachinePath)
- private:
-  class _Internal;
-
-  // helper for ByteSizeLong()
-  size_t RequiredFieldsByteSizeFallback() const;
-
-  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
-  typedef void InternalArenaConstructable_;
-  typedef void DestructorSkippable_;
-  ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
-  mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr machineid_;
-  ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr path_;
-  friend struct ::TableStruct_AvailableWorkspaces_2eproto;
-};
-// -------------------------------------------------------------------
 
 class AvailableWorkspaces PROTOBUF_FINAL :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AvailableWorkspaces) */ {
@@ -321,7 +137,7 @@ class AvailableWorkspaces PROTOBUF_FINAL :
                &_AvailableWorkspaces_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    0;
 
   friend void swap(AvailableWorkspaces& a, AvailableWorkspaces& b) {
     a.Swap(&b);
@@ -389,8 +205,6 @@ class AvailableWorkspaces PROTOBUF_FINAL :
 
   // nested types ----------------------------------------------------
 
-  typedef AvailableWorkspaces_MachinePath MachinePath;
-
   typedef AvailableWorkspaces_Status Status;
   static constexpr Status OK =
     AvailableWorkspaces_Status_OK;
@@ -427,22 +241,22 @@ class AvailableWorkspaces PROTOBUF_FINAL :
     kPathsFieldNumber = 2,
     kStatusFieldNumber = 1,
   };
-  // repeated .AvailableWorkspaces.MachinePath paths = 2;
+  // repeated .MachinePath paths = 2;
   int paths_size() const;
   private:
   int _internal_paths_size() const;
   public:
   void clear_paths();
-  ::AvailableWorkspaces_MachinePath* mutable_paths(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AvailableWorkspaces_MachinePath >*
+  ::MachinePath* mutable_paths(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >*
       mutable_paths();
   private:
-  const ::AvailableWorkspaces_MachinePath& _internal_paths(int index) const;
-  ::AvailableWorkspaces_MachinePath* _internal_add_paths();
+  const ::MachinePath& _internal_paths(int index) const;
+  ::MachinePath* _internal_add_paths();
   public:
-  const ::AvailableWorkspaces_MachinePath& paths(int index) const;
-  ::AvailableWorkspaces_MachinePath* add_paths();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AvailableWorkspaces_MachinePath >&
+  const ::MachinePath& paths(int index) const;
+  ::MachinePath* add_paths();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >&
       paths() const;
 
   // optional .AvailableWorkspaces.Status status = 1;
@@ -467,7 +281,7 @@ class AvailableWorkspaces PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AvailableWorkspaces_MachinePath > paths_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath > paths_;
   int status_;
   friend struct ::TableStruct_AvailableWorkspaces_2eproto;
 };
@@ -480,158 +294,6 @@ class AvailableWorkspaces PROTOBUF_FINAL :
   #pragma GCC diagnostic push
   #pragma GCC diagnostic ignored "-Wstrict-aliasing"
 #endif  // __GNUC__
-// AvailableWorkspaces_MachinePath
-
-// required string machineID = 1;
-inline bool AvailableWorkspaces_MachinePath::_internal_has_machineid() const {
-  bool value = (_has_bits_[0] & 0x00000001u) != 0;
-  return value;
-}
-inline bool AvailableWorkspaces_MachinePath::has_machineid() const {
-  return _internal_has_machineid();
-}
-inline void AvailableWorkspaces_MachinePath::clear_machineid() {
-  machineid_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  _has_bits_[0] &= ~0x00000001u;
-}
-inline const std::string& AvailableWorkspaces_MachinePath::machineid() const {
-  // @@protoc_insertion_point(field_get:AvailableWorkspaces.MachinePath.machineID)
-  return _internal_machineid();
-}
-inline void AvailableWorkspaces_MachinePath::set_machineid(const std::string& value) {
-  _internal_set_machineid(value);
-  // @@protoc_insertion_point(field_set:AvailableWorkspaces.MachinePath.machineID)
-}
-inline std::string* AvailableWorkspaces_MachinePath::mutable_machineid() {
-  // @@protoc_insertion_point(field_mutable:AvailableWorkspaces.MachinePath.machineID)
-  return _internal_mutable_machineid();
-}
-inline const std::string& AvailableWorkspaces_MachinePath::_internal_machineid() const {
-  return machineid_.Get();
-}
-inline void AvailableWorkspaces_MachinePath::_internal_set_machineid(const std::string& value) {
-  _has_bits_[0] |= 0x00000001u;
-  machineid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
-}
-inline void AvailableWorkspaces_MachinePath::set_machineid(std::string&& value) {
-  _has_bits_[0] |= 0x00000001u;
-  machineid_.Set(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:AvailableWorkspaces.MachinePath.machineID)
-}
-inline void AvailableWorkspaces_MachinePath::set_machineid(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _has_bits_[0] |= 0x00000001u;
-  machineid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
-              GetArena());
-  // @@protoc_insertion_point(field_set_char:AvailableWorkspaces.MachinePath.machineID)
-}
-inline void AvailableWorkspaces_MachinePath::set_machineid(const char* value,
-    size_t size) {
-  _has_bits_[0] |= 0x00000001u;
-  machineid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:AvailableWorkspaces.MachinePath.machineID)
-}
-inline std::string* AvailableWorkspaces_MachinePath::_internal_mutable_machineid() {
-  _has_bits_[0] |= 0x00000001u;
-  return machineid_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline std::string* AvailableWorkspaces_MachinePath::release_machineid() {
-  // @@protoc_insertion_point(field_release:AvailableWorkspaces.MachinePath.machineID)
-  if (!_internal_has_machineid()) {
-    return nullptr;
-  }
-  _has_bits_[0] &= ~0x00000001u;
-  return machineid_.ReleaseNonDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline void AvailableWorkspaces_MachinePath::set_allocated_machineid(std::string* machineid) {
-  if (machineid != nullptr) {
-    _has_bits_[0] |= 0x00000001u;
-  } else {
-    _has_bits_[0] &= ~0x00000001u;
-  }
-  machineid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), machineid,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:AvailableWorkspaces.MachinePath.machineID)
-}
-
-// required string path = 2;
-inline bool AvailableWorkspaces_MachinePath::_internal_has_path() const {
-  bool value = (_has_bits_[0] & 0x00000002u) != 0;
-  return value;
-}
-inline bool AvailableWorkspaces_MachinePath::has_path() const {
-  return _internal_has_path();
-}
-inline void AvailableWorkspaces_MachinePath::clear_path() {
-  path_.ClearToEmpty(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  _has_bits_[0] &= ~0x00000002u;
-}
-inline const std::string& AvailableWorkspaces_MachinePath::path() const {
-  // @@protoc_insertion_point(field_get:AvailableWorkspaces.MachinePath.path)
-  return _internal_path();
-}
-inline void AvailableWorkspaces_MachinePath::set_path(const std::string& value) {
-  _internal_set_path(value);
-  // @@protoc_insertion_point(field_set:AvailableWorkspaces.MachinePath.path)
-}
-inline std::string* AvailableWorkspaces_MachinePath::mutable_path() {
-  // @@protoc_insertion_point(field_mutable:AvailableWorkspaces.MachinePath.path)
-  return _internal_mutable_path();
-}
-inline const std::string& AvailableWorkspaces_MachinePath::_internal_path() const {
-  return path_.Get();
-}
-inline void AvailableWorkspaces_MachinePath::_internal_set_path(const std::string& value) {
-  _has_bits_[0] |= 0x00000002u;
-  path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), value, GetArena());
-}
-inline void AvailableWorkspaces_MachinePath::set_path(std::string&& value) {
-  _has_bits_[0] |= 0x00000002u;
-  path_.Set(
-    &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:AvailableWorkspaces.MachinePath.path)
-}
-inline void AvailableWorkspaces_MachinePath::set_path(const char* value) {
-  GOOGLE_DCHECK(value != nullptr);
-  _has_bits_[0] |= 0x00000002u;
-  path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
-              GetArena());
-  // @@protoc_insertion_point(field_set_char:AvailableWorkspaces.MachinePath.path)
-}
-inline void AvailableWorkspaces_MachinePath::set_path(const char* value,
-    size_t size) {
-  _has_bits_[0] |= 0x00000002u;
-  path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
-      reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:AvailableWorkspaces.MachinePath.path)
-}
-inline std::string* AvailableWorkspaces_MachinePath::_internal_mutable_path() {
-  _has_bits_[0] |= 0x00000002u;
-  return path_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline std::string* AvailableWorkspaces_MachinePath::release_path() {
-  // @@protoc_insertion_point(field_release:AvailableWorkspaces.MachinePath.path)
-  if (!_internal_has_path()) {
-    return nullptr;
-  }
-  _has_bits_[0] &= ~0x00000002u;
-  return path_.ReleaseNonDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-}
-inline void AvailableWorkspaces_MachinePath::set_allocated_path(std::string* path) {
-  if (path != nullptr) {
-    _has_bits_[0] |= 0x00000002u;
-  } else {
-    _has_bits_[0] &= ~0x00000002u;
-  }
-  path_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), path,
-      GetArena());
-  // @@protoc_insertion_point(field_set_allocated:AvailableWorkspaces.MachinePath.path)
-}
-
-// -------------------------------------------------------------------
-
 // AvailableWorkspaces
 
 // optional .AvailableWorkspaces.Status status = 1;
@@ -663,40 +325,37 @@ inline void AvailableWorkspaces::set_status(::AvailableWorkspaces_Status value) 
   // @@protoc_insertion_point(field_set:AvailableWorkspaces.status)
 }
 
-// repeated .AvailableWorkspaces.MachinePath paths = 2;
+// repeated .MachinePath paths = 2;
 inline int AvailableWorkspaces::_internal_paths_size() const {
   return paths_.size();
 }
 inline int AvailableWorkspaces::paths_size() const {
   return _internal_paths_size();
 }
-inline void AvailableWorkspaces::clear_paths() {
-  paths_.Clear();
-}
-inline ::AvailableWorkspaces_MachinePath* AvailableWorkspaces::mutable_paths(int index) {
+inline ::MachinePath* AvailableWorkspaces::mutable_paths(int index) {
   // @@protoc_insertion_point(field_mutable:AvailableWorkspaces.paths)
   return paths_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AvailableWorkspaces_MachinePath >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >*
 AvailableWorkspaces::mutable_paths() {
   // @@protoc_insertion_point(field_mutable_list:AvailableWorkspaces.paths)
   return &paths_;
 }
-inline const ::AvailableWorkspaces_MachinePath& AvailableWorkspaces::_internal_paths(int index) const {
+inline const ::MachinePath& AvailableWorkspaces::_internal_paths(int index) const {
   return paths_.Get(index);
 }
-inline const ::AvailableWorkspaces_MachinePath& AvailableWorkspaces::paths(int index) const {
+inline const ::MachinePath& AvailableWorkspaces::paths(int index) const {
   // @@protoc_insertion_point(field_get:AvailableWorkspaces.paths)
   return _internal_paths(index);
 }
-inline ::AvailableWorkspaces_MachinePath* AvailableWorkspaces::_internal_add_paths() {
+inline ::MachinePath* AvailableWorkspaces::_internal_add_paths() {
   return paths_.Add();
 }
-inline ::AvailableWorkspaces_MachinePath* AvailableWorkspaces::add_paths() {
+inline ::MachinePath* AvailableWorkspaces::add_paths() {
   // @@protoc_insertion_point(field_add:AvailableWorkspaces.paths)
   return _internal_add_paths();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::AvailableWorkspaces_MachinePath >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >&
 AvailableWorkspaces::paths() const {
   // @@protoc_insertion_point(field_list:AvailableWorkspaces.paths)
   return paths_;
@@ -705,8 +364,6 @@ AvailableWorkspaces::paths() const {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
-// -------------------------------------------------------------------
-
 
 // @@protoc_insertion_point(namespace_scope)
 

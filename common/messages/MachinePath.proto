@@ -1,0 +1,7 @@
+syntax = "proto2";
+
+message MachinePath {
+	required string machineID = 1;
+	required string path = 2;	
+}
+

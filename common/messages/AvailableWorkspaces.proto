@@ -1,14 +1,10 @@
 syntax = "proto2";
 
+import "MachinePath.proto";
+
 message AvailableWorkspaces{
 	enum Status {OK=0; FAIL=1;}
     optional Status status = 1;
-
-	message MachinePath {
-		required string machineID = 1;
-		required string path = 2;	
-	}
-
 	repeated MachinePath paths = 2;
 
 }
