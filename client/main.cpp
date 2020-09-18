@@ -60,6 +60,7 @@ int main(int argc, char* argv[]) {
         return 4;
     }
 
+    std::cout<<"Successful login"<<std::endl;
 
     if(!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())){
         std::cerr<<"Error during workspace choice"<<std::endl;
