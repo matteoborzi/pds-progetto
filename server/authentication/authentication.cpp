@@ -139,7 +139,7 @@ std::string generateRandomSalt() {
 	CryptoPP::AutoSeededRandomPool rng;
 	rng.GenerateBlock(pcbScratch, BLOCKSIZE);
 
-	CryptoPP::StringSource ss(pcbScratch, BLOCKSIZE, new CryptoPP::HexEncoder(new CryptoPP::StringSink(salt)));
+	CryptoPP::StringSource ss(pcbScratch, BLOCKSIZE, true, new CryptoPP::HexEncoder(new CryptoPP::StringSink(salt)));
 
 	return salt;
 }
