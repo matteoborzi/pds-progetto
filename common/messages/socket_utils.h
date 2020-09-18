@@ -34,6 +34,8 @@ T readFromSocket(boost::asio::ip::tcp::socket& s){
     }
     T result;
     result.ParseFromArray(values, size);
+    if(!result.IsInitialized())
+        throw std::logic_error("A message that is not initialized has been received");
     return result;
 };
 
@@ -41,6 +43,10 @@ template<class T>
 bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
     size_t size = message.ByteSizeLong();
     size_t ret;
+
+    if(!message.IsInitialized())
+        throw std::logic_error("Message to send is not initialized");
+
     try{
         ret= s.send(boost::asio::buffer(&size, sizeof(size)));
     }catch(boost::system::system_error& e) {
