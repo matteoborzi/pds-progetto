@@ -1,11 +1,17 @@
 #include <iostream>
 #include <boost/asio/ip/tcp.hpp>
 #include <thread>
-#include "../common/messages/JobRequest.pb.h"
+
 
 #include "Configuration/Configuration.h"
 #include "job/JobQueue.h"
 #include "FileWatcher/watcher.h"
+
+#include "../common/messages/socket_utils.h"
+
+#include "../common/messages/AuthenticationRequest.pb.h"
+#include "../common/messages/JobRequest.pb.h"
+#include "../common/messages/AuthenticationResponse.pb.h"
 
 bool login(boost::asio::ip::tcp::socket&, std::string&, std::string& );
 bool chooseWorkspace(boost::asio::ip::tcp::socket&, std::string&, std::string& );
@@ -70,6 +76,27 @@ int main(int argc, char* argv[]) {
 }
 
 bool login(boost::asio::ip::tcp::socket& socket, std::string& username, std::string& password){
+    AuthenticationRequest req;
+
+    req.set_username(username);
+    req.set_password(password);
+
+    try{
+        writeToSocket(socket, req);
+    } catch (std::exception& e) {
+        std::cerr<<e.what()<<std::endl;
+        return false;
+    }
+
+    AuthenticationResponse response;
+    try{
+        response = readFromSocket<AuthenticationResponse>(socket);
+    }catch (std::exception& e) {
+        std::cerr<<e.what()<<std::endl;
+        return false;
+    }
+    if(response.status()!=AuthenticationResponse_Status_OK)
+        return false;
     return true;
 }
 
