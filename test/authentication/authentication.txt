@@ -1,3 +1,0 @@
-pippo 	password
-pluto	password
-
