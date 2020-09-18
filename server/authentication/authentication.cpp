@@ -11,6 +11,7 @@
 #include <crypto++/hex.h>
 #include <crypto++/sha.h>
 #include <SQLiteCpp/Database.h>
+#include <SQLiteCpp/Transaction.h>
 #include "authentication.h"
 
 #define  SEPARATOR "\t"
@@ -57,7 +58,14 @@ bool authenticate(std::string username, std::string password){
     else{
         //there are no corresponding rows for that username, so a new one is added
         //and a new user folder is created
-        return addUser( username, password, db) and createUserFolder(username);
+
+        // Begin transaction
+        SQLite::Transaction transaction{db};
+        if(addUser( username, password, db) && createUserFolder(username)){
+            transaction.commit();
+            return true;
+        }
+        return false;
     }
 }
 
@@ -72,6 +80,7 @@ bool addUser( std::string& user, std::string& pw, SQLite::Database& db){
 	std::string salt{generateRandomSalt()};
 	std::string hashedPassword{ computeSaltedHash(pw,salt) };
 
+	std::cout << "new salt: " << salt << std::endl;
 	//adding informations
     SQLite::Statement query(db, "INSERT INTO USER (username, salt, hash) VALUES (?, ?, ?)");
     query.bind(1, user);
