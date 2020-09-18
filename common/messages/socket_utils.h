@@ -69,14 +69,6 @@ bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
         return false;
 
     return true;
-
-    ret = s.send(boost::asio::buffer(serializedMessage, size));
-
-    if(ret!=size)
-        //TODO search for better error detection and messages
-        return false;
-
-    return true;
 }
 
 #endif
