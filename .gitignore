@@ -31,11 +31,6 @@
 *.out
 *.app
 
-#Shell config scripts
-*.sh
-*.sh.1
-
-
 #CLion files
 .idea
 
