@@ -1,29 +1,29 @@
 #ifndef SOCKET_UTILS
 #define SOCKET_UTILS
 
-#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/read.hpp>
+#include <boost/asio/write.hpp>
 
 template<class T>
 T readFromSocket(boost::asio::ip::tcp::socket& s){
     size_t size;
     size_t ret;
-    if(ret<=0)
     try{
-        ret= s.receive(boost::asio::buffer(&size, sizeof(size)));
+        ret=  boost::asio::read(s,boost::asio::buffer(&size, sizeof(size)), boost::asio::transfer_all());
     }catch(boost::system::system_error& e) {
         //TODO retry?
         throw std::runtime_error("Something wrong happened");
     }
-    if(ret<=0){
+    if(ret<=0 || size<=0){
         //TODO can get here?
-        throw std::runtime_error("Something wrong happened");
+        throw std::runtime_error("Something wrong happened HERE");
     }
-    if(size<=0)
-        //TODO decide what is better to do
-        return T{};
-    char values[size];
+
+
+    char values[size+1];
     try {
-        ret = s.receive(boost::asio::buffer(values, size));
+        ret = boost::asio::read(s,boost::asio::buffer(values, size));
+        values[size]='\0';
     }catch(boost::system::system_error& e) {
         //TODO retry?
         throw std::runtime_error("Something wrong happened");
@@ -48,7 +48,7 @@ bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
         throw std::logic_error("Message to send is not initialized");
 
     try{
-        ret= s.send(boost::asio::buffer(&size, sizeof(size)));
+       ret= boost::asio::write(s,boost::asio::buffer(&size, sizeof(size)));
     }catch(boost::system::system_error& e) {
         //TODO retry?
         throw std::runtime_error("Something wrong happened");
@@ -56,10 +56,11 @@ bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
     if(ret!=sizeof(size))
         //TODO can get here?
         return false;
-    char serializedMessage[size];
+    char serializedMessage[size+1];
     message.SerializeToArray(serializedMessage, size);
+    serializedMessage[size]='\0';
     try {
-        ret = s.send(boost::asio::buffer(serializedMessage, size));
+        ret = boost::asio::write(s,boost::asio::buffer(serializedMessage, size));
     }catch(boost::system::system_error& e) {
         //TODO retry?
         throw std::runtime_error("Something wrong happened");
