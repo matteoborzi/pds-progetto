@@ -18,7 +18,10 @@ void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&);
 
 int main(int argc, char* argv[]) {
 
+    //TODO see how it works    GOOGLE_PROTOBUF_VERIFY_VERSION;
     int port;
+
+
 
     if(argc < 2) {
         std::cerr<<"Not enough arguments: port_number is missing" << std::endl;

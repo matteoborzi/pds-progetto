@@ -4,6 +4,7 @@
 
 #include "utils.h"
 #include "../Configuration/Configuration.h"
+#include "../../common/Checksum.h"
 
 std::shared_ptr<Directory> getParent(std::string& path){
     std::shared_ptr<Directory> result = Directory::getRoot();
@@ -24,7 +25,7 @@ std::shared_ptr<Directory> getParent(std::string& path){
         last--;
     }
 
-    //corrisponde al caso in cui il pat è / oppure ./ ( root ha come padre nullptr)
+    //corrisponde al caso in cui il path è / oppure ./ ( root ha come padre nullptr)
     if(last == 0)
         return std::shared_ptr<Directory>(nullptr);
     int index = 0;
@@ -86,22 +87,24 @@ bool addDirectory(std::string& path){
 
 bool addFile(std::string& path){
     bool res = false;
-    std::string checksum="checksum";
-    /* TODO
-     * checksum deve essere costruito
-     * a partire dalla funzione che calcola il checksum
-     */
-
-    /*
-     * se il checksum non è ok
-     * return res
-     */
+    std::string checksum = "";
+    try{
+        checksum = computeChecksum(path);
+    }
+    catch(...){
+        //if something wrong in checksum computation
+        return res;
+    }
+    if(checksum == "")
+        return res;
     std::optional<Configuration> conf=Configuration::getConfiguration();
     if(!conf.has_value())
         throw std::runtime_error("Impossible to get configuration");
     std::string abs_path = conf.value().getPath();
+    //if the path doesn't start with "/", it is added
+    if(path.compare(0,1,"/") == 0)
+        path = "/" + path;
     std::filesystem::directory_entry file{abs_path+path};
-    //TODO chiamata da cambiare opportunamente sulla base del formato dei due path
     if(!file.exists() || !file.is_regular_file())
         return res;
     std::time_t time = last_edit_time(file);

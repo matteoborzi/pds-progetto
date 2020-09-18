@@ -9,19 +9,20 @@
 #include <crypto++/filters.h>
 #include <crypto++/hex.h>
 #include <crypto++/sha.h>
+#include <SQLiteCpp/Database.h>
+#include <SQLiteCpp/Transaction.h>
 #include "authentication.h"
 
 #define  SEPARATOR "\t"
-#define filename "../authentication/authentication.txt"
+#define filename "../authentication/authentication.db"
 #define BLOCKSIZE 16 * 8
 
-void addUser(std::string& user, std::string& pw);
-void createUserFolder(std::string& user);
+bool addUser(std::string& user, std::string& pw, SQLite::Database& db);
+bool createUserFolder(std::string& user);
 std::pair<std::string, std::pair<std::string, std::string>> splitLine(std::string& s);
 std::string computeSaltedHash(std::string& password, std::string& salt);
 std::string generateRandomSalt();
 
-static std::shared_mutex _authentication;
 
 //TODO tabella USER(username, salt, hash)
 //TO EDIT: authenticate, addUser
@@ -34,55 +35,37 @@ static std::shared_mutex _authentication;
  * @throws runtime_error when error in retrieving or adding user
  */
 bool authenticate(std::string username, std::string password){
-   // threads can read concurrently the file
-   std::shared_lock readL{_authentication};
 
-    //opening the "DB" file
-    std::ifstream file{filename};
-    std::string line;
-	std::string salt;
+    //opening the DB file
+    SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open
+    //compile an SQL query and bind it with the parameter
+    SQLite::Statement query(db, "SELECT * FROM USER WHERE username = ?");
+    query.bind(1, username);
+    if(query.executeStep()) {
+        //if true, one (or more) row have been retrieved
+        //in this case only one, since username is primary key
 
-    if(!file)
-        //file not present
-        throw std::runtime_error("Cannot access authentication file");
-    //reading every line
-    while(std::getline(file,line)) {
-        //extracting username, hashed password and salt for each line
-        auto infos = splitLine(line);
-        boost::algorithm::trim(infos.first);
-        boost::algorithm::trim(infos.second.first);
-		boost::algorithm::trim(infos.second.second);
-		salt = infos.second.second;
+        //extracting hashed password and salt
+        std::string salt = query.getColumn(1);
+        std::string hash = query.getColumn(2);
 
-		if (infos.first == username) {
-            //same username, search ended
-            file.close();
-
-            //if a full match is found, authenticating the user
-            if (computeSaltedHash(password, infos.second.second) == infos.second.first)
-                return true;
-            return false;
-        }
+        //if a full match is found, authenticating the user
+        if (computeSaltedHash(password, salt) == hash)
+            return true;
+        return false; //the password is not correct
     }
-    file.close();
-    readL.unlock();
+    else{
+        //there are no corresponding rows for that username, so a new one is added
+        //and a new user folder is created
 
-    //getting here when user is not found, adding and authenticating him
-    addUser( username, password);
-    //creating user folder
-    createUserFolder(username);
-    return true;
-}
-
-/**
- * Split each line of the DB file
- * @param line
- * @return pair with <username, <password, salt>>
- */
-std::pair<std::string, std::pair<std::string, std::string>> splitLine(std::string& s){
-    std::vector<std::string> vec{};
-    boost::split(vec, s, boost::is_any_of(SEPARATOR));
-	return std::pair{ vec[0] , std::pair{vec[1], vec[2]} };
+        // Begin transaction
+        SQLite::Transaction transaction{db};
+        if(addUser( username, password, db) && createUserFolder(username)){
+            transaction.commit();
+            return true;
+        }
+        return false;
+    }
 }
 
 /**
@@ -90,35 +73,41 @@ std::pair<std::string, std::pair<std::string, std::string>> splitLine(std::strin
  * @param user
  * @param password
  */
-void addUser( std::string& user, std::string& pw){
-    //write lock must be unique
-    std::unique_lock l{_authentication};
-    //opening the file
-    std::ofstream f{filename, std::ios::out | std::ios::app};
-    if(!f)
-        throw std::runtime_error("Cannot add a new user");
+bool addUser( std::string& user, std::string& pw, SQLite::Database& db){
 
 	//generate a new unique salt for the user
 	std::string salt{generateRandomSalt()};
 	std::string hashedPassword{ computeSaltedHash(pw,salt) };
 
+	std::cout << "new salt: " << salt << std::endl;
 	//adding informations
-    f<<user<<SEPARATOR<<hashedPassword<<SEPARATOR<<salt<<std::endl;
-    if(!f)
-        throw std::runtime_error("Something goes wrong while saving the user");
-    f.close();
+    SQLite::Statement query(db, "INSERT INTO USER (username, salt, hash) VALUES (?, ?, ?)");
+    query.bind(1, user);
+    query.bind(2, salt);
+    query.bind(3, hashedPassword);
+    int res = 0;
+    try{
+        res = query.exec(); //returns the number of modified rows
+    }
+    catch(...){
+        //something wrong with the query
+        return false;
+    }
+    return res==1;
 }
 
 /**
  * Create an empty folder for a new user
  * @param user to create the folder
  */
-void createUserFolder(std::string& user){
+bool createUserFolder(std::string& user){
     std::string dir_path{"./"+user};
     std::filesystem::path dir(dir_path);
-    if(!std::filesystem::create_directory(dir))
-       throw std::runtime_error("Cannot create user folder");
-
+    if(!std::filesystem::create_directory(dir)){
+        std::cerr << "Cannot create user folder" << std::endl;
+        return false;
+    }
+    return true;
 }
 
 /**

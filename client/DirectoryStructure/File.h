@@ -7,11 +7,16 @@
 
 #include "DirectoryEntry.h"
 #include <filesystem>
+#include <mutex>
+#include <shared_mutex>
 
 class File: public DirectoryEntry {
 private:
     std::string checksum;
+    std::shared_mutex checksum_mutex;
+    //the checksum is the only field accessed by multiple threads
     std::time_t lastEditTime;
+    //TODO add size
 public:
     File(std::string name, std::string checksum, long time): DirectoryEntry(name), checksum(checksum), lastEditTime(time){};
     int myType () const;
@@ -21,6 +26,5 @@ public:
 
     time_t getLastEditTime();
 };
-
 
 #endif //CLIENT_FILE_H

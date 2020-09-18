@@ -1,42 +1,72 @@
 #ifndef SOCKET_UTILS
 #define SOCKET_UTILS
 
-#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/read.hpp>
+#include <boost/asio/write.hpp>
 
 template<class T>
 T readFromSocket(boost::asio::ip::tcp::socket& s){
     size_t size;
-    size_t ret = s.receive(boost::asio::buffer(&size, sizeof(size)));
-    if(ret<=0)
-        //TODO search for better error detection and messages
+    size_t ret;
+    try{
+        ret=  boost::asio::read(s,boost::asio::buffer(&size, sizeof(size)), boost::asio::transfer_all());
+    }catch(boost::system::system_error& e) {
+        //TODO retry?
         throw std::runtime_error("Something wrong happened");
-    if(size<=0)
-        //TODO decide what is better to do
-        return T{};
-    char values[size];
-    ret = s.receive(boost::asio::buffer(values, size));
-    if(ret<=0)
-        //TODO search for better error detection and messages
+    }
+    if(ret<=0 || size<=0){
+        //TODO can get here?
+        throw std::runtime_error("Something wrong happened HERE");
+    }
+
+
+    char values[size+1];
+    try {
+        ret = boost::asio::read(s,boost::asio::buffer(values, size));
+        values[size]='\0';
+    }catch(boost::system::system_error& e) {
+        //TODO retry?
         throw std::runtime_error("Something wrong happened");
+    }
+    if(ret<=0){
+        //TODO can get here?
+        throw std::runtime_error("Something wrong happened");
+    }
     T result;
     result.ParseFromArray(values, size);
+    if(!result.IsInitialized())
+        throw std::logic_error("A message that is not initialized has been received");
     return result;
 };
 
 template<class T>
 bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
     size_t size = message.ByteSizeLong();
-    size_t ret = s.send(boost::asio::buffer(&size, sizeof(size)));
-    if(ret<=0)
-        //TODO search for better error detection and messages
+    size_t ret;
+
+    if(!message.IsInitialized())
+        throw std::logic_error("Message to send is not initialized");
+
+    try{
+       ret= boost::asio::write(s,boost::asio::buffer(&size, sizeof(size)));
+    }catch(boost::system::system_error& e) {
+        //TODO retry?
+        throw std::runtime_error("Something wrong happened");
+    }
+    if(ret!=sizeof(size))
+        //TODO can get here?
         return false;
-    char serializedMessage[size];
+    char serializedMessage[size+1];
     message.SerializeToArray(serializedMessage, size);
-
-    ret = s.send(boost::asio::buffer(serializedMessage, size));
-
+    serializedMessage[size]='\0';
+    try {
+        ret = boost::asio::write(s,boost::asio::buffer(serializedMessage, size));
+    }catch(boost::system::system_error& e) {
+        //TODO retry?
+        throw std::runtime_error("Something wrong happened");
+    }
     if(ret!=size)
-        //TODO search for better error detection and messages
+        //TODO can get here?
         return false;
 
     return true;
