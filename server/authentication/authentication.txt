@@ -1,2 +1,0 @@
-pippo	password
-pippo2	password

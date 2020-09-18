@@ -19,7 +19,8 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
 
         try{
             std::string local_path = boost::algorithm::trim_copy(pt.get<std::string>("path"));
-            if(local_path!="/" && local_path.compare(local_path.size()-1,local_path.size()-1,"/") == 0 )
+            //if path is NOT "/" and ends with "/", the "/" is removed
+            if(local_path!="/" && local_path.compare(local_path.size()-1,1,"/") == 0 )
                 local_path = local_path.substr(0, local_path.size() -1);
             std::string local_machineID = pt.get<std::string>("machineID");
             std::string local_username = pt.get<std::string>("username") ;
@@ -76,6 +77,7 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
             // in any other case
             file.close();
             std::cerr << "something wrong in configuration file" << std::endl;
+            //TODO add an explanation of the fields that the configuration file should have (?)
             return std::nullopt;
         }
         file.close();
