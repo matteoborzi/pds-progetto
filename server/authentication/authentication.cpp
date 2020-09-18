@@ -15,7 +15,7 @@
 #include "authentication.h"
 
 #define  SEPARATOR "\t"
-#define filename "../authentication/authentication.db"
+#define filename "../authentication.db"
 #define BLOCKSIZE 16 * 8
 
 bool addUser(std::string& user, std::string& pw, SQLite::Database& db);
@@ -25,8 +25,8 @@ std::string computeSaltedHash(std::string& password, std::string& salt);
 std::string generateRandomSalt();
 
 
-//TODO tabella USER(username, salt, hash)
-//TO EDIT: authenticate, addUser
+//user informations are stored in the table USER(username, salt, hash)
+//in the authentication.db file
 
 /**
  * Function to authenticate a user. The user is also added whether the username is not yet present in the list
@@ -80,7 +80,6 @@ bool addUser( std::string& user, std::string& pw, SQLite::Database& db){
 	std::string salt{generateRandomSalt()};
 	std::string hashedPassword{ computeSaltedHash(pw,salt) };
 
-	std::cout << "new salt: " << salt << std::endl;
 	//adding informations
     SQLite::Statement query(db, "INSERT INTO USER (username, salt, hash) VALUES (?, ?, ?)");
     query.bind(1, user);
