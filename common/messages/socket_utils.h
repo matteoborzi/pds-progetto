@@ -6,18 +6,32 @@
 template<class T>
 T readFromSocket(boost::asio::ip::tcp::socket& s){
     size_t size;
-    size_t ret = s.receive(boost::asio::buffer(&size, sizeof(size)));
-    if(ret<=0)
-        //TODO search for better error detection and messages
+    size_t ret;
+
+    try{
+        ret= s.receive(boost::asio::buffer(&size, sizeof(size)));
+    }catch(boost::system::system_error& e) {
+        //TODO retry?
         throw std::runtime_error("Something wrong happened");
+    }
+    if(ret<=0){
+        //TODO can get here?
+        throw std::runtime_error("Something wrong happened");
+    }
     if(size<=0)
         //TODO decide what is better to do
         return T{};
     char values[size];
-    ret = s.receive(boost::asio::buffer(values, size));
-    if(ret<=0)
-        //TODO search for better error detection and messages
+    try {
+        ret = s.receive(boost::asio::buffer(values, size));
+    }catch(boost::system::system_error& e) {
+        //TODO retry?
         throw std::runtime_error("Something wrong happened");
+    }
+    if(ret<=0){
+        //TODO can get here?
+        throw std::runtime_error("Something wrong happened");
+    }
     T result;
     result.ParseFromArray(values, size);
     return result;
@@ -26,17 +40,26 @@ T readFromSocket(boost::asio::ip::tcp::socket& s){
 template<class T>
 bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
     size_t size = message.ByteSizeLong();
-    size_t ret = s.send(boost::asio::buffer(&size, sizeof(size)));
-    if(ret<=0)
-        //TODO search for better error detection and messages
+    size_t ret;
+    try{
+        ret= s.send(boost::asio::buffer(&size, sizeof(size)));
+    }catch(boost::system::system_error& e) {
+        //TODO retry?
+        throw std::runtime_error("Something wrong happened");
+    }
+    if(ret!=sizeof(size))
+        //TODO can get here?
         return false;
     char serializedMessage[size];
     message.SerializeToArray(serializedMessage, size);
-
-    ret = s.send(boost::asio::buffer(serializedMessage, size));
-
+    try {
+        ret = s.send(boost::asio::buffer(serializedMessage, size));
+    }catch(boost::system::system_error& e) {
+        //TODO retry?
+        throw std::runtime_error("Something wrong happened");
+    }
     if(ret!=size)
-        //TODO search for better error detection and messages
+        //TODO can get here?
         return false;
 
     return true;
