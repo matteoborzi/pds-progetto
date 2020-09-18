@@ -54,17 +54,20 @@ struct TableStruct_AuthenticationRequest_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_AuthenticationRequest_2eproto;
+namespace BackupPB {
 class AuthenticationRequest;
 class AuthenticationRequestDefaultTypeInternal;
 extern AuthenticationRequestDefaultTypeInternal _AuthenticationRequest_default_instance_;
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> ::AuthenticationRequest* Arena::CreateMaybeMessage<::AuthenticationRequest>(Arena*);
+template<> ::BackupPB::AuthenticationRequest* Arena::CreateMaybeMessage<::BackupPB::AuthenticationRequest>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace BackupPB {
 
 // ===================================================================
 
 class AuthenticationRequest PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AuthenticationRequest) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BackupPB.AuthenticationRequest) */ {
  public:
   inline AuthenticationRequest() : AuthenticationRequest(nullptr) {}
   virtual ~AuthenticationRequest();
@@ -160,7 +163,7 @@ class AuthenticationRequest PROTOBUF_FINAL :
   void InternalSwap(AuthenticationRequest* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "AuthenticationRequest";
+    return "BackupPB.AuthenticationRequest";
   }
   protected:
   explicit AuthenticationRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -226,7 +229,7 @@ class AuthenticationRequest PROTOBUF_FINAL :
   std::string* _internal_mutable_password();
   public:
 
-  // @@protoc_insertion_point(class_scope:AuthenticationRequest)
+  // @@protoc_insertion_point(class_scope:BackupPB.AuthenticationRequest)
  private:
   class _Internal;
 
@@ -266,15 +269,15 @@ inline void AuthenticationRequest::clear_username() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& AuthenticationRequest::username() const {
-  // @@protoc_insertion_point(field_get:AuthenticationRequest.username)
+  // @@protoc_insertion_point(field_get:BackupPB.AuthenticationRequest.username)
   return _internal_username();
 }
 inline void AuthenticationRequest::set_username(const std::string& value) {
   _internal_set_username(value);
-  // @@protoc_insertion_point(field_set:AuthenticationRequest.username)
+  // @@protoc_insertion_point(field_set:BackupPB.AuthenticationRequest.username)
 }
 inline std::string* AuthenticationRequest::mutable_username() {
-  // @@protoc_insertion_point(field_mutable:AuthenticationRequest.username)
+  // @@protoc_insertion_point(field_mutable:BackupPB.AuthenticationRequest.username)
   return _internal_mutable_username();
 }
 inline const std::string& AuthenticationRequest::_internal_username() const {
@@ -288,28 +291,28 @@ inline void AuthenticationRequest::set_username(std::string&& value) {
   _has_bits_[0] |= 0x00000001u;
   username_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:AuthenticationRequest.username)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.AuthenticationRequest.username)
 }
 inline void AuthenticationRequest::set_username(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000001u;
   username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:AuthenticationRequest.username)
+  // @@protoc_insertion_point(field_set_char:BackupPB.AuthenticationRequest.username)
 }
 inline void AuthenticationRequest::set_username(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000001u;
   username_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:AuthenticationRequest.username)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.AuthenticationRequest.username)
 }
 inline std::string* AuthenticationRequest::_internal_mutable_username() {
   _has_bits_[0] |= 0x00000001u;
   return username_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* AuthenticationRequest::release_username() {
-  // @@protoc_insertion_point(field_release:AuthenticationRequest.username)
+  // @@protoc_insertion_point(field_release:BackupPB.AuthenticationRequest.username)
   if (!_internal_has_username()) {
     return nullptr;
   }
@@ -324,7 +327,7 @@ inline void AuthenticationRequest::set_allocated_username(std::string* username)
   }
   username_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), username,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:AuthenticationRequest.username)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.AuthenticationRequest.username)
 }
 
 // required string password = 2;
@@ -340,15 +343,15 @@ inline void AuthenticationRequest::clear_password() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline const std::string& AuthenticationRequest::password() const {
-  // @@protoc_insertion_point(field_get:AuthenticationRequest.password)
+  // @@protoc_insertion_point(field_get:BackupPB.AuthenticationRequest.password)
   return _internal_password();
 }
 inline void AuthenticationRequest::set_password(const std::string& value) {
   _internal_set_password(value);
-  // @@protoc_insertion_point(field_set:AuthenticationRequest.password)
+  // @@protoc_insertion_point(field_set:BackupPB.AuthenticationRequest.password)
 }
 inline std::string* AuthenticationRequest::mutable_password() {
-  // @@protoc_insertion_point(field_mutable:AuthenticationRequest.password)
+  // @@protoc_insertion_point(field_mutable:BackupPB.AuthenticationRequest.password)
   return _internal_mutable_password();
 }
 inline const std::string& AuthenticationRequest::_internal_password() const {
@@ -362,28 +365,28 @@ inline void AuthenticationRequest::set_password(std::string&& value) {
   _has_bits_[0] |= 0x00000002u;
   password_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:AuthenticationRequest.password)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.AuthenticationRequest.password)
 }
 inline void AuthenticationRequest::set_password(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000002u;
   password_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:AuthenticationRequest.password)
+  // @@protoc_insertion_point(field_set_char:BackupPB.AuthenticationRequest.password)
 }
 inline void AuthenticationRequest::set_password(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000002u;
   password_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:AuthenticationRequest.password)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.AuthenticationRequest.password)
 }
 inline std::string* AuthenticationRequest::_internal_mutable_password() {
   _has_bits_[0] |= 0x00000002u;
   return password_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* AuthenticationRequest::release_password() {
-  // @@protoc_insertion_point(field_release:AuthenticationRequest.password)
+  // @@protoc_insertion_point(field_release:BackupPB.AuthenticationRequest.password)
   if (!_internal_has_password()) {
     return nullptr;
   }
@@ -398,7 +401,7 @@ inline void AuthenticationRequest::set_allocated_password(std::string* password)
   }
   password_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), password,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:AuthenticationRequest.password)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.AuthenticationRequest.password)
 }
 
 #ifdef __GNUC__
@@ -407,6 +410,7 @@ inline void AuthenticationRequest::set_allocated_password(std::string* password)
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace BackupPB
 
 // @@protoc_insertion_point(global_scope)
 

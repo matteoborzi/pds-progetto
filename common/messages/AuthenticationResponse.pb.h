@@ -55,12 +55,15 @@ struct TableStruct_AuthenticationResponse_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_AuthenticationResponse_2eproto;
+namespace BackupPB {
 class AuthenticationResponse;
 class AuthenticationResponseDefaultTypeInternal;
 extern AuthenticationResponseDefaultTypeInternal _AuthenticationResponse_default_instance_;
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> ::AuthenticationResponse* Arena::CreateMaybeMessage<::AuthenticationResponse>(Arena*);
+template<> ::BackupPB::AuthenticationResponse* Arena::CreateMaybeMessage<::BackupPB::AuthenticationResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace BackupPB {
 
 enum AuthenticationResponse_Status : int {
   AuthenticationResponse_Status_OK = 0,
@@ -88,7 +91,7 @@ inline bool AuthenticationResponse_Status_Parse(
 // ===================================================================
 
 class AuthenticationResponse PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AuthenticationResponse) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BackupPB.AuthenticationResponse) */ {
  public:
   inline AuthenticationResponse() : AuthenticationResponse(nullptr) {}
   virtual ~AuthenticationResponse();
@@ -184,7 +187,7 @@ class AuthenticationResponse PROTOBUF_FINAL :
   void InternalSwap(AuthenticationResponse* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "AuthenticationResponse";
+    return "BackupPB.AuthenticationResponse";
   }
   protected:
   explicit AuthenticationResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -239,20 +242,20 @@ class AuthenticationResponse PROTOBUF_FINAL :
   enum : int {
     kStatusFieldNumber = 1,
   };
-  // required .AuthenticationResponse.Status status = 1;
+  // required .BackupPB.AuthenticationResponse.Status status = 1;
   bool has_status() const;
   private:
   bool _internal_has_status() const;
   public:
   void clear_status();
-  ::AuthenticationResponse_Status status() const;
-  void set_status(::AuthenticationResponse_Status value);
+  ::BackupPB::AuthenticationResponse_Status status() const;
+  void set_status(::BackupPB::AuthenticationResponse_Status value);
   private:
-  ::AuthenticationResponse_Status _internal_status() const;
-  void _internal_set_status(::AuthenticationResponse_Status value);
+  ::BackupPB::AuthenticationResponse_Status _internal_status() const;
+  void _internal_set_status(::BackupPB::AuthenticationResponse_Status value);
   public:
 
-  // @@protoc_insertion_point(class_scope:AuthenticationResponse)
+  // @@protoc_insertion_point(class_scope:BackupPB.AuthenticationResponse)
  private:
   class _Internal;
 
@@ -275,7 +278,7 @@ class AuthenticationResponse PROTOBUF_FINAL :
 #endif  // __GNUC__
 // AuthenticationResponse
 
-// required .AuthenticationResponse.Status status = 1;
+// required .BackupPB.AuthenticationResponse.Status status = 1;
 inline bool AuthenticationResponse::_internal_has_status() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -287,21 +290,21 @@ inline void AuthenticationResponse::clear_status() {
   status_ = 0;
   _has_bits_[0] &= ~0x00000001u;
 }
-inline ::AuthenticationResponse_Status AuthenticationResponse::_internal_status() const {
-  return static_cast< ::AuthenticationResponse_Status >(status_);
+inline ::BackupPB::AuthenticationResponse_Status AuthenticationResponse::_internal_status() const {
+  return static_cast< ::BackupPB::AuthenticationResponse_Status >(status_);
 }
-inline ::AuthenticationResponse_Status AuthenticationResponse::status() const {
-  // @@protoc_insertion_point(field_get:AuthenticationResponse.status)
+inline ::BackupPB::AuthenticationResponse_Status AuthenticationResponse::status() const {
+  // @@protoc_insertion_point(field_get:BackupPB.AuthenticationResponse.status)
   return _internal_status();
 }
-inline void AuthenticationResponse::_internal_set_status(::AuthenticationResponse_Status value) {
-  assert(::AuthenticationResponse_Status_IsValid(value));
+inline void AuthenticationResponse::_internal_set_status(::BackupPB::AuthenticationResponse_Status value) {
+  assert(::BackupPB::AuthenticationResponse_Status_IsValid(value));
   _has_bits_[0] |= 0x00000001u;
   status_ = value;
 }
-inline void AuthenticationResponse::set_status(::AuthenticationResponse_Status value) {
+inline void AuthenticationResponse::set_status(::BackupPB::AuthenticationResponse_Status value) {
   _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:AuthenticationResponse.status)
+  // @@protoc_insertion_point(field_set:BackupPB.AuthenticationResponse.status)
 }
 
 #ifdef __GNUC__
@@ -310,13 +313,14 @@ inline void AuthenticationResponse::set_status(::AuthenticationResponse_Status v
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace BackupPB
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::AuthenticationResponse_Status> : ::std::true_type {};
+template <> struct is_proto_enum< ::BackupPB::AuthenticationResponse_Status> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::AuthenticationResponse_Status>() {
-  return ::AuthenticationResponse_Status_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::BackupPB::AuthenticationResponse_Status>() {
+  return ::BackupPB::AuthenticationResponse_Status_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE
