@@ -7,7 +7,7 @@ template<class T>
 T readFromSocket(boost::asio::ip::tcp::socket& s){
     size_t size;
     size_t ret;
-
+    if(ret<=0)
     try{
         ret= s.receive(boost::asio::buffer(&size, sizeof(size)));
     }catch(boost::system::system_error& e) {
@@ -66,6 +66,14 @@ bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
     }
     if(ret!=size)
         //TODO can get here?
+        return false;
+
+    return true;
+
+    ret = s.send(boost::asio::buffer(serializedMessage, size));
+
+    if(ret!=size)
+        //TODO search for better error detection and messages
         return false;
 
     return true;

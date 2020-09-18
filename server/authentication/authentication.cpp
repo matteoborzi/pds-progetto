@@ -5,7 +5,6 @@
 #include <boost/algorithm/string.hpp>
 #include <cstddef>
 #include <filesystem>
-#include <crypto++/cryptlib.h>
 #include <crypto++/osrng.h> 
 #include <crypto++/filters.h>
 #include <crypto++/hex.h>
@@ -150,7 +149,7 @@ std::string generateRandomSalt() {
 	CryptoPP::AutoSeededRandomPool rng;
 	rng.GenerateBlock(pcbScratch, BLOCKSIZE);
 
-	CryptoPP::StringSource ss(pcbScratch, true, new CryptoPP::HexEncoder(new CryptoPP::StringSink(salt)));
+	CryptoPP::StringSource ss(pcbScratch, BLOCKSIZE, true, new CryptoPP::HexEncoder(new CryptoPP::StringSink(salt)));
 
 	return salt;
 }

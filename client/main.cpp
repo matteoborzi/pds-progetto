@@ -1,6 +1,7 @@
 #include <iostream>
 #include <boost/asio/ip/tcp.hpp>
 #include <thread>
+#include "../common/messages/JobRequest.pb.h"
 
 
 #include "Configuration/Configuration.h"

@@ -14,19 +14,21 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+namespace BackupPB {
 class AuthenticationResponseDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<AuthenticationResponse> _instance;
 } _AuthenticationResponse_default_instance_;
+}  // namespace BackupPB
 static void InitDefaultsscc_info_AuthenticationResponse_AuthenticationResponse_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_AuthenticationResponse_default_instance_;
-    new (ptr) ::AuthenticationResponse();
+    void* ptr = &::BackupPB::_AuthenticationResponse_default_instance_;
+    new (ptr) ::BackupPB::AuthenticationResponse();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::AuthenticationResponse::InitAsDefaultInstance();
+  ::BackupPB::AuthenticationResponse::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_AuthenticationResponse_AuthenticationResponse_2eproto =
@@ -37,27 +39,27 @@ static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptor
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_AuthenticationResponse_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_AuthenticationResponse_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::AuthenticationResponse, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::AuthenticationResponse, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::AuthenticationResponse, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::AuthenticationResponse, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::AuthenticationResponse, status_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::AuthenticationResponse, status_),
   0,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 6, sizeof(::AuthenticationResponse)},
+  { 0, 6, sizeof(::BackupPB::AuthenticationResponse)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_AuthenticationResponse_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BackupPB::_AuthenticationResponse_default_instance_),
 };
 
 const char descriptor_table_protodef_AuthenticationResponse_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\034AuthenticationResponse.proto\"d\n\026Authen"
-  "ticationResponse\022.\n\006status\030\001 \002(\0162\036.Authe"
-  "nticationResponse.Status\"\032\n\006Status\022\006\n\002OK"
-  "\020\000\022\010\n\004FAIL\020\001"
+  "\n\034AuthenticationResponse.proto\022\010BackupPB"
+  "\"m\n\026AuthenticationResponse\0227\n\006status\030\001 \002"
+  "(\0162\'.BackupPB.AuthenticationResponse.Sta"
+  "tus\"\032\n\006Status\022\006\n\002OK\020\000\022\010\n\004FAIL\020\001"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_AuthenticationResponse_2eproto_deps[1] = {
 };
@@ -66,7 +68,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Aut
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_AuthenticationResponse_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_AuthenticationResponse_2eproto = {
-  false, false, descriptor_table_protodef_AuthenticationResponse_2eproto, "AuthenticationResponse.proto", 132,
+  false, false, descriptor_table_protodef_AuthenticationResponse_2eproto, "AuthenticationResponse.proto", 151,
   &descriptor_table_AuthenticationResponse_2eproto_once, descriptor_table_AuthenticationResponse_2eproto_sccs, descriptor_table_AuthenticationResponse_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_AuthenticationResponse_2eproto::offsets,
   file_level_metadata_AuthenticationResponse_2eproto, 1, file_level_enum_descriptors_AuthenticationResponse_2eproto, file_level_service_descriptors_AuthenticationResponse_2eproto,
@@ -74,6 +76,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Authen
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_AuthenticationResponse_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_AuthenticationResponse_2eproto)), true);
+namespace BackupPB {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* AuthenticationResponse_Status_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_AuthenticationResponse_2eproto);
   return file_level_enum_descriptors_AuthenticationResponse_2eproto[0];
@@ -115,14 +118,14 @@ AuthenticationResponse::AuthenticationResponse(::PROTOBUF_NAMESPACE_ID::Arena* a
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:AuthenticationResponse)
+  // @@protoc_insertion_point(arena_constructor:BackupPB.AuthenticationResponse)
 }
 AuthenticationResponse::AuthenticationResponse(const AuthenticationResponse& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
       _has_bits_(from._has_bits_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   status_ = from.status_;
-  // @@protoc_insertion_point(copy_constructor:AuthenticationResponse)
+  // @@protoc_insertion_point(copy_constructor:BackupPB.AuthenticationResponse)
 }
 
 void AuthenticationResponse::SharedCtor() {
@@ -130,7 +133,7 @@ void AuthenticationResponse::SharedCtor() {
 }
 
 AuthenticationResponse::~AuthenticationResponse() {
-  // @@protoc_insertion_point(destructor:AuthenticationResponse)
+  // @@protoc_insertion_point(destructor:BackupPB.AuthenticationResponse)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -155,7 +158,7 @@ const AuthenticationResponse& AuthenticationResponse::default_instance() {
 
 
 void AuthenticationResponse::Clear() {
-// @@protoc_insertion_point(message_clear_start:AuthenticationResponse)
+// @@protoc_insertion_point(message_clear_start:BackupPB.AuthenticationResponse)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -174,13 +177,13 @@ const char* AuthenticationResponse::_InternalParse(const char* ptr, ::PROTOBUF_N
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // required .AuthenticationResponse.Status status = 1;
+      // required .BackupPB.AuthenticationResponse.Status status = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          if (PROTOBUF_PREDICT_TRUE(::AuthenticationResponse_Status_IsValid(val))) {
-            _internal_set_status(static_cast<::AuthenticationResponse_Status>(val));
+          if (PROTOBUF_PREDICT_TRUE(::BackupPB::AuthenticationResponse_Status_IsValid(val))) {
+            _internal_set_status(static_cast<::BackupPB::AuthenticationResponse_Status>(val));
           } else {
             ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(1, val, mutable_unknown_fields());
           }
@@ -211,12 +214,12 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* AuthenticationResponse::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:AuthenticationResponse)
+  // @@protoc_insertion_point(serialize_to_array_start:BackupPB.AuthenticationResponse)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required .AuthenticationResponse.Status status = 1;
+  // required .BackupPB.AuthenticationResponse.Status status = 1;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
@@ -227,15 +230,15 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:AuthenticationResponse)
+  // @@protoc_insertion_point(serialize_to_array_end:BackupPB.AuthenticationResponse)
   return target;
 }
 
 size_t AuthenticationResponse::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:AuthenticationResponse)
+// @@protoc_insertion_point(message_byte_size_start:BackupPB.AuthenticationResponse)
   size_t total_size = 0;
 
-  // required .AuthenticationResponse.Status status = 1;
+  // required .BackupPB.AuthenticationResponse.Status status = 1;
   if (_internal_has_status()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
@@ -254,22 +257,22 @@ size_t AuthenticationResponse::ByteSizeLong() const {
 }
 
 void AuthenticationResponse::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:AuthenticationResponse)
+// @@protoc_insertion_point(generalized_merge_from_start:BackupPB.AuthenticationResponse)
   GOOGLE_DCHECK_NE(&from, this);
   const AuthenticationResponse* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<AuthenticationResponse>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:AuthenticationResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BackupPB.AuthenticationResponse)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:AuthenticationResponse)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:BackupPB.AuthenticationResponse)
     MergeFrom(*source);
   }
 }
 
 void AuthenticationResponse::MergeFrom(const AuthenticationResponse& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:AuthenticationResponse)
+// @@protoc_insertion_point(class_specific_merge_from_start:BackupPB.AuthenticationResponse)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -281,14 +284,14 @@ void AuthenticationResponse::MergeFrom(const AuthenticationResponse& from) {
 }
 
 void AuthenticationResponse::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:AuthenticationResponse)
+// @@protoc_insertion_point(generalized_copy_from_start:BackupPB.AuthenticationResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void AuthenticationResponse::CopyFrom(const AuthenticationResponse& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:AuthenticationResponse)
+// @@protoc_insertion_point(class_specific_copy_from_start:BackupPB.AuthenticationResponse)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -312,9 +315,10 @@ void AuthenticationResponse::InternalSwap(AuthenticationResponse* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::AuthenticationResponse* Arena::CreateMaybeMessage< ::AuthenticationResponse >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::AuthenticationResponse >(arena);
+template<> PROTOBUF_NOINLINE ::BackupPB::AuthenticationResponse* Arena::CreateMaybeMessage< ::BackupPB::AuthenticationResponse >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::BackupPB::AuthenticationResponse >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 
