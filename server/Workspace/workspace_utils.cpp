@@ -3,20 +3,21 @@
 //
 
 #include <filesystem>
-#include <fstream>
 #include <iostream>
-#include <boost/algorithm/string/trim.hpp>
 #include "workspace_utils.h"
 #include <boost/algorithm/string.hpp>
+#include <SQLiteCpp/Database.h>
+#include <SQLiteCpp/Statement.h>
+#include <SQLiteCpp/Transaction.h>
 
-#define  SEPARATOR "\t"
+#define filename "../mapping.db"
 
-void createMachineFolder(std::string user, std::string machineID, std::string client_path);
-void addNewMapping(std::string user,std::string machineID,std::string client_path,long number);
-std::pair<std::string, std::string> splitLineWorkspace(std::string& s);
+void createMachineFolder(std::string user, std::string machineID);
+std::string addNewMapping(std::string user,std::string machineID,std::string client_path, SQLite::Database& db);
+void createServerFolder(std::string user,std::string machineID,std::string server_path);
 
-//TODO accedere a tabella WORKSPACE(username*, machineID*, clientPath*, serverPath)
-//TO EDIT: addNewMapping(), computeServerPath()
+//workspaces' mappings are inside the table WORKSPACE(username*, machineID*, clientPath*, serverPath)
+//in the db mapping.db
 
 /**
  * this function should be called to retrieve,
@@ -27,76 +28,99 @@ std::pair<std::string, std::string> splitLineWorkspace(std::string& s);
  * the server path where the user's folder is copied
  */
 std::string computeServerPath(std::string user, std::string machineID, std::string client_path){
-    /*
-     * when this function is called,
-     * the path ./user should exists
-     */
+
+    // the path ./user should exists
     std::filesystem::directory_entry user_folder{"./"+user};
     if(!user_folder.exists() || !user_folder.is_directory())
         throw std::runtime_error("cannot access the ./"+user+" folder");
+
+    //opening the DB file
+    SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open
+
+    //check if the combination user-machineID already exists in the db as long as the /user/machineID folder
+    SQLite::Statement query(db, "SELECT COUNT(*) FROM WORKSPACE WHERE username = ? AND machineID = ? ");
+    query.bind(1, user);
+    query.bind(2, machineID);
+    int n = 0;
+    if(query.executeStep()) //if true, something returned
+        n = query.getColumn(0);
+
     std::filesystem::directory_entry machine_folder{"./"+user+"/"+machineID};
-    if(!machine_folder.exists()){
-        createMachineFolder( user, machineID, client_path);
+
+    if(!machine_folder.exists() && n > 0){
+       //inconsistencies between db and folders
+       std::string msg = "inconsistencies in folders: folder ./"+user+"/"+machineID+" should exists but it doesn't";
+       throw std::runtime_error(msg);
     }
-    std::ifstream mapping("./"+user+"/"+machineID+"/mapping.txt");
-    if(!mapping)
-        throw std::runtime_error("cannot access the mapping file");
-    std::string line;
-    long number = 0;
-    while(std::getline(mapping,line)) {
-        auto infos = splitLineWorkspace(line);
-        boost::algorithm::trim(infos.first);
-        boost::algorithm::trim(infos.second);
-        number = std::stol(infos.second, nullptr, 10);
-        if(infos.first == client_path){
-            std::filesystem::directory_entry folder{"./"+user+"/"+machineID+"/"+infos.second};
-            if(!folder.exists() || !folder.is_directory())
-                throw std::runtime_error("Backup folder ./"+user+"/"+machineID+"/"+infos.second+"does not exists");
-            return "/"+user+"/"+machineID+"/"+infos.second+"/";
+    else if(machine_folder.exists() && n == 0){
+        std::string msg = "inconsistencies in folders: folder ./"+user+"/"+machineID+" should NOT exists but it does";
+        throw std::runtime_error(msg);
+    }
+    else if(n == 0){
+        createMachineFolder(user, machineID);
+    }
+    else {
+        SQLite::Statement query(db,
+                                "SELECT serverPath FROM WORKSPACE WHERE username = ? AND machineID = ? AND clientPath = ? ");
+        query.bind(1, user);
+        query.bind(2, machineID);
+        query.bind(3, client_path);
+        if (query.executeStep()) {//something returned
+            std::string server_path = query.getColumn(0);
+            return "/" + user + "/" + machineID + "/" + server_path + "/";
         }
     }
-    mapping.close();
-    number++;
-    addNewMapping(user, machineID, client_path, number);
-    return "/"+user+"/"+machineID+"/"+std::to_string(number)+"/";
+    //if the function arrives here, the mapping is not already present
+    // (but the folder /user/machineID should be present)
+    SQLite::Transaction transaction{db};
+    std::string server_path = addNewMapping(user, machineID, client_path, db);
+    createServerFolder(user, machineID, server_path);
+    //TODO add also directory number_cache
+    transaction.commit();
+    return "/"+user+"/"+machineID+"/"+server_path+"/";
 }
 
-void createMachineFolder(std::string user, std::string machineID, std::string client_path){
+/**
+ * this function receives
+ * @param username
+ * @param machineID
+ * and creates the folder ./user/machineID
+ * if something goes wrong, it throws an excwption
+ */
+void createMachineFolder(std::string user, std::string machineID){
     std::string dir_path{"./"+user+"/"+machineID};
     std::filesystem::path dir(dir_path);
     if(!std::filesystem::create_directory(dir))
         throw std::runtime_error("Cannot create ./"+user+"/"+machineID+" folder");
-    std::ofstream mapping("./"+user+"/"+machineID+"/mapping.txt");
-    if(!mapping)
-        throw std::runtime_error("Cannot create ./"+user+"/"+machineID+"/mapping.txt file");
-    std::filesystem::path newdir("./"+user+"/"+machineID+"/1");
-    if(!std::filesystem::create_directory(newdir))
-        throw std::runtime_error("Cannot create new backup folder");
-    mapping << client_path+"\t1" << std::endl;
-    mapping.close();
 }
 
-void addNewMapping(std::string user,std::string machineID,std::string client_path,long number){
-    std::ofstream mapping("./"+user+"/"+machineID+"/mapping.txt" , std::ofstream::out | std::ofstream::app);
-    if(!mapping){
-        throw std::runtime_error("Cannot open ./"+user+"/"+machineID+"/mapping.txt file");
+std::string addNewMapping(std::string user,std::string machineID,std::string client_path, SQLite::Database& db){
+
+    SQLite::Statement insert(db, "INSERT INTO WORKSPACE (username, machineID, clientPath) VALUES (?, ?, ?) ");
+    insert.bind(1, user);
+    insert.bind(2, machineID);
+    insert.bind(3, client_path);
+    int res = insert.exec();
+
+    if(res != 1)
+        throw std::runtime_error("Cannot create new mapping for backup folder "+client_path+" at ./"+user+"/"+machineID);
+    SQLite::Statement query(db, "SELECT serverPath FROM WORKSPACE WHERE username = ? AND machineID = ? AND clientPath = ? ");
+    query.bind(1, user);
+    query.bind(2, machineID);
+    query.bind(3, client_path);
+    if(query.executeStep()){
+        std::string server_path = query.getColumn(0);
+        return server_path;
     }
-    std::filesystem::path newdir("./"+user+"/"+machineID+"/"+std::to_string(number));
-    if(!std::filesystem::create_directory(newdir))
-        throw std::runtime_error("Cannot create new backup folder");
-    //TODO add also directory number_cache
-    //in case of problems delete also the number folder and throws an exception
-    mapping << client_path+"\t"+std::to_string(number) << std::endl;
-    mapping.close();
+    else{
+        //something went wrong in inserting/retrieving serverPath information from db
+        throw std::runtime_error("Unable to create new mapping for backup folder "+client_path+" at ./"+user+"/"+machineID);
+    }
 }
 
-/**
-* Split each line of the DB file
-* @param line
-* @return pair with <username, password>
-*/
-std::pair<std::string, std::string> splitLineWorkspace(std::string& s){
-    std::vector<std::string> vec{};
-    boost::split(vec, s, boost::is_any_of(SEPARATOR));
-    return std::pair{vec[0] , vec[1]};
+void createServerFolder(std::string user,std::string machineID,std::string server_path){
+    std::string dir_path{"./"+user+"/"+machineID+"/"+server_path};
+    std::filesystem::path dir(dir_path);
+    if(!std::filesystem::create_directory(dir))
+        throw std::runtime_error("Cannot create ./"+user+"/"+machineID+"/"+server_path+" folder");
 }
