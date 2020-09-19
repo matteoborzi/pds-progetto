@@ -12,9 +12,9 @@
 
 #define filename "../mapping.db"
 
-std::pair<std::string, std::string> splitLineWorkspace(std::string& s);
 void createMachineFolder(std::string user, std::string machineID);
 std::string addNewMapping(std::string user,std::string machineID,std::string client_path, SQLite::Database& db);
+void createServerFolder(std::string user,std::string machineID,std::string server_path);
 
 //workspaces' mappings are inside the table WORKSPACE(username*, machineID*, clientPath*, serverPath)
 //in the db mapping.db
@@ -118,13 +118,9 @@ std::string addNewMapping(std::string user,std::string machineID,std::string cli
     }
 }
 
-/**
-* Split each line of the DB file
-* @param line
-* @return pair with <username, password>
-*/
-std::pair<std::string, std::string> splitLineWorkspace(std::string& s){
-    std::vector<std::string> vec{};
-    boost::split(vec, s, boost::is_any_of(SEPARATOR));
-    return std::pair{vec[0] , vec[1]};
+void createServerFolder(std::string user,std::string machineID,std::string server_path){
+    std::string dir_path{"./"+user+"/"+machineID+"/"+server_path};
+    std::filesystem::path dir(dir_path);
+    if(!std::filesystem::create_directory(dir))
+        throw std::runtime_error("Cannot create ./"+user+"/"+machineID+"/"+server_path+" folder");
 }
