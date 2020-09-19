@@ -29,13 +29,13 @@ void createServerFolder(std::string user,std::string machineID,std::string serve
  */
 std::string computeServerPath(std::string user, std::string machineID, std::string client_path){
 
-    //opening the DB file
-    SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open
-
     // the path ./user should exists
     std::filesystem::directory_entry user_folder{"./"+user};
     if(!user_folder.exists() || !user_folder.is_directory())
         throw std::runtime_error("cannot access the ./"+user+" folder");
+
+    //opening the DB file
+    SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open
 
     //check if the combination user-machineID already exists in the db as long as the /user/machineID folder
     SQLite::Statement query(db, "SELECT COUNT(*) FROM WORKSPACE WHERE username = ? AND machineID = ? ");
