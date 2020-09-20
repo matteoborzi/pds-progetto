@@ -12,13 +12,13 @@
 #include "File.h"
 
 
-bool deleteDirectoryOrFile(std::string& path);
-bool addDirectory(std::string& path);
-bool addFile(std::string& path);
-bool addFile(std::string& path, std::string& checksum, long time);
-std::shared_ptr<Directory> getDirectory(std::string& path);
-std::shared_ptr<File> getFile(std::string& path);
-std::string getLast(std::string& path);
+bool deleteDirectoryOrFile(const std::string& path);
+bool addDirectory(const std::string& path);
+bool addFile(const std::string& path);
+bool addFile(const std::string& path, std::string& checksum, long time);
+std::shared_ptr<Directory> getDirectory(const std::string& path);
+std::shared_ptr<File> getFile(const std::string& path);
+std::string getLast(const std::string& path);
 
 //TODO add method to getNotVisited starting from the root (with relative path)
 //TODO add method to unclear visited flag for all element

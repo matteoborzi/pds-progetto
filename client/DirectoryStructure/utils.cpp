@@ -6,7 +6,7 @@
 #include "../Configuration/Configuration.h"
 #include "../../common/Checksum.h"
 
-std::shared_ptr<Directory> getParent(std::string& path){
+std::shared_ptr<Directory> getParent(const std::string& path){
     std::shared_ptr<Directory> result = Directory::getRoot();
     std::vector<std::string> fields;
     boost::split(fields, path, boost::is_any_of("/"));
@@ -63,7 +63,7 @@ std::shared_ptr<Directory> getParent(std::string& path){
     return result;
 }
 
-bool deleteDirectoryOrFile(std::string &path) {
+bool deleteDirectoryOrFile(const std::string &path) {
     std::shared_ptr<Directory> parent = getParent(path);
     std::string toDelete = getLast(path);
     bool res = false;
@@ -73,7 +73,7 @@ bool deleteDirectoryOrFile(std::string &path) {
     return res;
 }
 
-bool addDirectory(std::string& path){
+bool addDirectory(const std::string& path){
     std::shared_ptr<Directory> parent = getParent(path);
     std::string toAdd = getLast(path);
     bool res = false;
@@ -85,11 +85,11 @@ bool addDirectory(std::string& path){
     return res;
 }
 
-bool addFile(std::string& path){
+bool addFile(const std::string& param_path){
     bool res = false;
     std::string checksum = "";
     try{
-        checksum = computeChecksum(path);
+        checksum = computeChecksum(param_path);
     }
     catch(...){
         //if something wrong in checksum computation
@@ -101,9 +101,11 @@ bool addFile(std::string& path){
     if(!conf.has_value())
         throw std::runtime_error("Impossible to get configuration");
     std::string abs_path = conf.value().getPath();
+
+    std::string path=param_path;
     //if the path doesn't start with "/", it is added
     if(path.compare(0,1,"/") == 0)
-        path = "/" + path;
+        path = "/" + param_path;
     std::filesystem::directory_entry file{abs_path+path};
     if(!file.exists() || !file.is_regular_file())
         return res;
@@ -114,7 +116,7 @@ bool addFile(std::string& path){
     return res;
 }
 
-bool addFile(std::string& path, std::string& checksum, long time){
+bool addFile(const std::string& path, std::string& checksum, long time){
     std::shared_ptr<Directory> parent = getParent(path);
     std::string toAdd = getLast(path);
     bool res = false;
@@ -126,7 +128,7 @@ bool addFile(std::string& path, std::string& checksum, long time){
     return res;
 }
 
-std::shared_ptr<Directory> getDirectory(std::string& path){
+std::shared_ptr<Directory> getDirectory(const std::string& path){
     std::shared_ptr<Directory> parent = getParent(path);
     std::string toGet = getLast(path);
     std::shared_ptr<Directory> res = std::shared_ptr<Directory>(nullptr);
@@ -139,7 +141,7 @@ std::shared_ptr<Directory> getDirectory(std::string& path){
     return res;
 }
 
-std::shared_ptr<File> getFile(std::string& path){
+std::shared_ptr<File> getFile(const std::string& path){
     std::shared_ptr<Directory> parent = getParent(path);
     std::string toGet = getLast(path);
     std::shared_ptr<File> res = std::shared_ptr<File>(nullptr);
@@ -157,7 +159,7 @@ std::shared_ptr<File> getFile(std::string& path){
  * ritorno l'ultimo elemento valido
  * in caso di path che termina con uno / considero valido il campo precedente
  */
-std::string getLast(std::string& path){
+std::string getLast(const std::string& path){
     std::vector<std::string> fields{};
     boost::split(fields, path, boost::is_any_of("/"));
     std::string last = fields.back();
