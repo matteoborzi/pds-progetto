@@ -7,7 +7,7 @@
 std::unordered_set<std::string> PathPool::pool{};
 std::mutex PathPool::m{};
 
-PathPool::PathPool(std::string &path) {
+PathPool::PathPool(const std::string &path) {
     std::unique_lock l(m);
 
     this->path = std::nullopt;
@@ -26,6 +26,7 @@ PathPool::~PathPool() {
 
     //check if path has value
     if(path.has_value()) {
+        //TODO destructor should be noexcept
         //throws exception if not present in pool
         if(pool.find(path.value())==pool.end())
             throw std::runtime_error("Error while trying to remove "+path.value()+" from pathPool, since not present");

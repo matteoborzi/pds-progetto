@@ -19,7 +19,7 @@ class PathPool {
     static std::mutex m;
 
 public:
-    PathPool(std::string& path);
+    PathPool(const std::string& path);
     ~PathPool();
 
     std::string getPath();
