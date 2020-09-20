@@ -10,11 +10,14 @@
 #include "FileWatcher/watcher.h"
 
 #include "../common/messages/socket_utils.h"
+#include "../common/job_utils.h"
 
 #include "../common/messages/AuthenticationRequest.pb.h"
-#include "../common/messages/JobRequest.pb.h"
 #include "../common/messages/AuthenticationResponse.pb.h"
 #include "../common/Checksum.h"
+#include "DirectoryStructure/utils.h"
+#include "Configuration/file_utils.h"
+#include "../common/messages/file_utils.h"
 
 bool login(boost::asio::ip::tcp::socket &, std::string &, std::string &);
 
@@ -123,6 +126,8 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
         req.set_path(j.getPath());
         req.set_pbaction(toPBAction(j.getAct()));
 
+        std::string basePath=Configuration::getConfiguration().value().getPath();
+        std::string absolutePath = concatenatePath(basePath, j.getPath());
 
         bool fileToBeSent = false;
 
@@ -130,10 +135,9 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
         //in case of add and update, check if file/folder still exists in file system
         if (j.getAct() == ADD_FILE || j.getAct() == UPDATE) {
 
-            std::filesystem::directory_entry f{j.getPath()};
+            std::filesystem::directory_entry f{absolutePath};
             if (!f.exists()) {
-                std::string path = j.getPath();
-                queue.setConcluded(path);
+                queue.setConcluded(j.getPath());
                 break;
             }
 
@@ -148,6 +152,24 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
         if (!writeToSocket(socket, req))
             throw std::runtime_error("Impossible to send <"+ j.getPath() + ">'s job to the server");
 
+        if(fileToBeSent) {
+            //compute checksum (if needed)
+            std::string checksum = computeChecksum(absolutePath);
+            //send data
+            try{
+                sendFile(socket, absolutePath);
+            }catch (std::exception&) {
+
+            //TODO decide how handle errors
+
+            }
+
+            //update checksum (if needed) in Directory structure
+            std::shared_ptr<File> file= getFile(j.getPath());
+            if(file!=nullptr){
+                file->setChecksum(checksum);
+            }
+        }
     }
 
 }
