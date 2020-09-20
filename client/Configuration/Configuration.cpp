@@ -22,6 +22,8 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
             //if path is NOT "/" and ends with "/", the "/" is removed
             if(local_path!="/" && local_path.compare(local_path.size()-1,1,"/") == 0 )
                 local_path = local_path.substr(0, local_path.size() -1);
+            //TODO implement checks for path containing \ on Windows
+
             std::string local_machineID = pt.get<std::string>("machineID");
             std::string local_username = pt.get<std::string>("username") ;
             std::string local_password = pt.get<std::string>("password");
