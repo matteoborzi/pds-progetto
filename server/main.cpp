@@ -18,7 +18,10 @@ void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&);
 
 int main(int argc, char* argv[]) {
 
+    //TODO see how it works    GOOGLE_PROTOBUF_VERIFY_VERSION;
     int port;
+
+
 
     if(argc < 2) {
         std::cerr<<"Not enough arguments: port_number is missing" << std::endl;
@@ -83,12 +86,19 @@ int main(int argc, char* argv[]) {
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
 
-    BackupPB::AuthenticationRequest authenticationRequest = readFromSocket<BackupPB::AuthenticationRequest>(s);
+    BackupPB::AuthenticationRequest authenticationRequest;
     BackupPB::AuthenticationResponse authenticationResponse;
     std::optional<std::string> username;
 
+    try{
+        authenticationRequest = readFromSocket<BackupPB::AuthenticationRequest>(s);
+    } catch(std::exception& e) {
+        std::cerr<< e.what() << std::endl;
+        return std::nullopt;
+    }
+
     if(!authenticate(authenticationRequest.username(), authenticationRequest.password())){
-        std::cerr << "Login failed" << std::endl;
+        //std::cerr << "Login failed" << std::endl;
         authenticationResponse.set_status(BackupPB::AuthenticationResponse_Status_FAIL);
         username = std::nullopt;
     } else {
@@ -96,7 +106,12 @@ std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
         username = authenticationRequest.username();
     }
 
-    writeToSocket(s, authenticationResponse);
+    try{
+        writeToSocket(s, authenticationResponse);
+    } catch(std::exception& e){
+        std::cerr << e.what() << std::endl;
+        return std::nullopt;
+    }
 
     return username;
 }

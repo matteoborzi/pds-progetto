@@ -8,6 +8,7 @@
 #include "DirectoryEntry.h"
 #include <filesystem>
 #include <mutex>
+#include <shared_mutex>
 
 class File: public DirectoryEntry {
 private:

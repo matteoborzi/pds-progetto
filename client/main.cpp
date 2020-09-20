@@ -3,9 +3,16 @@
 #include <thread>
 #include "../common/messages/JobRequest.pb.h"
 
+
 #include "Configuration/Configuration.h"
 #include "job/JobQueue.h"
 #include "FileWatcher/watcher.h"
+
+#include "../common/messages/socket_utils.h"
+
+#include "../common/messages/AuthenticationRequest.pb.h"
+#include "../common/messages/JobRequest.pb.h"
+#include "../common/messages/AuthenticationResponse.pb.h"
 
 bool login(boost::asio::ip::tcp::socket&, std::string&, std::string& );
 bool chooseWorkspace(boost::asio::ip::tcp::socket&, std::string&, std::string& );
@@ -53,6 +60,7 @@ int main(int argc, char* argv[]) {
         return 4;
     }
 
+    std::cout<<"Successful login"<<std::endl;
 
     if(!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())){
         std::cerr<<"Error during workspace choice"<<std::endl;
@@ -70,6 +78,27 @@ int main(int argc, char* argv[]) {
 }
 
 bool login(boost::asio::ip::tcp::socket& socket, std::string& username, std::string& password){
+    BackupPB::AuthenticationRequest req;
+
+    req.set_username(username);
+    req.set_password(password);
+
+    try{
+        writeToSocket(socket, req);
+    } catch (std::exception& e) {
+        std::cerr<<e.what()<<std::endl;
+        return false;
+    }
+
+    BackupPB::AuthenticationResponse response;
+    try{
+        response = readFromSocket<BackupPB::AuthenticationResponse>(socket);
+    }catch (std::exception& e) {
+        std::cerr<<e.what()<<std::endl;
+        return false;
+    }
+    if(response.status()!= BackupPB::AuthenticationResponse_Status_OK)
+        return false;
     return true;
 }
 
