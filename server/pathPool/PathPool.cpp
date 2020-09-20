@@ -13,8 +13,11 @@ PathPool::PathPool(std::string &path) {
     this->path = std::nullopt;
 
     //search for presence in pool
-
-    //set local field if not present and insert in pool
+    if(pool.find(path)==pool.end()) {
+        //set local field if not present and insert in pool
+        pool.insert(path);
+        this->path=path;
+    }
 
 }
 
@@ -22,10 +25,13 @@ PathPool::~PathPool() {
     std::unique_lock l(m);
 
     //check if path has value
-
-    //throws exception if not present in pool
-
-    //delete from pool
+    if(path.has_value()) {
+        //throws exception if not present in pool
+        if(pool.find(path.value())==pool.end())
+            throw std::runtime_error("Error while trying to remove "+path.value()+" from pathPool, since not present");
+        //delete from pool
+        pool.erase(path.value());
+    }
 
 }
 
