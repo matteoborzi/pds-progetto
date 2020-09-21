@@ -17,7 +17,6 @@
 #define BLOCKSIZE 16 * 8
 
 bool addUser(std::string& user, std::string& pw, SQLite::Database& db);
-bool createUserFolder(std::string& user);
 std::string computeSaltedHash(std::string& password, std::string& salt);
 std::string generateRandomSalt();
 
@@ -56,12 +55,8 @@ bool authenticate(std::string username, std::string password){
         //there are no corresponding rows for that username, so a new one is added
         //and a new user folder is created
 
-        // Begin transaction
-        SQLite::Transaction transaction{db};
-        if(addUser( username, password, db) && createUserFolder(username)){
-            transaction.commit();
+        if(addUser( username, password, db))
             return true;
-        }
         return false;
     }
 }
@@ -93,19 +88,6 @@ bool addUser( std::string& user, std::string& pw, SQLite::Database& db){
     return res==1;
 }
 
-/**
- * Create an empty folder for a new user
- * @param user to create the folder
- */
-bool createUserFolder(std::string& user){
-    std::string dir_path{"./"+user};
-    std::filesystem::path dir(dir_path);
-    if(!std::filesystem::create_directory(dir)){
-        std::cerr << "Cannot create user folder" << std::endl;
-        return false;
-    }
-    return true;
-}
 
 /**
  *	Compute the password hash using the password and the stored salt
