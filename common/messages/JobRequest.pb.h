@@ -55,12 +55,15 @@ struct TableStruct_JobRequest_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_JobRequest_2eproto;
+namespace BackupPB {
 class JobRequest;
 class JobRequestDefaultTypeInternal;
 extern JobRequestDefaultTypeInternal _JobRequest_default_instance_;
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> ::JobRequest* Arena::CreateMaybeMessage<::JobRequest>(Arena*);
+template<> ::BackupPB::JobRequest* Arena::CreateMaybeMessage<::BackupPB::JobRequest>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace BackupPB {
 
 enum JobRequest_PBAction : int {
   JobRequest_PBAction_ADD_FILE = 0,
@@ -91,7 +94,7 @@ inline bool JobRequest_PBAction_Parse(
 // ===================================================================
 
 class JobRequest PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:JobRequest) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BackupPB.JobRequest) */ {
  public:
   inline JobRequest() : JobRequest(nullptr) {}
   virtual ~JobRequest();
@@ -187,7 +190,7 @@ class JobRequest PROTOBUF_FINAL :
   void InternalSwap(JobRequest* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "JobRequest";
+    return "BackupPB.JobRequest";
   }
   protected:
   explicit JobRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -283,20 +286,20 @@ class JobRequest PROTOBUF_FINAL :
   void _internal_set_size(::PROTOBUF_NAMESPACE_ID::uint64 value);
   public:
 
-  // required .JobRequest.PBAction pbaction = 1;
+  // required .BackupPB.JobRequest.PBAction pbaction = 1;
   bool has_pbaction() const;
   private:
   bool _internal_has_pbaction() const;
   public:
   void clear_pbaction();
-  ::JobRequest_PBAction pbaction() const;
-  void set_pbaction(::JobRequest_PBAction value);
+  ::BackupPB::JobRequest_PBAction pbaction() const;
+  void set_pbaction(::BackupPB::JobRequest_PBAction value);
   private:
-  ::JobRequest_PBAction _internal_pbaction() const;
-  void _internal_set_pbaction(::JobRequest_PBAction value);
+  ::BackupPB::JobRequest_PBAction _internal_pbaction() const;
+  void _internal_set_pbaction(::BackupPB::JobRequest_PBAction value);
   public:
 
-  // @@protoc_insertion_point(class_scope:JobRequest)
+  // @@protoc_insertion_point(class_scope:BackupPB.JobRequest)
  private:
   class _Internal;
 
@@ -324,7 +327,7 @@ class JobRequest PROTOBUF_FINAL :
 #endif  // __GNUC__
 // JobRequest
 
-// required .JobRequest.PBAction pbaction = 1;
+// required .BackupPB.JobRequest.PBAction pbaction = 1;
 inline bool JobRequest::_internal_has_pbaction() const {
   bool value = (_has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -336,21 +339,21 @@ inline void JobRequest::clear_pbaction() {
   pbaction_ = 0;
   _has_bits_[0] &= ~0x00000004u;
 }
-inline ::JobRequest_PBAction JobRequest::_internal_pbaction() const {
-  return static_cast< ::JobRequest_PBAction >(pbaction_);
+inline ::BackupPB::JobRequest_PBAction JobRequest::_internal_pbaction() const {
+  return static_cast< ::BackupPB::JobRequest_PBAction >(pbaction_);
 }
-inline ::JobRequest_PBAction JobRequest::pbaction() const {
-  // @@protoc_insertion_point(field_get:JobRequest.pbaction)
+inline ::BackupPB::JobRequest_PBAction JobRequest::pbaction() const {
+  // @@protoc_insertion_point(field_get:BackupPB.JobRequest.pbaction)
   return _internal_pbaction();
 }
-inline void JobRequest::_internal_set_pbaction(::JobRequest_PBAction value) {
-  assert(::JobRequest_PBAction_IsValid(value));
+inline void JobRequest::_internal_set_pbaction(::BackupPB::JobRequest_PBAction value) {
+  assert(::BackupPB::JobRequest_PBAction_IsValid(value));
   _has_bits_[0] |= 0x00000004u;
   pbaction_ = value;
 }
-inline void JobRequest::set_pbaction(::JobRequest_PBAction value) {
+inline void JobRequest::set_pbaction(::BackupPB::JobRequest_PBAction value) {
   _internal_set_pbaction(value);
-  // @@protoc_insertion_point(field_set:JobRequest.pbaction)
+  // @@protoc_insertion_point(field_set:BackupPB.JobRequest.pbaction)
 }
 
 // required string path = 2;
@@ -366,15 +369,15 @@ inline void JobRequest::clear_path() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& JobRequest::path() const {
-  // @@protoc_insertion_point(field_get:JobRequest.path)
+  // @@protoc_insertion_point(field_get:BackupPB.JobRequest.path)
   return _internal_path();
 }
 inline void JobRequest::set_path(const std::string& value) {
   _internal_set_path(value);
-  // @@protoc_insertion_point(field_set:JobRequest.path)
+  // @@protoc_insertion_point(field_set:BackupPB.JobRequest.path)
 }
 inline std::string* JobRequest::mutable_path() {
-  // @@protoc_insertion_point(field_mutable:JobRequest.path)
+  // @@protoc_insertion_point(field_mutable:BackupPB.JobRequest.path)
   return _internal_mutable_path();
 }
 inline const std::string& JobRequest::_internal_path() const {
@@ -388,28 +391,28 @@ inline void JobRequest::set_path(std::string&& value) {
   _has_bits_[0] |= 0x00000001u;
   path_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:JobRequest.path)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.JobRequest.path)
 }
 inline void JobRequest::set_path(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000001u;
   path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:JobRequest.path)
+  // @@protoc_insertion_point(field_set_char:BackupPB.JobRequest.path)
 }
 inline void JobRequest::set_path(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000001u;
   path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:JobRequest.path)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.JobRequest.path)
 }
 inline std::string* JobRequest::_internal_mutable_path() {
   _has_bits_[0] |= 0x00000001u;
   return path_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* JobRequest::release_path() {
-  // @@protoc_insertion_point(field_release:JobRequest.path)
+  // @@protoc_insertion_point(field_release:BackupPB.JobRequest.path)
   if (!_internal_has_path()) {
     return nullptr;
   }
@@ -424,7 +427,7 @@ inline void JobRequest::set_allocated_path(std::string* path) {
   }
   path_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), path,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:JobRequest.path)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.JobRequest.path)
 }
 
 // optional uint64 size = 3;
@@ -443,7 +446,7 @@ inline ::PROTOBUF_NAMESPACE_ID::uint64 JobRequest::_internal_size() const {
   return size_;
 }
 inline ::PROTOBUF_NAMESPACE_ID::uint64 JobRequest::size() const {
-  // @@protoc_insertion_point(field_get:JobRequest.size)
+  // @@protoc_insertion_point(field_get:BackupPB.JobRequest.size)
   return _internal_size();
 }
 inline void JobRequest::_internal_set_size(::PROTOBUF_NAMESPACE_ID::uint64 value) {
@@ -452,7 +455,7 @@ inline void JobRequest::_internal_set_size(::PROTOBUF_NAMESPACE_ID::uint64 value
 }
 inline void JobRequest::set_size(::PROTOBUF_NAMESPACE_ID::uint64 value) {
   _internal_set_size(value);
-  // @@protoc_insertion_point(field_set:JobRequest.size)
+  // @@protoc_insertion_point(field_set:BackupPB.JobRequest.size)
 }
 
 #ifdef __GNUC__
@@ -461,13 +464,14 @@ inline void JobRequest::set_size(::PROTOBUF_NAMESPACE_ID::uint64 value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace BackupPB
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::JobRequest_PBAction> : ::std::true_type {};
+template <> struct is_proto_enum< ::BackupPB::JobRequest_PBAction> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::JobRequest_PBAction>() {
-  return ::JobRequest_PBAction_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::BackupPB::JobRequest_PBAction>() {
+  return ::BackupPB::JobRequest_PBAction_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

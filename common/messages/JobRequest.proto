@@ -1,5 +1,7 @@
 syntax = "proto2";
 
+package BackupPB;
+
 message JobRequest{
 	enum PBAction { ADD_FILE=0; ADD_DIRECTORY=1; UPDATE=2; DELETE=3; CANCELLED=4;};
     required PBAction pbaction = 1;
