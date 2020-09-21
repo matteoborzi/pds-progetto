@@ -13,13 +13,11 @@
 #include <SQLiteCpp/Transaction.h>
 #include "authentication.h"
 
-#define  SEPARATOR "\t"
 #define filename "../authentication.db"
 #define BLOCKSIZE 16 * 8
 
 bool addUser(std::string& user, std::string& pw, SQLite::Database& db);
 bool createUserFolder(std::string& user);
-std::pair<std::string, std::pair<std::string, std::string>> splitLine(std::string& s);
 std::string computeSaltedHash(std::string& password, std::string& salt);
 std::string generateRandomSalt();
 

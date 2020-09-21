@@ -1,6 +1,7 @@
 #include <iostream>
 #include <boost/asio/ip/tcp.hpp>
 #include <thread>
+#include <filesystem>
 #include "../common/messages/JobRequest.pb.h"
 
 
@@ -9,17 +10,24 @@
 #include "FileWatcher/watcher.h"
 
 #include "../common/messages/socket_utils.h"
+#include "../common/job_utils.h"
 
 #include "../common/messages/AuthenticationRequest.pb.h"
-#include "../common/messages/JobRequest.pb.h"
 #include "../common/messages/AuthenticationResponse.pb.h"
+#include "../common/Checksum.h"
+#include "DirectoryStructure/utils.h"
+#include "Configuration/file_utils.h"
+#include "../common/messages/file_utils.h"
 
-bool login(boost::asio::ip::tcp::socket&, std::string&, std::string& );
-bool chooseWorkspace(boost::asio::ip::tcp::socket&, std::string&, std::string& );
-void sendData(boost::asio::ip::tcp::socket&, JobQueue& );
-void receiveData(boost::asio::ip::tcp::socket&, JobQueue& );
+bool login(boost::asio::ip::tcp::socket &, std::string &, std::string &);
 
-int main(int argc, char* argv[]) {
+bool chooseWorkspace(boost::asio::ip::tcp::socket &, std::string &, std::string &);
+
+void sendData(boost::asio::ip::tcp::socket &, JobQueue &);
+
+void receiveData(boost::asio::ip::tcp::socket &, JobQueue &);
+
+int main(int argc, char *argv[]) {
 
 //    boost::asio::io_context io_service;
 ////socket creation
@@ -27,19 +35,19 @@ int main(int argc, char* argv[]) {
 ////connection
 //    socket.connect( boost::asio::ip::tcp::endpoint( boost::asio::ip::address::from_string("127.0.0.1"), 8080 ));
 //    return 2;
-    if( ( argc != 2 && argc != 3)  || (argc==3 && std::string{argv[2]}!="--r")){
-        std::cerr<<"Wrong parameters. Usage: client_executable configuration_file [--r]"<<std::endl;
+    if ((argc != 2 && argc != 3) || (argc == 3 && std::string{argv[2]} != "--r")) {
+        std::cerr << "Wrong parameters. Usage: client_executable configuration_file [--r]" << std::endl;
         return 1;
     }
 
     std::string confFile{argv[1]};
     std::optional<Configuration> configuration = Configuration::getConfiguration(confFile);
 
-    if(!configuration.has_value()){
-        std::cerr<<"Impossible to load configuration"<<std::endl;
+    if (!configuration.has_value()) {
+        std::cerr << "Impossible to load configuration" << std::endl;
         return 2;
     }
-    Configuration conf= configuration.value();
+    Configuration conf = configuration.value();
 
     boost::asio::io_context io_service;
 
@@ -47,23 +55,22 @@ int main(int argc, char* argv[]) {
     try {
         socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(
                 conf.getIpAddress()), conf.getPort()));
-    } catch(boost::system::system_error& e){
+    } catch (boost::system::system_error &e) {
         //TODO evaluate a retry
-        std::cerr<<"Impossible to connect to the server"<<std::endl;
+        std::cerr << "Impossible to connect to the server" << std::endl;
         return 3;
     }
 
 
-
-    if(!login(socket,conf.getUsername(), conf.getPassword())){
-        std::cerr<<"Error during authentication"<<std::endl;
+    if (!login(socket, conf.getUsername(), conf.getPassword())) {
+        std::cerr << "Error during authentication" << std::endl;
         return 4;
     }
 
-    std::cout<<"Successful login"<<std::endl;
+    std::cout << "Successful login" << std::endl;
 
-    if(!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())){
-        std::cerr<<"Error during workspace choice"<<std::endl;
+    if (!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())) {
+        std::cerr << "Error during workspace choice" << std::endl;
         //TODO see if it is necessary to send some messages to the server
         return 5;
     }
@@ -71,62 +78,104 @@ int main(int argc, char* argv[]) {
 
     JobQueue queue{};
     std::thread sender{sendData, std::ref(socket), std::ref(queue)},
-        receiver{receiveData, std::ref(socket), std::ref(queue)};
+            receiver{receiveData, std::ref(socket), std::ref(queue)};
 
     watch(queue);
     return 0;
 }
 
-bool login(boost::asio::ip::tcp::socket& socket, std::string& username, std::string& password){
+bool login(boost::asio::ip::tcp::socket &socket, std::string &username, std::string &password) {
     BackupPB::AuthenticationRequest req;
 
     req.set_username(username);
     req.set_password(password);
 
-    try{
+    try {
         writeToSocket(socket, req);
-    } catch (std::exception& e) {
-        std::cerr<<e.what()<<std::endl;
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
         return false;
     }
 
     BackupPB::AuthenticationResponse response;
-    try{
+    try {
         response = readFromSocket<BackupPB::AuthenticationResponse>(socket);
-    }catch (std::exception& e) {
-        std::cerr<<e.what()<<std::endl;
+    } catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
         return false;
     }
-    if(response.status()!= BackupPB::AuthenticationResponse_Status_OK)
+    if (response.status() != BackupPB::AuthenticationResponse_Status_OK)
         return false;
     return true;
 }
 
-bool chooseWorkspace(boost::asio::ip::tcp::socket& socket, std::string& machineId, std::string& path ){
+bool chooseWorkspace(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
     //send workspace choice
 
     //load DirectoryStructure on response
     return true;
 }
 
-void sendData(boost::asio::ip::tcp::socket& socket, JobQueue& queue){
-    while(true){
+void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
+    while (true) {
         //get a job
+        Job j = queue.getLastAndSetSent();
+
+        JobRequest req;
+
+        req.set_path(j.getPath());
+        req.set_pbaction(toPBAction(j.getAct()));
+
+        std::string basePath=Configuration::getConfiguration().value().getPath();
+        std::string absolutePath = concatenatePath(basePath, j.getPath());
+
+        bool fileToBeSent = false;
 
         //choose what to do
-            //in case of add and update, check if file/folder still exists in file system and directory structure
+        //in case of add and update, check if file/folder still exists in file system
+        if (j.getAct() == ADD_FILE || j.getAct() == UPDATE) {
 
+            std::filesystem::directory_entry f{absolutePath};
+            if (!f.exists()) {
+                queue.setConcluded(j.getPath());
+                break;
+            }
 
-        //compute checksum (if needed)
+            if (f.is_directory())
+                throw std::runtime_error("Expected " + j.getPath() + " to be a file");
 
-        //send data
+            req.set_size(f.file_size());
 
-        //update checksum (if needed) in Directory structure
+            fileToBeSent = true;
+        }
+
+        if (!writeToSocket(socket, req))
+            throw std::runtime_error("Impossible to send <"+ j.getPath() + ">'s job to the server");
+
+        if(fileToBeSent) {
+            //compute checksum (if needed)
+            std::string checksum = computeChecksum(absolutePath);
+            //send data
+            try{
+                sendFile(socket, absolutePath);
+            }catch (std::exception&) {
+
+            //TODO decide how handle errors
+
+            }
+
+            //update checksum (if needed) in Directory structure
+            std::shared_ptr<File> file= getFile(j.getPath());
+            if(file!=nullptr){
+                file->setChecksum(checksum);
+            }
+        }
     }
+
 }
 
-void receiveData(boost::asio::ip::tcp::socket& socket, JobQueue& queue){
-    while(true){
+void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
+    while (true) {
         //receive data from socket
 
         //if checksum is present and file still exists in directory structure compute equals
