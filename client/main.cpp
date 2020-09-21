@@ -16,7 +16,7 @@
 #include "../common/messages/AuthenticationResponse.pb.h"
 #include "../common/Checksum.h"
 #include "DirectoryStructure/utils.h"
-#include "Configuration/file_utils.h"
+#include "Configuration/file_util.h"
 #include "../common/messages/file_utils.h"
 
 bool login(boost::asio::ip::tcp::socket &, std::string &, std::string &);
@@ -61,6 +61,7 @@ int main(int argc, char *argv[]) {
         return 3;
     }
 
+    //TODO see if restore option is active and folder is not empty
 
     if (!login(socket, conf.getUsername(), conf.getPassword())) {
         std::cerr << "Error during authentication" << std::endl;
@@ -69,6 +70,7 @@ int main(int argc, char *argv[]) {
 
     std::cout << "Successful login" << std::endl;
 
+    //TODO add restore flag in chooseWorkspace call
     if (!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())) {
         std::cerr << "Error during workspace choice" << std::endl;
         //TODO see if it is necessary to send some messages to the server

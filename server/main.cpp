@@ -15,6 +15,7 @@ std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
 void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&, JobRequestQueue&);
 void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&);
+void cleanFileSystem(const std::string& path);
 
 int main(int argc, char* argv[]) {
 
@@ -64,11 +65,19 @@ int main(int argc, char* argv[]) {
 
                 std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
                 if(poolItem->isValid()){
-                    std::string path= poolItem->getPath();
-                    JobRequestQueue queue{};
-                    std::thread responder{sendResponses, std::ref(s), std::ref(queue)};
-                    while(true)
-                        serveJobRequest(s, path, queue);
+                    switch (poolItem->getRestore()) {
+                        case true:
+                            //TODO implement restore
+                            break;
+                        case false:
+                            std::string path= poolItem->getPath();
+                            JobRequestQueue queue{};
+                            std::thread responder{sendResponses, std::ref(s), std::ref(queue)};
+                            while(true)
+                                serveJobRequest(s, path, queue);
+
+                    }
+
                 }else{
                     std::cout<<username.value()<<" failed to connect to the workspace"<<std::endl;
                 }
@@ -121,14 +130,26 @@ std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
 
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::string& username){
     //read message with path and machineID
+    //if (!RESTORE)
+        //compute server path
 
-    //compute server path
+        //create pathPool with corresponding path
 
-    //create pathPool with corresponding path
+            //error response [TO CLIENT] and return inValid PathPool
 
-        //error response [TO CLIENT] and return inValid PathPool
+        //cleanFileSystem()
+        //compute metadata and send back to client
 
-    //compute metadata and send back to client
+
+
+    //else
+        // send list of all workspaces
+        // wait response
+        // create PathPool for folder#
+        // update entry (if new workspace not exists)
+        // cleanFileSystem()
+
+
 
     //return pathPool
 
@@ -141,12 +162,12 @@ void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPa
 
     //switch Action
 
-        //add_file && update -> receive file, save and put into queue
+        //add_file && update -> receive file, save into temporary and put into queue
 
-        //add_dir -> create dir [CREATE FOLDER IN CHECKSUM TOO] and put in queue
+        //add_dir -> put in queue
 
 
-        //delete -> delete file and or directory [AND IN CACHE TOO] put in queue
+        //delete ->  put in queue
 
 }
 
@@ -155,10 +176,23 @@ void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue
         //pick a job from queue
         //switch Action
 
-            //add_file && update -> computeChecksum [AND CACHE] and generate response
+            //add_file && update -> computeChecksum [AND CACHE], move temporary file and generate response
 
-            //add_dir ->respond
+            //add_dir -> create dir and respond
 
-            //delete -> respond
+            //delete -> delete file  [AND IN CACHE TOO] or directory [CLEAR CACHE IN SUBFOLDERS] respond
     }
+}
+
+bool restore(boost::asio::ip::tcp::socket& socket, std::shared_ptr<PathPool> pool){
+    //TODO implement
+    return true;
+}
+
+void cleanFileSystem(const std::string& path){
+    //scan recursively all files in path
+        // if (.tmp is present && normal !present)
+            //updateChecksum()
+        // if (both presents)
+            //keep older
 }
