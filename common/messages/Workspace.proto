@@ -1,0 +1,9 @@
+syntax = "proto2";
+
+message Workspace{
+	enum Function {RESTORE_COPY=0; RESTORE_MOVE=1;}
+    required string path = 1;
+    required string machineID = 2;
+    optional Function function = 3;
+}
+
