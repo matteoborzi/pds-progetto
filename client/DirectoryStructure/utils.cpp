@@ -88,15 +88,15 @@ bool addDirectory(const std::string& path){
 bool addFile(const std::string& param_path){
     bool res = false;
     std::string checksum = "";
-    try{
-        checksum = computeChecksum(param_path);
-    }
-    catch(...){
-        //if something wrong in checksum computation
-        return res;
-    }
-    if(checksum == "")
-        return res;
+//    try{
+//        checksum = computeChecksum(param_path);
+//    }
+//    catch(...){
+//        //if something wrong in checksum computation
+//        return res;
+//    }
+//    if(checksum == "")
+//        return res;
     std::optional<Configuration> conf=Configuration::getConfiguration();
     if(!conf.has_value())
         throw std::runtime_error("Impossible to get configuration");
