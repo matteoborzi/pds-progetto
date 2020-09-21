@@ -14,19 +14,21 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+namespace BackupPB {
 class WorkspaceDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<Workspace> _instance;
 } _Workspace_default_instance_;
+}  // namespace BackupPB
 static void InitDefaultsscc_info_Workspace_Workspace_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_Workspace_default_instance_;
-    new (ptr) ::Workspace();
+    void* ptr = &::BackupPB::_Workspace_default_instance_;
+    new (ptr) ::BackupPB::Workspace();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::Workspace::InitAsDefaultInstance();
+  ::BackupPB::Workspace::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_Workspace_Workspace_2eproto =
@@ -37,29 +39,30 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_Workspace_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_Workspace_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::Workspace, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::Workspace, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::Workspace, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::Workspace, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::Workspace, path_),
-  PROTOBUF_FIELD_OFFSET(::Workspace, machineid_),
-  PROTOBUF_FIELD_OFFSET(::Workspace, restore_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::Workspace, path_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::Workspace, machineid_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::Workspace, restore_),
   0,
   1,
   2,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 8, sizeof(::Workspace)},
+  { 0, 8, sizeof(::BackupPB::Workspace)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_Workspace_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BackupPB::_Workspace_default_instance_),
 };
 
 const char descriptor_table_protodef_Workspace_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\017Workspace.proto\"=\n\tWorkspace\022\014\n\004path\030\001"
-  " \002(\t\022\021\n\tmachineID\030\002 \002(\t\022\017\n\007restore\030\003 \002(\010"
+  "\n\017Workspace.proto\022\010BackupPB\"=\n\tWorkspace"
+  "\022\014\n\004path\030\001 \002(\t\022\021\n\tmachineID\030\002 \002(\t\022\017\n\007res"
+  "tore\030\003 \002(\010"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_Workspace_2eproto_deps[1] = {
 };
@@ -68,7 +71,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Wor
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_Workspace_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Workspace_2eproto = {
-  false, false, descriptor_table_protodef_Workspace_2eproto, "Workspace.proto", 80,
+  false, false, descriptor_table_protodef_Workspace_2eproto, "Workspace.proto", 90,
   &descriptor_table_Workspace_2eproto_once, descriptor_table_Workspace_2eproto_sccs, descriptor_table_Workspace_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_Workspace_2eproto::offsets,
   file_level_metadata_Workspace_2eproto, 1, file_level_enum_descriptors_Workspace_2eproto, file_level_service_descriptors_Workspace_2eproto,
@@ -76,6 +79,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Worksp
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_Workspace_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_Workspace_2eproto)), true);
+namespace BackupPB {
 
 // ===================================================================
 
@@ -102,7 +106,7 @@ Workspace::Workspace(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:Workspace)
+  // @@protoc_insertion_point(arena_constructor:BackupPB.Workspace)
 }
 Workspace::Workspace(const Workspace& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
@@ -119,7 +123,7 @@ Workspace::Workspace(const Workspace& from)
       GetArena());
   }
   restore_ = from.restore_;
-  // @@protoc_insertion_point(copy_constructor:Workspace)
+  // @@protoc_insertion_point(copy_constructor:BackupPB.Workspace)
 }
 
 void Workspace::SharedCtor() {
@@ -130,7 +134,7 @@ void Workspace::SharedCtor() {
 }
 
 Workspace::~Workspace() {
-  // @@protoc_insertion_point(destructor:Workspace)
+  // @@protoc_insertion_point(destructor:BackupPB.Workspace)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -157,7 +161,7 @@ const Workspace& Workspace::default_instance() {
 
 
 void Workspace::Clear() {
-// @@protoc_insertion_point(message_clear_start:Workspace)
+// @@protoc_insertion_point(message_clear_start:BackupPB.Workspace)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -191,7 +195,7 @@ const char* Workspace::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
           auto str = _internal_mutable_path();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           #ifndef NDEBUG
-          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Workspace.path");
+          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "BackupPB.Workspace.path");
           #endif  // !NDEBUG
           CHK_(ptr);
         } else goto handle_unusual;
@@ -202,7 +206,7 @@ const char* Workspace::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::
           auto str = _internal_mutable_machineid();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           #ifndef NDEBUG
-          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "Workspace.machineID");
+          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "BackupPB.Workspace.machineID");
           #endif  // !NDEBUG
           CHK_(ptr);
         } else goto handle_unusual;
@@ -240,7 +244,7 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* Workspace::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:Workspace)
+  // @@protoc_insertion_point(serialize_to_array_start:BackupPB.Workspace)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -250,7 +254,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
       this->_internal_path().data(), static_cast<int>(this->_internal_path().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
-      "Workspace.path");
+      "BackupPB.Workspace.path");
     target = stream->WriteStringMaybeAliased(
         1, this->_internal_path(), target);
   }
@@ -260,7 +264,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
       this->_internal_machineid().data(), static_cast<int>(this->_internal_machineid().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
-      "Workspace.machineID");
+      "BackupPB.Workspace.machineID");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_machineid(), target);
   }
@@ -275,12 +279,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:Workspace)
+  // @@protoc_insertion_point(serialize_to_array_end:BackupPB.Workspace)
   return target;
 }
 
 size_t Workspace::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:Workspace)
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:BackupPB.Workspace)
   size_t total_size = 0;
 
   if (_internal_has_path()) {
@@ -305,7 +309,7 @@ size_t Workspace::RequiredFieldsByteSizeFallback() const {
   return total_size;
 }
 size_t Workspace::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:Workspace)
+// @@protoc_insertion_point(message_byte_size_start:BackupPB.Workspace)
   size_t total_size = 0;
 
   if (((_has_bits_[0] & 0x00000007) ^ 0x00000007) == 0) {  // All required fields are present.
@@ -339,22 +343,22 @@ size_t Workspace::ByteSizeLong() const {
 }
 
 void Workspace::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:Workspace)
+// @@protoc_insertion_point(generalized_merge_from_start:BackupPB.Workspace)
   GOOGLE_DCHECK_NE(&from, this);
   const Workspace* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<Workspace>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:Workspace)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BackupPB.Workspace)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:Workspace)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:BackupPB.Workspace)
     MergeFrom(*source);
   }
 }
 
 void Workspace::MergeFrom(const Workspace& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:Workspace)
+// @@protoc_insertion_point(class_specific_merge_from_start:BackupPB.Workspace)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -376,14 +380,14 @@ void Workspace::MergeFrom(const Workspace& from) {
 }
 
 void Workspace::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:Workspace)
+// @@protoc_insertion_point(generalized_copy_from_start:BackupPB.Workspace)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void Workspace::CopyFrom(const Workspace& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:Workspace)
+// @@protoc_insertion_point(class_specific_copy_from_start:BackupPB.Workspace)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -409,9 +413,10 @@ void Workspace::InternalSwap(Workspace* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::Workspace* Arena::CreateMaybeMessage< ::Workspace >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::Workspace >(arena);
+template<> PROTOBUF_NOINLINE ::BackupPB::Workspace* Arena::CreateMaybeMessage< ::BackupPB::Workspace >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::BackupPB::Workspace >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

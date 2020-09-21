@@ -1,5 +1,7 @@
 syntax = "proto2";
 
+package BackupPB;
+
 message Workspace{
     required string path = 1;
     required string machineID = 2;

@@ -56,12 +56,15 @@ struct TableStruct_MetaInfo_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_MetaInfo_2eproto;
+namespace BackupPB {
 class WorkspaceMetaInfo;
 class WorkspaceMetaInfoDefaultTypeInternal;
 extern WorkspaceMetaInfoDefaultTypeInternal _WorkspaceMetaInfo_default_instance_;
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> ::WorkspaceMetaInfo* Arena::CreateMaybeMessage<::WorkspaceMetaInfo>(Arena*);
+template<> ::BackupPB::WorkspaceMetaInfo* Arena::CreateMaybeMessage<::BackupPB::WorkspaceMetaInfo>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace BackupPB {
 
 enum WorkspaceMetaInfo_Status : int {
   WorkspaceMetaInfo_Status_OK = 0,
@@ -89,7 +92,7 @@ inline bool WorkspaceMetaInfo_Status_Parse(
 // ===================================================================
 
 class WorkspaceMetaInfo PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:WorkspaceMetaInfo) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BackupPB.WorkspaceMetaInfo) */ {
  public:
   inline WorkspaceMetaInfo() : WorkspaceMetaInfo(nullptr) {}
   virtual ~WorkspaceMetaInfo();
@@ -185,7 +188,7 @@ class WorkspaceMetaInfo PROTOBUF_FINAL :
   void InternalSwap(WorkspaceMetaInfo* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "WorkspaceMetaInfo";
+    return "BackupPB.WorkspaceMetaInfo";
   }
   protected:
   explicit WorkspaceMetaInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -259,20 +262,20 @@ class WorkspaceMetaInfo PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage >&
       list() const;
 
-  // required .WorkspaceMetaInfo.Status status = 1;
+  // required .BackupPB.WorkspaceMetaInfo.Status status = 1;
   bool has_status() const;
   private:
   bool _internal_has_status() const;
   public:
   void clear_status();
-  ::WorkspaceMetaInfo_Status status() const;
-  void set_status(::WorkspaceMetaInfo_Status value);
+  ::BackupPB::WorkspaceMetaInfo_Status status() const;
+  void set_status(::BackupPB::WorkspaceMetaInfo_Status value);
   private:
-  ::WorkspaceMetaInfo_Status _internal_status() const;
-  void _internal_set_status(::WorkspaceMetaInfo_Status value);
+  ::BackupPB::WorkspaceMetaInfo_Status _internal_status() const;
+  void _internal_set_status(::BackupPB::WorkspaceMetaInfo_Status value);
   public:
 
-  // @@protoc_insertion_point(class_scope:WorkspaceMetaInfo)
+  // @@protoc_insertion_point(class_scope:BackupPB.WorkspaceMetaInfo)
  private:
   class _Internal;
 
@@ -296,7 +299,7 @@ class WorkspaceMetaInfo PROTOBUF_FINAL :
 #endif  // __GNUC__
 // WorkspaceMetaInfo
 
-// required .WorkspaceMetaInfo.Status status = 1;
+// required .BackupPB.WorkspaceMetaInfo.Status status = 1;
 inline bool WorkspaceMetaInfo::_internal_has_status() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -308,21 +311,21 @@ inline void WorkspaceMetaInfo::clear_status() {
   status_ = 0;
   _has_bits_[0] &= ~0x00000001u;
 }
-inline ::WorkspaceMetaInfo_Status WorkspaceMetaInfo::_internal_status() const {
-  return static_cast< ::WorkspaceMetaInfo_Status >(status_);
+inline ::BackupPB::WorkspaceMetaInfo_Status WorkspaceMetaInfo::_internal_status() const {
+  return static_cast< ::BackupPB::WorkspaceMetaInfo_Status >(status_);
 }
-inline ::WorkspaceMetaInfo_Status WorkspaceMetaInfo::status() const {
-  // @@protoc_insertion_point(field_get:WorkspaceMetaInfo.status)
+inline ::BackupPB::WorkspaceMetaInfo_Status WorkspaceMetaInfo::status() const {
+  // @@protoc_insertion_point(field_get:BackupPB.WorkspaceMetaInfo.status)
   return _internal_status();
 }
-inline void WorkspaceMetaInfo::_internal_set_status(::WorkspaceMetaInfo_Status value) {
-  assert(::WorkspaceMetaInfo_Status_IsValid(value));
+inline void WorkspaceMetaInfo::_internal_set_status(::BackupPB::WorkspaceMetaInfo_Status value) {
+  assert(::BackupPB::WorkspaceMetaInfo_Status_IsValid(value));
   _has_bits_[0] |= 0x00000001u;
   status_ = value;
 }
-inline void WorkspaceMetaInfo::set_status(::WorkspaceMetaInfo_Status value) {
+inline void WorkspaceMetaInfo::set_status(::BackupPB::WorkspaceMetaInfo_Status value) {
   _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:WorkspaceMetaInfo.status)
+  // @@protoc_insertion_point(field_set:BackupPB.WorkspaceMetaInfo.status)
 }
 
 // repeated .DirectoryEntryMessage list = 2;
@@ -333,31 +336,31 @@ inline int WorkspaceMetaInfo::list_size() const {
   return _internal_list_size();
 }
 inline ::DirectoryEntryMessage* WorkspaceMetaInfo::mutable_list(int index) {
-  // @@protoc_insertion_point(field_mutable:WorkspaceMetaInfo.list)
+  // @@protoc_insertion_point(field_mutable:BackupPB.WorkspaceMetaInfo.list)
   return list_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage >*
 WorkspaceMetaInfo::mutable_list() {
-  // @@protoc_insertion_point(field_mutable_list:WorkspaceMetaInfo.list)
+  // @@protoc_insertion_point(field_mutable_list:BackupPB.WorkspaceMetaInfo.list)
   return &list_;
 }
 inline const ::DirectoryEntryMessage& WorkspaceMetaInfo::_internal_list(int index) const {
   return list_.Get(index);
 }
 inline const ::DirectoryEntryMessage& WorkspaceMetaInfo::list(int index) const {
-  // @@protoc_insertion_point(field_get:WorkspaceMetaInfo.list)
+  // @@protoc_insertion_point(field_get:BackupPB.WorkspaceMetaInfo.list)
   return _internal_list(index);
 }
 inline ::DirectoryEntryMessage* WorkspaceMetaInfo::_internal_add_list() {
   return list_.Add();
 }
 inline ::DirectoryEntryMessage* WorkspaceMetaInfo::add_list() {
-  // @@protoc_insertion_point(field_add:WorkspaceMetaInfo.list)
+  // @@protoc_insertion_point(field_add:BackupPB.WorkspaceMetaInfo.list)
   return _internal_add_list();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage >&
 WorkspaceMetaInfo::list() const {
-  // @@protoc_insertion_point(field_list:WorkspaceMetaInfo.list)
+  // @@protoc_insertion_point(field_list:BackupPB.WorkspaceMetaInfo.list)
   return list_;
 }
 
@@ -367,13 +370,14 @@ WorkspaceMetaInfo::list() const {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace BackupPB
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::WorkspaceMetaInfo_Status> : ::std::true_type {};
+template <> struct is_proto_enum< ::BackupPB::WorkspaceMetaInfo_Status> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::WorkspaceMetaInfo_Status>() {
-  return ::WorkspaceMetaInfo_Status_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::BackupPB::WorkspaceMetaInfo_Status>() {
+  return ::BackupPB::WorkspaceMetaInfo_Status_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

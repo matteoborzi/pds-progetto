@@ -54,17 +54,20 @@ struct TableStruct_Workspace_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Workspace_2eproto;
+namespace BackupPB {
 class Workspace;
 class WorkspaceDefaultTypeInternal;
 extern WorkspaceDefaultTypeInternal _Workspace_default_instance_;
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> ::Workspace* Arena::CreateMaybeMessage<::Workspace>(Arena*);
+template<> ::BackupPB::Workspace* Arena::CreateMaybeMessage<::BackupPB::Workspace>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace BackupPB {
 
 // ===================================================================
 
 class Workspace PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Workspace) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BackupPB.Workspace) */ {
  public:
   inline Workspace() : Workspace(nullptr) {}
   virtual ~Workspace();
@@ -160,7 +163,7 @@ class Workspace PROTOBUF_FINAL :
   void InternalSwap(Workspace* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "Workspace";
+    return "BackupPB.Workspace";
   }
   protected:
   explicit Workspace(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -240,7 +243,7 @@ class Workspace PROTOBUF_FINAL :
   void _internal_set_restore(bool value);
   public:
 
-  // @@protoc_insertion_point(class_scope:Workspace)
+  // @@protoc_insertion_point(class_scope:BackupPB.Workspace)
  private:
   class _Internal;
 
@@ -281,15 +284,15 @@ inline void Workspace::clear_path() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& Workspace::path() const {
-  // @@protoc_insertion_point(field_get:Workspace.path)
+  // @@protoc_insertion_point(field_get:BackupPB.Workspace.path)
   return _internal_path();
 }
 inline void Workspace::set_path(const std::string& value) {
   _internal_set_path(value);
-  // @@protoc_insertion_point(field_set:Workspace.path)
+  // @@protoc_insertion_point(field_set:BackupPB.Workspace.path)
 }
 inline std::string* Workspace::mutable_path() {
-  // @@protoc_insertion_point(field_mutable:Workspace.path)
+  // @@protoc_insertion_point(field_mutable:BackupPB.Workspace.path)
   return _internal_mutable_path();
 }
 inline const std::string& Workspace::_internal_path() const {
@@ -303,28 +306,28 @@ inline void Workspace::set_path(std::string&& value) {
   _has_bits_[0] |= 0x00000001u;
   path_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:Workspace.path)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.Workspace.path)
 }
 inline void Workspace::set_path(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000001u;
   path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:Workspace.path)
+  // @@protoc_insertion_point(field_set_char:BackupPB.Workspace.path)
 }
 inline void Workspace::set_path(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000001u;
   path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:Workspace.path)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.Workspace.path)
 }
 inline std::string* Workspace::_internal_mutable_path() {
   _has_bits_[0] |= 0x00000001u;
   return path_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* Workspace::release_path() {
-  // @@protoc_insertion_point(field_release:Workspace.path)
+  // @@protoc_insertion_point(field_release:BackupPB.Workspace.path)
   if (!_internal_has_path()) {
     return nullptr;
   }
@@ -339,7 +342,7 @@ inline void Workspace::set_allocated_path(std::string* path) {
   }
   path_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), path,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:Workspace.path)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.Workspace.path)
 }
 
 // required string machineID = 2;
@@ -355,15 +358,15 @@ inline void Workspace::clear_machineid() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline const std::string& Workspace::machineid() const {
-  // @@protoc_insertion_point(field_get:Workspace.machineID)
+  // @@protoc_insertion_point(field_get:BackupPB.Workspace.machineID)
   return _internal_machineid();
 }
 inline void Workspace::set_machineid(const std::string& value) {
   _internal_set_machineid(value);
-  // @@protoc_insertion_point(field_set:Workspace.machineID)
+  // @@protoc_insertion_point(field_set:BackupPB.Workspace.machineID)
 }
 inline std::string* Workspace::mutable_machineid() {
-  // @@protoc_insertion_point(field_mutable:Workspace.machineID)
+  // @@protoc_insertion_point(field_mutable:BackupPB.Workspace.machineID)
   return _internal_mutable_machineid();
 }
 inline const std::string& Workspace::_internal_machineid() const {
@@ -377,28 +380,28 @@ inline void Workspace::set_machineid(std::string&& value) {
   _has_bits_[0] |= 0x00000002u;
   machineid_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:Workspace.machineID)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.Workspace.machineID)
 }
 inline void Workspace::set_machineid(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000002u;
   machineid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:Workspace.machineID)
+  // @@protoc_insertion_point(field_set_char:BackupPB.Workspace.machineID)
 }
 inline void Workspace::set_machineid(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000002u;
   machineid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:Workspace.machineID)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.Workspace.machineID)
 }
 inline std::string* Workspace::_internal_mutable_machineid() {
   _has_bits_[0] |= 0x00000002u;
   return machineid_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* Workspace::release_machineid() {
-  // @@protoc_insertion_point(field_release:Workspace.machineID)
+  // @@protoc_insertion_point(field_release:BackupPB.Workspace.machineID)
   if (!_internal_has_machineid()) {
     return nullptr;
   }
@@ -413,7 +416,7 @@ inline void Workspace::set_allocated_machineid(std::string* machineid) {
   }
   machineid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), machineid,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:Workspace.machineID)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.Workspace.machineID)
 }
 
 // required bool restore = 3;
@@ -432,7 +435,7 @@ inline bool Workspace::_internal_restore() const {
   return restore_;
 }
 inline bool Workspace::restore() const {
-  // @@protoc_insertion_point(field_get:Workspace.restore)
+  // @@protoc_insertion_point(field_get:BackupPB.Workspace.restore)
   return _internal_restore();
 }
 inline void Workspace::_internal_set_restore(bool value) {
@@ -441,7 +444,7 @@ inline void Workspace::_internal_set_restore(bool value) {
 }
 inline void Workspace::set_restore(bool value) {
   _internal_set_restore(value);
-  // @@protoc_insertion_point(field_set:Workspace.restore)
+  // @@protoc_insertion_point(field_set:BackupPB.Workspace.restore)
 }
 
 #ifdef __GNUC__
@@ -450,6 +453,7 @@ inline void Workspace::set_restore(bool value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace BackupPB
 
 // @@protoc_insertion_point(global_scope)
 
