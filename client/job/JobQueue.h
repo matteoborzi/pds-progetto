@@ -21,9 +21,9 @@ public:
 
     Job getLastAndSetSent();
 
-    void setConcluded(std::string& path);
+    void setConcluded(const std::string& path);
 
-    void retry(std::string& path);
+    void retry(const std::string& path);
 
 };
 

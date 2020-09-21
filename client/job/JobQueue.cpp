@@ -72,7 +72,7 @@ Job JobQueue::getLastAndSetSent() {
  * @param path
  * @throws logic_error no action has been sent for that path
  */
-void JobQueue::setConcluded(std::string &path) {
+void JobQueue::setConcluded(const std::string &path) {
     std::unique_lock l{m};
     for (Job &j: sent) {
         if (j.getPath() == path) {
@@ -96,7 +96,7 @@ void JobQueue::setConcluded(std::string &path) {
  * @throws logic_error if the action to be performed is in conflict with other Job on the same path
  * @throws logic_error no action has been sent for that path
  */
-void JobQueue::retry(std::string &path) {
+void JobQueue::retry(const std::string &path) {
     std::unique_lock l{m};
 
     std::optional<Job> j;
