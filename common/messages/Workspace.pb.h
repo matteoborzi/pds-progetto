@@ -31,7 +31,6 @@
 #include <google/protobuf/message.h>
 #include <google/protobuf/repeated_field.h>  // IWYU pragma: export
 #include <google/protobuf/extension_set.h>  // IWYU pragma: export
-#include <google/protobuf/generated_enum_reflection.h>
 #include <google/protobuf/unknown_field_set.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
@@ -62,29 +61,6 @@ PROTOBUF_NAMESPACE_OPEN
 template<> ::Workspace* Arena::CreateMaybeMessage<::Workspace>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
 
-enum Workspace_Function : int {
-  Workspace_Function_RESTORE_COPY = 0,
-  Workspace_Function_RESTORE_MOVE = 1
-};
-bool Workspace_Function_IsValid(int value);
-constexpr Workspace_Function Workspace_Function_Function_MIN = Workspace_Function_RESTORE_COPY;
-constexpr Workspace_Function Workspace_Function_Function_MAX = Workspace_Function_RESTORE_MOVE;
-constexpr int Workspace_Function_Function_ARRAYSIZE = Workspace_Function_Function_MAX + 1;
-
-const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* Workspace_Function_descriptor();
-template<typename T>
-inline const std::string& Workspace_Function_Name(T enum_t_value) {
-  static_assert(::std::is_same<T, Workspace_Function>::value ||
-    ::std::is_integral<T>::value,
-    "Incorrect type passed to function Workspace_Function_Name.");
-  return ::PROTOBUF_NAMESPACE_ID::internal::NameOfEnum(
-    Workspace_Function_descriptor(), enum_t_value);
-}
-inline bool Workspace_Function_Parse(
-    ::PROTOBUF_NAMESPACE_ID::ConstStringParam name, Workspace_Function* value) {
-  return ::PROTOBUF_NAMESPACE_ID::internal::ParseNamedEnum<Workspace_Function>(
-    Workspace_Function_descriptor(), name, value);
-}
 // ===================================================================
 
 class Workspace PROTOBUF_FINAL :
@@ -204,42 +180,12 @@ class Workspace PROTOBUF_FINAL :
 
   // nested types ----------------------------------------------------
 
-  typedef Workspace_Function Function;
-  static constexpr Function RESTORE_COPY =
-    Workspace_Function_RESTORE_COPY;
-  static constexpr Function RESTORE_MOVE =
-    Workspace_Function_RESTORE_MOVE;
-  static inline bool Function_IsValid(int value) {
-    return Workspace_Function_IsValid(value);
-  }
-  static constexpr Function Function_MIN =
-    Workspace_Function_Function_MIN;
-  static constexpr Function Function_MAX =
-    Workspace_Function_Function_MAX;
-  static constexpr int Function_ARRAYSIZE =
-    Workspace_Function_Function_ARRAYSIZE;
-  static inline const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor*
-  Function_descriptor() {
-    return Workspace_Function_descriptor();
-  }
-  template<typename T>
-  static inline const std::string& Function_Name(T enum_t_value) {
-    static_assert(::std::is_same<T, Function>::value ||
-      ::std::is_integral<T>::value,
-      "Incorrect type passed to function Function_Name.");
-    return Workspace_Function_Name(enum_t_value);
-  }
-  static inline bool Function_Parse(::PROTOBUF_NAMESPACE_ID::ConstStringParam name,
-      Function* value) {
-    return Workspace_Function_Parse(name, value);
-  }
-
   // accessors -------------------------------------------------------
 
   enum : int {
     kPathFieldNumber = 1,
     kMachineIDFieldNumber = 2,
-    kFunctionFieldNumber = 3,
+    kRestoreFieldNumber = 3,
   };
   // required string path = 1;
   bool has_path() const;
@@ -281,17 +227,17 @@ class Workspace PROTOBUF_FINAL :
   std::string* _internal_mutable_machineid();
   public:
 
-  // optional .Workspace.Function function = 3;
-  bool has_function() const;
+  // required bool restore = 3;
+  bool has_restore() const;
   private:
-  bool _internal_has_function() const;
+  bool _internal_has_restore() const;
   public:
-  void clear_function();
-  ::Workspace_Function function() const;
-  void set_function(::Workspace_Function value);
+  void clear_restore();
+  bool restore() const;
+  void set_restore(bool value);
   private:
-  ::Workspace_Function _internal_function() const;
-  void _internal_set_function(::Workspace_Function value);
+  bool _internal_restore() const;
+  void _internal_set_restore(bool value);
   public:
 
   // @@protoc_insertion_point(class_scope:Workspace)
@@ -308,7 +254,7 @@ class Workspace PROTOBUF_FINAL :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr path_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr machineid_;
-  int function_;
+  bool restore_;
   friend struct ::TableStruct_Workspace_2eproto;
 };
 // ===================================================================
@@ -470,33 +416,32 @@ inline void Workspace::set_allocated_machineid(std::string* machineid) {
   // @@protoc_insertion_point(field_set_allocated:Workspace.machineID)
 }
 
-// optional .Workspace.Function function = 3;
-inline bool Workspace::_internal_has_function() const {
+// required bool restore = 3;
+inline bool Workspace::_internal_has_restore() const {
   bool value = (_has_bits_[0] & 0x00000004u) != 0;
   return value;
 }
-inline bool Workspace::has_function() const {
-  return _internal_has_function();
+inline bool Workspace::has_restore() const {
+  return _internal_has_restore();
 }
-inline void Workspace::clear_function() {
-  function_ = 0;
+inline void Workspace::clear_restore() {
+  restore_ = false;
   _has_bits_[0] &= ~0x00000004u;
 }
-inline ::Workspace_Function Workspace::_internal_function() const {
-  return static_cast< ::Workspace_Function >(function_);
+inline bool Workspace::_internal_restore() const {
+  return restore_;
 }
-inline ::Workspace_Function Workspace::function() const {
-  // @@protoc_insertion_point(field_get:Workspace.function)
-  return _internal_function();
+inline bool Workspace::restore() const {
+  // @@protoc_insertion_point(field_get:Workspace.restore)
+  return _internal_restore();
 }
-inline void Workspace::_internal_set_function(::Workspace_Function value) {
-  assert(::Workspace_Function_IsValid(value));
+inline void Workspace::_internal_set_restore(bool value) {
   _has_bits_[0] |= 0x00000004u;
-  function_ = value;
+  restore_ = value;
 }
-inline void Workspace::set_function(::Workspace_Function value) {
-  _internal_set_function(value);
-  // @@protoc_insertion_point(field_set:Workspace.function)
+inline void Workspace::set_restore(bool value) {
+  _internal_set_restore(value);
+  // @@protoc_insertion_point(field_set:Workspace.restore)
 }
 
 #ifdef __GNUC__
@@ -505,16 +450,6 @@ inline void Workspace::set_function(::Workspace_Function value) {
 
 // @@protoc_insertion_point(namespace_scope)
 
-
-PROTOBUF_NAMESPACE_OPEN
-
-template <> struct is_proto_enum< ::Workspace_Function> : ::std::true_type {};
-template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::Workspace_Function>() {
-  return ::Workspace_Function_descriptor();
-}
-
-PROTOBUF_NAMESPACE_CLOSE
 
 // @@protoc_insertion_point(global_scope)
 
