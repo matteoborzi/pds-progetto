@@ -81,7 +81,7 @@ bool updateChecksum(const std::string &path) {
         SQLite::Transaction transaction{db};
 
         //compute checksum
-        std::string checksum= computeChecksum(path);
+        std::string checksum= computeChecksum(tmp_path);
 
         //insert into DB (PK as unique CONSTRAINT ON CONFLICT REPLACE)
         SQLite::Statement insert(db, "INSERT INTO checksum_cache(path, checksum) VALUES (?, ?) ");
@@ -98,7 +98,7 @@ bool updateChecksum(const std::string &path) {
             std::filesystem::remove(path);
 
         //rename temporary file
-        temporary_file.replace_filename(path);
+        std::filesystem::rename(tmp_path, path);
 
         //commit
         transaction.commit();
