@@ -7,11 +7,11 @@
 std::unordered_set<std::string> PathPool::pool{};
 std::mutex PathPool::m{};
 
-PathPool::PathPool(const std::string &path) {
+PathPool::PathPool(const std::string &path, bool restore) {
     std::unique_lock l(m);
 
     this->path = std::nullopt;
-
+    this->restore = restore;
     //search for presence in pool
     if(pool.find(path)==pool.end()) {
         //set local field if not present and insert in pool
@@ -42,6 +42,10 @@ std::string PathPool::getPath() {
 
 bool PathPool::isValid() {
     return path.has_value();
+}
+
+bool PathPool::getRestore(){
+    return restore;
 }
 
 

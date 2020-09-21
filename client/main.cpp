@@ -16,7 +16,7 @@
 #include "../common/messages/AuthenticationResponse.pb.h"
 #include "../common/Checksum.h"
 #include "DirectoryStructure/utils.h"
-#include "Configuration/file_utils.h"
+#include "Configuration/file_util.h"
 #include "../common/messages/file_utils.h"
 
 bool login(boost::asio::ip::tcp::socket &, std::string &, std::string &);
@@ -26,6 +26,8 @@ bool chooseWorkspace(boost::asio::ip::tcp::socket &, std::string &, std::string 
 void sendData(boost::asio::ip::tcp::socket &, JobQueue &);
 
 void receiveData(boost::asio::ip::tcp::socket &, JobQueue &);
+
+bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path);
 
 int main(int argc, char *argv[]) {
 
@@ -61,6 +63,7 @@ int main(int argc, char *argv[]) {
         return 3;
     }
 
+    //TODO see if restore option is active and folder is not empty
 
     if (!login(socket, conf.getUsername(), conf.getPassword())) {
         std::cerr << "Error during authentication" << std::endl;
@@ -69,6 +72,13 @@ int main(int argc, char *argv[]) {
 
     std::cout << "Successful login" << std::endl;
 
+
+    if (argc == 3) {
+        if (!restore(socket, conf.getMachineID(), conf.getPath())) {
+            std::cerr << "Error during file restore" << std::endl;
+            return 6;
+        }
+    }
     if (!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())) {
         std::cerr << "Error during workspace choice" << std::endl;
         //TODO see if it is necessary to send some messages to the server
@@ -112,7 +122,10 @@ bool login(boost::asio::ip::tcp::socket &socket, std::string &username, std::str
 bool chooseWorkspace(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
     //send workspace choice
 
-    //load DirectoryStructure on response
+    //wait response
+
+    //for element : response
+    //add file (time =0) or directory
     return true;
 }
 
@@ -126,7 +139,7 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
         req.set_path(j.getPath());
         req.set_pbaction(toPBAction(j.getAct()));
 
-        std::string basePath=Configuration::getConfiguration().value().getPath();
+        std::string basePath = Configuration::getConfiguration().value().getPath();
         std::string absolutePath = concatenatePath(basePath, j.getPath());
 
         bool fileToBeSent = false;
@@ -150,23 +163,23 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
         }
 
         if (!writeToSocket(socket, req))
-            throw std::runtime_error("Impossible to send <"+ j.getPath() + ">'s job to the server");
+            throw std::runtime_error("Impossible to send <" + j.getPath() + ">'s job to the server");
 
-        if(fileToBeSent) {
+        if (fileToBeSent) {
             //compute checksum (if needed)
             std::string checksum = computeChecksum(absolutePath);
             //send data
-            try{
+            try {
                 sendFile(socket, absolutePath);
-            }catch (std::exception&) {
+            } catch (std::exception &) {
 
-            //TODO decide how handle errors
+                //TODO decide how handle errors
 
             }
 
             //update checksum (if needed) in Directory structure
-            std::shared_ptr<File> file= getFile(j.getPath());
-            if(file!=nullptr){
+            std::shared_ptr<File> file = getFile(j.getPath());
+            if (file != nullptr) {
                 file->setChecksum(checksum);
             }
         }
@@ -182,5 +195,18 @@ void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
         //if it does not exists anymore do nothing (do not retry)
         //otherwise retry or setConcluded job
     }
+}
+
+bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
+    //send workspace choice
+
+    //wait response
+
+    //if available
+        //prompt for choice
+        //send to server
+
+        //wait files and dir
+    return true;
 }
 
