@@ -18,6 +18,7 @@
 #include "../common/messages/DirectoryEntryMessage.pb.h"
 #include "../common/messages/Workspace.pb.h"
 #include "../common/messages/MetaInfo.pb.h"
+#include "../common/messages/JobResponse.pb.h"
 
 
 #include "../common/Checksum.h"
@@ -237,10 +238,47 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
 }
 
 void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
+    //TODO fare check che gli / sui path siano corretti
+    static std::atomic_int counter = 0;
     while (true) {
+        BackupPB::JobResponse response{};
+        try{
+            response = readFromSocket<BackupPB::JobResponse>(socket);
+        }
+        catch(std::exception& e){
+            if(counter <= 0){
+                queue.retry(response.path());
+                counter++;
+                continue;
+            }
+            else{
+                throw std::runtime_error("Error in receiving messages from server ");
+            }
+        }
+        if(counter)
+            counter = 0;
+        if(response.status() == BackupPB::JobResponse_Status_FAIL)
+            queue.retry(response.path());
+        else if(!response.has_checksum()) //status OK and it is an add_folder or a delete
+            queue.setConcluded(response.path());
+        else if(response.has_checksum()){ //a file has been sent for an add_file or for an update
+            std::string basePath = Configuration::getConfiguration().value().getPath();
+            std::string absolutePath = concatenatePath(basePath, response.path());
+            std::filesystem::directory_entry f(absolutePath);
+            if(!f.exists())
+                continue;
+            else {
+                std::shared_ptr<File> file = getFile(response.path());
+                if(file->getChecksum() == response.checksum())
+                    queue.setConcluded(response.path());
+                else
+                    queue.retry(response.path());
+            }
+        }
         //receive data from socket
 
         //if checksum is present and file still exists in directory structure compute equals
+        //if they are not equals retry
         //if it does not exists anymore do nothing (do not retry)
         //otherwise retry or setConcluded job
     }
