@@ -155,7 +155,6 @@ bool chooseWorkspace(boost::asio::ip::tcp::socket &socket, std::string &machineI
         return false;
     }
 
-    //TODO decidere se saltare i file/directory errati o usicire dalla funzione
     for(BackupPB::DirectoryEntryMessage directoryEntry : response.list()){
         switch (directoryEntry.type()) {
 
