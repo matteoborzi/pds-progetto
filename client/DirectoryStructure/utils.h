@@ -23,7 +23,7 @@ std::string getLast(const std::string& path);
 //TODO add method to getNotVisited starting from the root (with relative path)
 //TODO add method to unclear visited flag for all element
 
-Type toType(DirectoryEntryMessage::Type toConvert);
-DirectoryEntryMessage::Type toDirectoryEntryMessage(Type toConvert);
+Type toType(BackupPB::DirectoryEntryMessage::Type toConvert);
+BackupPB::DirectoryEntryMessage::Type toDirectoryEntryMessage(Type toConvert);
 
 #endif //CLIENT_HTILS_H
