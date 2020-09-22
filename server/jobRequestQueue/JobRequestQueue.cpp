@@ -3,3 +3,11 @@
 //
 
 #include "JobRequestQueue.h"
+
+void enqueueJobRequest(BackupPB::JobRequest& j){
+
+}
+
+BackupPB::JobRequest dequeueJobRequest(){
+    return BackupPB::JobRequest{};
+}
