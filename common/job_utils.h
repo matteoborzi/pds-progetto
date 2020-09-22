@@ -8,7 +8,7 @@
 #include "messages/JobRequest.pb.h"
 #include "Action.h"
 
-JobRequest::PBAction toPBAction(Action toConvert);
-Action toType(JobRequest::PBAction toConvert);
+BackupPB::JobRequest::PBAction toPBAction(Action toConvert);
+Action toType(BackupPB::JobRequest::PBAction toConvert);
 
 #endif //SERVER_JOB_UTILS_H

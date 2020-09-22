@@ -10,10 +10,16 @@
 #include "FileWatcher/watcher.h"
 
 #include "../common/messages/socket_utils.h"
+#include "../common/messages/file_utils.h"
 #include "../common/job_utils.h"
 
 #include "../common/messages/AuthenticationRequest.pb.h"
 #include "../common/messages/AuthenticationResponse.pb.h"
+#include "../common/messages/DirectoryEntryMessage.pb.h"
+#include "../common/messages/Workspace.pb.h"
+#include "../common/messages/MetaInfo.pb.h"
+
+
 #include "../common/Checksum.h"
 #include "DirectoryStructure/utils.h"
 #include "Configuration/file_util.h"
@@ -63,11 +69,15 @@ int main(int argc, char *argv[]) {
         return 3;
     }
 
-    //TODO see if restore option is active and folder is not empty
+    //TODO eventually catch exception thrown by path constructor
+    if(argc==3 && std::filesystem::is_empty(std::filesystem::path{conf.getPath()}) ){
+        std::cerr << "Error: root chosen for restore is not empty" << std::endl;
+        return 4;
+    }
 
     if (!login(socket, conf.getUsername(), conf.getPassword())) {
         std::cerr << "Error during authentication" << std::endl;
-        return 4;
+        return 5;
     }
 
     std::cout << "Successful login" << std::endl;
@@ -82,7 +92,7 @@ int main(int argc, char *argv[]) {
     if (!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())) {
         std::cerr << "Error during workspace choice" << std::endl;
         //TODO see if it is necessary to send some messages to the server
-        return 5;
+        return 7;
     }
 
 
@@ -120,12 +130,51 @@ bool login(boost::asio::ip::tcp::socket &socket, std::string &username, std::str
 }
 
 bool chooseWorkspace(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
-    //send workspace choice
+    BackupPB::Workspace workspaceChoice;
 
-    //wait response
+    workspaceChoice.set_machineid(machineId);
+    workspaceChoice.set_path(path);
+    workspaceChoice.set_restore(false);
 
-    //for element : response
-    //add file (time =0) or directory
+    try{
+        writeToSocket(socket,workspaceChoice);
+    } catch(std::exception& e){
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+
+    BackupPB::WorkspaceMetaInfo response;
+    try{
+        response = readFromSocket<BackupPB::WorkspaceMetaInfo>(socket);
+    } catch(std::exception& e){
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+
+    if(response.status() != BackupPB::WorkspaceMetaInfo_Status_OK){
+        return false;
+    }
+
+    //TODO decidere se saltare i file/directory errati o usicire dalla funzione
+    for(BackupPB::DirectoryEntryMessage directoryEntry : response.list()){
+        switch (directoryEntry.type()) {
+
+            case BackupPB::DirectoryEntryMessage_Type_DIRTYPE:
+                if(!addDirectory(directoryEntry.name()))
+                    return false;
+                break;
+
+            case BackupPB::DirectoryEntryMessage_Type_FILETYPE:
+                if(!directoryEntry.has_checksum())
+                    return false;
+                std::string filePath{directoryEntry.name()};
+                std::string checksum{directoryEntry.checksum()};
+                if(!addFile(filePath, checksum, 0))
+                    return false;
+                break;
+        }
+    }
+
     return true;
 }
 
@@ -134,7 +183,7 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
         //get a job
         Job j = queue.getLastAndSetSent();
 
-        JobRequest req;
+        BackupPB::JobRequest req;
 
         req.set_path(j.getPath());
         req.set_pbaction(toPBAction(j.getAct()));

@@ -14,19 +14,21 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+namespace BackupPB {
 class MachinePathDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<MachinePath> _instance;
 } _MachinePath_default_instance_;
+}  // namespace BackupPB
 static void InitDefaultsscc_info_MachinePath_MachinePath_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_MachinePath_default_instance_;
-    new (ptr) ::MachinePath();
+    void* ptr = &::BackupPB::_MachinePath_default_instance_;
+    new (ptr) ::BackupPB::MachinePath();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::MachinePath::InitAsDefaultInstance();
+  ::BackupPB::MachinePath::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_MachinePath_MachinePath_2eproto =
@@ -37,27 +39,27 @@ static constexpr ::PROTOBUF_NAMESPACE_ID::EnumDescriptor const** file_level_enum
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_MachinePath_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_MachinePath_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::MachinePath, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::MachinePath, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::MachinePath, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::MachinePath, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::MachinePath, machineid_),
-  PROTOBUF_FIELD_OFFSET(::MachinePath, path_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::MachinePath, machineid_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::MachinePath, path_),
   0,
   1,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 7, sizeof(::MachinePath)},
+  { 0, 7, sizeof(::BackupPB::MachinePath)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_MachinePath_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BackupPB::_MachinePath_default_instance_),
 };
 
 const char descriptor_table_protodef_MachinePath_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\021MachinePath.proto\".\n\013MachinePath\022\021\n\tma"
-  "chineID\030\001 \002(\t\022\014\n\004path\030\002 \002(\t"
+  "\n\021MachinePath.proto\022\010BackupPB\".\n\013Machine"
+  "Path\022\021\n\tmachineID\030\001 \002(\t\022\014\n\004path\030\002 \002(\t"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_MachinePath_2eproto_deps[1] = {
 };
@@ -66,7 +68,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Mac
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_MachinePath_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_MachinePath_2eproto = {
-  false, false, descriptor_table_protodef_MachinePath_2eproto, "MachinePath.proto", 67,
+  false, false, descriptor_table_protodef_MachinePath_2eproto, "MachinePath.proto", 77,
   &descriptor_table_MachinePath_2eproto_once, descriptor_table_MachinePath_2eproto_sccs, descriptor_table_MachinePath_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_MachinePath_2eproto::offsets,
   file_level_metadata_MachinePath_2eproto, 1, file_level_enum_descriptors_MachinePath_2eproto, file_level_service_descriptors_MachinePath_2eproto,
@@ -74,6 +76,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_Machin
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_MachinePath_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_MachinePath_2eproto)), true);
+namespace BackupPB {
 
 // ===================================================================
 
@@ -97,7 +100,7 @@ MachinePath::MachinePath(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:MachinePath)
+  // @@protoc_insertion_point(arena_constructor:BackupPB.MachinePath)
 }
 MachinePath::MachinePath(const MachinePath& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
@@ -113,7 +116,7 @@ MachinePath::MachinePath(const MachinePath& from)
     path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_path(),
       GetArena());
   }
-  // @@protoc_insertion_point(copy_constructor:MachinePath)
+  // @@protoc_insertion_point(copy_constructor:BackupPB.MachinePath)
 }
 
 void MachinePath::SharedCtor() {
@@ -123,7 +126,7 @@ void MachinePath::SharedCtor() {
 }
 
 MachinePath::~MachinePath() {
-  // @@protoc_insertion_point(destructor:MachinePath)
+  // @@protoc_insertion_point(destructor:BackupPB.MachinePath)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -150,7 +153,7 @@ const MachinePath& MachinePath::default_instance() {
 
 
 void MachinePath::Clear() {
-// @@protoc_insertion_point(message_clear_start:MachinePath)
+// @@protoc_insertion_point(message_clear_start:BackupPB.MachinePath)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -183,7 +186,7 @@ const char* MachinePath::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           auto str = _internal_mutable_machineid();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           #ifndef NDEBUG
-          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "MachinePath.machineID");
+          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "BackupPB.MachinePath.machineID");
           #endif  // !NDEBUG
           CHK_(ptr);
         } else goto handle_unusual;
@@ -194,7 +197,7 @@ const char* MachinePath::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID
           auto str = _internal_mutable_path();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           #ifndef NDEBUG
-          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "MachinePath.path");
+          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "BackupPB.MachinePath.path");
           #endif  // !NDEBUG
           CHK_(ptr);
         } else goto handle_unusual;
@@ -224,7 +227,7 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* MachinePath::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:MachinePath)
+  // @@protoc_insertion_point(serialize_to_array_start:BackupPB.MachinePath)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
@@ -234,7 +237,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
       this->_internal_machineid().data(), static_cast<int>(this->_internal_machineid().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
-      "MachinePath.machineID");
+      "BackupPB.MachinePath.machineID");
     target = stream->WriteStringMaybeAliased(
         1, this->_internal_machineid(), target);
   }
@@ -244,7 +247,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
       this->_internal_path().data(), static_cast<int>(this->_internal_path().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
-      "MachinePath.path");
+      "BackupPB.MachinePath.path");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_path(), target);
   }
@@ -253,12 +256,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:MachinePath)
+  // @@protoc_insertion_point(serialize_to_array_end:BackupPB.MachinePath)
   return target;
 }
 
 size_t MachinePath::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:MachinePath)
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:BackupPB.MachinePath)
   size_t total_size = 0;
 
   if (_internal_has_machineid()) {
@@ -278,7 +281,7 @@ size_t MachinePath::RequiredFieldsByteSizeFallback() const {
   return total_size;
 }
 size_t MachinePath::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:MachinePath)
+// @@protoc_insertion_point(message_byte_size_start:BackupPB.MachinePath)
   size_t total_size = 0;
 
   if (((_has_bits_[0] & 0x00000003) ^ 0x00000003) == 0) {  // All required fields are present.
@@ -309,22 +312,22 @@ size_t MachinePath::ByteSizeLong() const {
 }
 
 void MachinePath::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:MachinePath)
+// @@protoc_insertion_point(generalized_merge_from_start:BackupPB.MachinePath)
   GOOGLE_DCHECK_NE(&from, this);
   const MachinePath* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<MachinePath>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:MachinePath)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BackupPB.MachinePath)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:MachinePath)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:BackupPB.MachinePath)
     MergeFrom(*source);
   }
 }
 
 void MachinePath::MergeFrom(const MachinePath& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:MachinePath)
+// @@protoc_insertion_point(class_specific_merge_from_start:BackupPB.MachinePath)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -342,14 +345,14 @@ void MachinePath::MergeFrom(const MachinePath& from) {
 }
 
 void MachinePath::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:MachinePath)
+// @@protoc_insertion_point(generalized_copy_from_start:BackupPB.MachinePath)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void MachinePath::CopyFrom(const MachinePath& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:MachinePath)
+// @@protoc_insertion_point(class_specific_copy_from_start:BackupPB.MachinePath)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -374,9 +377,10 @@ void MachinePath::InternalSwap(MachinePath* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::MachinePath* Arena::CreateMaybeMessage< ::MachinePath >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::MachinePath >(arena);
+template<> PROTOBUF_NOINLINE ::BackupPB::MachinePath* Arena::CreateMaybeMessage< ::BackupPB::MachinePath >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::BackupPB::MachinePath >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

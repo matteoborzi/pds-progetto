@@ -15,19 +15,21 @@
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
 extern PROTOBUF_INTERNAL_EXPORT_DirectoryEntryMessage_2eproto ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_DirectoryEntryMessage_DirectoryEntryMessage_2eproto;
+namespace BackupPB {
 class WorkspaceMetaInfoDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<WorkspaceMetaInfo> _instance;
 } _WorkspaceMetaInfo_default_instance_;
+}  // namespace BackupPB
 static void InitDefaultsscc_info_WorkspaceMetaInfo_MetaInfo_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_WorkspaceMetaInfo_default_instance_;
-    new (ptr) ::WorkspaceMetaInfo();
+    void* ptr = &::BackupPB::_WorkspaceMetaInfo_default_instance_;
+    new (ptr) ::BackupPB::WorkspaceMetaInfo();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::WorkspaceMetaInfo::InitAsDefaultInstance();
+  ::BackupPB::WorkspaceMetaInfo::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<1> scc_info_WorkspaceMetaInfo_MetaInfo_2eproto =
@@ -39,30 +41,31 @@ static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptor
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_MetaInfo_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_MetaInfo_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::WorkspaceMetaInfo, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::WorkspaceMetaInfo, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::WorkspaceMetaInfo, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::WorkspaceMetaInfo, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::WorkspaceMetaInfo, status_),
-  PROTOBUF_FIELD_OFFSET(::WorkspaceMetaInfo, list_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::WorkspaceMetaInfo, status_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::WorkspaceMetaInfo, list_),
   0,
   ~0u,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 7, sizeof(::WorkspaceMetaInfo)},
+  { 0, 7, sizeof(::BackupPB::WorkspaceMetaInfo)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_WorkspaceMetaInfo_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BackupPB::_WorkspaceMetaInfo_default_instance_),
 };
 
 const char descriptor_table_protodef_MetaInfo_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\016MetaInfo.proto\032\033DirectoryEntryMessage."
-  "proto\"\200\001\n\021WorkspaceMetaInfo\022)\n\006status\030\001 "
-  "\002(\0162\031.WorkspaceMetaInfo.Status\022$\n\004list\030\002"
-  " \003(\0132\026.DirectoryEntryMessage\"\032\n\006Status\022\006"
-  "\n\002OK\020\000\022\010\n\004FAIL\020\001"
+  "\n\016MetaInfo.proto\022\010BackupPB\032\033DirectoryEnt"
+  "ryMessage.proto\"\222\001\n\021WorkspaceMetaInfo\0222\n"
+  "\006status\030\001 \002(\0162\".BackupPB.WorkspaceMetaIn"
+  "fo.Status\022-\n\004list\030\002 \003(\0132\037.BackupPB.Direc"
+  "toryEntryMessage\"\032\n\006Status\022\006\n\002OK\020\000\022\010\n\004FA"
+  "IL\020\001"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_MetaInfo_2eproto_deps[1] = {
   &::descriptor_table_DirectoryEntryMessage_2eproto,
@@ -72,7 +75,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Met
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_MetaInfo_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_MetaInfo_2eproto = {
-  false, false, descriptor_table_protodef_MetaInfo_2eproto, "MetaInfo.proto", 176,
+  false, false, descriptor_table_protodef_MetaInfo_2eproto, "MetaInfo.proto", 204,
   &descriptor_table_MetaInfo_2eproto_once, descriptor_table_MetaInfo_2eproto_sccs, descriptor_table_MetaInfo_2eproto_deps, 1, 1,
   schemas, file_default_instances, TableStruct_MetaInfo_2eproto::offsets,
   file_level_metadata_MetaInfo_2eproto, 1, file_level_enum_descriptors_MetaInfo_2eproto, file_level_service_descriptors_MetaInfo_2eproto,
@@ -80,6 +83,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_MetaIn
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_MetaInfo_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_MetaInfo_2eproto)), true);
+namespace BackupPB {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* WorkspaceMetaInfo_Status_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_MetaInfo_2eproto);
   return file_level_enum_descriptors_MetaInfo_2eproto[0];
@@ -125,7 +129,7 @@ WorkspaceMetaInfo::WorkspaceMetaInfo(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   list_(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:WorkspaceMetaInfo)
+  // @@protoc_insertion_point(arena_constructor:BackupPB.WorkspaceMetaInfo)
 }
 WorkspaceMetaInfo::WorkspaceMetaInfo(const WorkspaceMetaInfo& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
@@ -133,7 +137,7 @@ WorkspaceMetaInfo::WorkspaceMetaInfo(const WorkspaceMetaInfo& from)
       list_(from.list_) {
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   status_ = from.status_;
-  // @@protoc_insertion_point(copy_constructor:WorkspaceMetaInfo)
+  // @@protoc_insertion_point(copy_constructor:BackupPB.WorkspaceMetaInfo)
 }
 
 void WorkspaceMetaInfo::SharedCtor() {
@@ -142,7 +146,7 @@ void WorkspaceMetaInfo::SharedCtor() {
 }
 
 WorkspaceMetaInfo::~WorkspaceMetaInfo() {
-  // @@protoc_insertion_point(destructor:WorkspaceMetaInfo)
+  // @@protoc_insertion_point(destructor:BackupPB.WorkspaceMetaInfo)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -167,7 +171,7 @@ const WorkspaceMetaInfo& WorkspaceMetaInfo::default_instance() {
 
 
 void WorkspaceMetaInfo::Clear() {
-// @@protoc_insertion_point(message_clear_start:WorkspaceMetaInfo)
+// @@protoc_insertion_point(message_clear_start:BackupPB.WorkspaceMetaInfo)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -187,19 +191,19 @@ const char* WorkspaceMetaInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // required .WorkspaceMetaInfo.Status status = 1;
+      // required .BackupPB.WorkspaceMetaInfo.Status status = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          if (PROTOBUF_PREDICT_TRUE(::WorkspaceMetaInfo_Status_IsValid(val))) {
-            _internal_set_status(static_cast<::WorkspaceMetaInfo_Status>(val));
+          if (PROTOBUF_PREDICT_TRUE(::BackupPB::WorkspaceMetaInfo_Status_IsValid(val))) {
+            _internal_set_status(static_cast<::BackupPB::WorkspaceMetaInfo_Status>(val));
           } else {
             ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(1, val, mutable_unknown_fields());
           }
         } else goto handle_unusual;
         continue;
-      // repeated .DirectoryEntryMessage list = 2;
+      // repeated .BackupPB.DirectoryEntryMessage list = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr -= 1;
@@ -236,19 +240,19 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* WorkspaceMetaInfo::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:WorkspaceMetaInfo)
+  // @@protoc_insertion_point(serialize_to_array_start:BackupPB.WorkspaceMetaInfo)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required .WorkspaceMetaInfo.Status status = 1;
+  // required .BackupPB.WorkspaceMetaInfo.Status status = 1;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
       1, this->_internal_status(), target);
   }
 
-  // repeated .DirectoryEntryMessage list = 2;
+  // repeated .BackupPB.DirectoryEntryMessage list = 2;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_list_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
@@ -260,15 +264,15 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:WorkspaceMetaInfo)
+  // @@protoc_insertion_point(serialize_to_array_end:BackupPB.WorkspaceMetaInfo)
   return target;
 }
 
 size_t WorkspaceMetaInfo::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:WorkspaceMetaInfo)
+// @@protoc_insertion_point(message_byte_size_start:BackupPB.WorkspaceMetaInfo)
   size_t total_size = 0;
 
-  // required .WorkspaceMetaInfo.Status status = 1;
+  // required .BackupPB.WorkspaceMetaInfo.Status status = 1;
   if (_internal_has_status()) {
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
@@ -277,7 +281,7 @@ size_t WorkspaceMetaInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .DirectoryEntryMessage list = 2;
+  // repeated .BackupPB.DirectoryEntryMessage list = 2;
   total_size += 1UL * this->_internal_list_size();
   for (const auto& msg : this->list_) {
     total_size +=
@@ -294,22 +298,22 @@ size_t WorkspaceMetaInfo::ByteSizeLong() const {
 }
 
 void WorkspaceMetaInfo::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:WorkspaceMetaInfo)
+// @@protoc_insertion_point(generalized_merge_from_start:BackupPB.WorkspaceMetaInfo)
   GOOGLE_DCHECK_NE(&from, this);
   const WorkspaceMetaInfo* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<WorkspaceMetaInfo>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:WorkspaceMetaInfo)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BackupPB.WorkspaceMetaInfo)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:WorkspaceMetaInfo)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:BackupPB.WorkspaceMetaInfo)
     MergeFrom(*source);
   }
 }
 
 void WorkspaceMetaInfo::MergeFrom(const WorkspaceMetaInfo& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:WorkspaceMetaInfo)
+// @@protoc_insertion_point(class_specific_merge_from_start:BackupPB.WorkspaceMetaInfo)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -322,14 +326,14 @@ void WorkspaceMetaInfo::MergeFrom(const WorkspaceMetaInfo& from) {
 }
 
 void WorkspaceMetaInfo::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:WorkspaceMetaInfo)
+// @@protoc_insertion_point(generalized_copy_from_start:BackupPB.WorkspaceMetaInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void WorkspaceMetaInfo::CopyFrom(const WorkspaceMetaInfo& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:WorkspaceMetaInfo)
+// @@protoc_insertion_point(class_specific_copy_from_start:BackupPB.WorkspaceMetaInfo)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -355,9 +359,10 @@ void WorkspaceMetaInfo::InternalSwap(WorkspaceMetaInfo* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::WorkspaceMetaInfo* Arena::CreateMaybeMessage< ::WorkspaceMetaInfo >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::WorkspaceMetaInfo >(arena);
+template<> PROTOBUF_NOINLINE ::BackupPB::WorkspaceMetaInfo* Arena::CreateMaybeMessage< ::BackupPB::WorkspaceMetaInfo >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::BackupPB::WorkspaceMetaInfo >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

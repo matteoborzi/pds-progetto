@@ -55,12 +55,15 @@ struct TableStruct_JobResponse_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_JobResponse_2eproto;
+namespace BackupPB {
 class JobResponse;
 class JobResponseDefaultTypeInternal;
 extern JobResponseDefaultTypeInternal _JobResponse_default_instance_;
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> ::JobResponse* Arena::CreateMaybeMessage<::JobResponse>(Arena*);
+template<> ::BackupPB::JobResponse* Arena::CreateMaybeMessage<::BackupPB::JobResponse>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace BackupPB {
 
 enum JobResponse_Status : int {
   JobResponse_Status_OK = 0,
@@ -88,7 +91,7 @@ inline bool JobResponse_Status_Parse(
 // ===================================================================
 
 class JobResponse PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:JobResponse) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BackupPB.JobResponse) */ {
  public:
   inline JobResponse() : JobResponse(nullptr) {}
   virtual ~JobResponse();
@@ -184,7 +187,7 @@ class JobResponse PROTOBUF_FINAL :
   void InternalSwap(JobResponse* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "JobResponse";
+    return "BackupPB.JobResponse";
   }
   protected:
   explicit JobResponse(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -281,20 +284,20 @@ class JobResponse PROTOBUF_FINAL :
   std::string* _internal_mutable_checksum();
   public:
 
-  // required .JobResponse.Status status = 1;
+  // required .BackupPB.JobResponse.Status status = 1;
   bool has_status() const;
   private:
   bool _internal_has_status() const;
   public:
   void clear_status();
-  ::JobResponse_Status status() const;
-  void set_status(::JobResponse_Status value);
+  ::BackupPB::JobResponse_Status status() const;
+  void set_status(::BackupPB::JobResponse_Status value);
   private:
-  ::JobResponse_Status _internal_status() const;
-  void _internal_set_status(::JobResponse_Status value);
+  ::BackupPB::JobResponse_Status _internal_status() const;
+  void _internal_set_status(::BackupPB::JobResponse_Status value);
   public:
 
-  // @@protoc_insertion_point(class_scope:JobResponse)
+  // @@protoc_insertion_point(class_scope:BackupPB.JobResponse)
  private:
   class _Internal;
 
@@ -335,15 +338,15 @@ inline void JobResponse::clear_path() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& JobResponse::path() const {
-  // @@protoc_insertion_point(field_get:JobResponse.path)
+  // @@protoc_insertion_point(field_get:BackupPB.JobResponse.path)
   return _internal_path();
 }
 inline void JobResponse::set_path(const std::string& value) {
   _internal_set_path(value);
-  // @@protoc_insertion_point(field_set:JobResponse.path)
+  // @@protoc_insertion_point(field_set:BackupPB.JobResponse.path)
 }
 inline std::string* JobResponse::mutable_path() {
-  // @@protoc_insertion_point(field_mutable:JobResponse.path)
+  // @@protoc_insertion_point(field_mutable:BackupPB.JobResponse.path)
   return _internal_mutable_path();
 }
 inline const std::string& JobResponse::_internal_path() const {
@@ -357,28 +360,28 @@ inline void JobResponse::set_path(std::string&& value) {
   _has_bits_[0] |= 0x00000001u;
   path_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:JobResponse.path)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.JobResponse.path)
 }
 inline void JobResponse::set_path(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000001u;
   path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:JobResponse.path)
+  // @@protoc_insertion_point(field_set_char:BackupPB.JobResponse.path)
 }
 inline void JobResponse::set_path(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000001u;
   path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:JobResponse.path)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.JobResponse.path)
 }
 inline std::string* JobResponse::_internal_mutable_path() {
   _has_bits_[0] |= 0x00000001u;
   return path_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* JobResponse::release_path() {
-  // @@protoc_insertion_point(field_release:JobResponse.path)
+  // @@protoc_insertion_point(field_release:BackupPB.JobResponse.path)
   if (!_internal_has_path()) {
     return nullptr;
   }
@@ -393,10 +396,10 @@ inline void JobResponse::set_allocated_path(std::string* path) {
   }
   path_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), path,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:JobResponse.path)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.JobResponse.path)
 }
 
-// required .JobResponse.Status status = 1;
+// required .BackupPB.JobResponse.Status status = 1;
 inline bool JobResponse::_internal_has_status() const {
   bool value = (_has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -408,21 +411,21 @@ inline void JobResponse::clear_status() {
   status_ = 0;
   _has_bits_[0] &= ~0x00000004u;
 }
-inline ::JobResponse_Status JobResponse::_internal_status() const {
-  return static_cast< ::JobResponse_Status >(status_);
+inline ::BackupPB::JobResponse_Status JobResponse::_internal_status() const {
+  return static_cast< ::BackupPB::JobResponse_Status >(status_);
 }
-inline ::JobResponse_Status JobResponse::status() const {
-  // @@protoc_insertion_point(field_get:JobResponse.status)
+inline ::BackupPB::JobResponse_Status JobResponse::status() const {
+  // @@protoc_insertion_point(field_get:BackupPB.JobResponse.status)
   return _internal_status();
 }
-inline void JobResponse::_internal_set_status(::JobResponse_Status value) {
-  assert(::JobResponse_Status_IsValid(value));
+inline void JobResponse::_internal_set_status(::BackupPB::JobResponse_Status value) {
+  assert(::BackupPB::JobResponse_Status_IsValid(value));
   _has_bits_[0] |= 0x00000004u;
   status_ = value;
 }
-inline void JobResponse::set_status(::JobResponse_Status value) {
+inline void JobResponse::set_status(::BackupPB::JobResponse_Status value) {
   _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:JobResponse.status)
+  // @@protoc_insertion_point(field_set:BackupPB.JobResponse.status)
 }
 
 // optional string checksum = 3;
@@ -438,15 +441,15 @@ inline void JobResponse::clear_checksum() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline const std::string& JobResponse::checksum() const {
-  // @@protoc_insertion_point(field_get:JobResponse.checksum)
+  // @@protoc_insertion_point(field_get:BackupPB.JobResponse.checksum)
   return _internal_checksum();
 }
 inline void JobResponse::set_checksum(const std::string& value) {
   _internal_set_checksum(value);
-  // @@protoc_insertion_point(field_set:JobResponse.checksum)
+  // @@protoc_insertion_point(field_set:BackupPB.JobResponse.checksum)
 }
 inline std::string* JobResponse::mutable_checksum() {
-  // @@protoc_insertion_point(field_mutable:JobResponse.checksum)
+  // @@protoc_insertion_point(field_mutable:BackupPB.JobResponse.checksum)
   return _internal_mutable_checksum();
 }
 inline const std::string& JobResponse::_internal_checksum() const {
@@ -460,28 +463,28 @@ inline void JobResponse::set_checksum(std::string&& value) {
   _has_bits_[0] |= 0x00000002u;
   checksum_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:JobResponse.checksum)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.JobResponse.checksum)
 }
 inline void JobResponse::set_checksum(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000002u;
   checksum_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:JobResponse.checksum)
+  // @@protoc_insertion_point(field_set_char:BackupPB.JobResponse.checksum)
 }
 inline void JobResponse::set_checksum(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000002u;
   checksum_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:JobResponse.checksum)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.JobResponse.checksum)
 }
 inline std::string* JobResponse::_internal_mutable_checksum() {
   _has_bits_[0] |= 0x00000002u;
   return checksum_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* JobResponse::release_checksum() {
-  // @@protoc_insertion_point(field_release:JobResponse.checksum)
+  // @@protoc_insertion_point(field_release:BackupPB.JobResponse.checksum)
   if (!_internal_has_checksum()) {
     return nullptr;
   }
@@ -496,7 +499,7 @@ inline void JobResponse::set_allocated_checksum(std::string* checksum) {
   }
   checksum_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), checksum,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:JobResponse.checksum)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.JobResponse.checksum)
 }
 
 #ifdef __GNUC__
@@ -505,13 +508,14 @@ inline void JobResponse::set_allocated_checksum(std::string* checksum) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace BackupPB
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::JobResponse_Status> : ::std::true_type {};
+template <> struct is_proto_enum< ::BackupPB::JobResponse_Status> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::JobResponse_Status>() {
-  return ::JobResponse_Status_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::BackupPB::JobResponse_Status>() {
+  return ::BackupPB::JobResponse_Status_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

@@ -169,20 +169,20 @@ std::string getLast(const std::string& path){
     return last;
 }
 
-DirectoryEntryMessage::Type toDirectoryEntryMessage(Type toConvert) {
+BackupPB::DirectoryEntryMessage::Type toDirectoryEntryMessage(Type toConvert) {
     switch (toConvert) {
         case DIRTYPE:
-            return DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_DIRTYPE;
+            return BackupPB::DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_DIRTYPE;
         case FILETYPE:
-            return DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE;
+            return BackupPB::DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE;
     }
 }
 
-Type toType(DirectoryEntryMessage::Type toConvert) {
+Type toType(BackupPB::DirectoryEntryMessage::Type toConvert) {
     switch (toConvert) {
-        case DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_DIRTYPE:
+        case BackupPB::DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_DIRTYPE:
             return DIRTYPE;
-        case DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE:
+        case BackupPB::DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE:
             return FILETYPE;
     }
 }

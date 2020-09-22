@@ -54,17 +54,20 @@ struct TableStruct_MachinePath_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_MachinePath_2eproto;
+namespace BackupPB {
 class MachinePath;
 class MachinePathDefaultTypeInternal;
 extern MachinePathDefaultTypeInternal _MachinePath_default_instance_;
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> ::MachinePath* Arena::CreateMaybeMessage<::MachinePath>(Arena*);
+template<> ::BackupPB::MachinePath* Arena::CreateMaybeMessage<::BackupPB::MachinePath>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace BackupPB {
 
 // ===================================================================
 
 class MachinePath PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:MachinePath) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BackupPB.MachinePath) */ {
  public:
   inline MachinePath() : MachinePath(nullptr) {}
   virtual ~MachinePath();
@@ -160,7 +163,7 @@ class MachinePath PROTOBUF_FINAL :
   void InternalSwap(MachinePath* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "MachinePath";
+    return "BackupPB.MachinePath";
   }
   protected:
   explicit MachinePath(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -226,7 +229,7 @@ class MachinePath PROTOBUF_FINAL :
   std::string* _internal_mutable_path();
   public:
 
-  // @@protoc_insertion_point(class_scope:MachinePath)
+  // @@protoc_insertion_point(class_scope:BackupPB.MachinePath)
  private:
   class _Internal;
 
@@ -266,15 +269,15 @@ inline void MachinePath::clear_machineid() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& MachinePath::machineid() const {
-  // @@protoc_insertion_point(field_get:MachinePath.machineID)
+  // @@protoc_insertion_point(field_get:BackupPB.MachinePath.machineID)
   return _internal_machineid();
 }
 inline void MachinePath::set_machineid(const std::string& value) {
   _internal_set_machineid(value);
-  // @@protoc_insertion_point(field_set:MachinePath.machineID)
+  // @@protoc_insertion_point(field_set:BackupPB.MachinePath.machineID)
 }
 inline std::string* MachinePath::mutable_machineid() {
-  // @@protoc_insertion_point(field_mutable:MachinePath.machineID)
+  // @@protoc_insertion_point(field_mutable:BackupPB.MachinePath.machineID)
   return _internal_mutable_machineid();
 }
 inline const std::string& MachinePath::_internal_machineid() const {
@@ -288,28 +291,28 @@ inline void MachinePath::set_machineid(std::string&& value) {
   _has_bits_[0] |= 0x00000001u;
   machineid_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:MachinePath.machineID)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.MachinePath.machineID)
 }
 inline void MachinePath::set_machineid(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000001u;
   machineid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:MachinePath.machineID)
+  // @@protoc_insertion_point(field_set_char:BackupPB.MachinePath.machineID)
 }
 inline void MachinePath::set_machineid(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000001u;
   machineid_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:MachinePath.machineID)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.MachinePath.machineID)
 }
 inline std::string* MachinePath::_internal_mutable_machineid() {
   _has_bits_[0] |= 0x00000001u;
   return machineid_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* MachinePath::release_machineid() {
-  // @@protoc_insertion_point(field_release:MachinePath.machineID)
+  // @@protoc_insertion_point(field_release:BackupPB.MachinePath.machineID)
   if (!_internal_has_machineid()) {
     return nullptr;
   }
@@ -324,7 +327,7 @@ inline void MachinePath::set_allocated_machineid(std::string* machineid) {
   }
   machineid_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), machineid,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:MachinePath.machineID)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.MachinePath.machineID)
 }
 
 // required string path = 2;
@@ -340,15 +343,15 @@ inline void MachinePath::clear_path() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline const std::string& MachinePath::path() const {
-  // @@protoc_insertion_point(field_get:MachinePath.path)
+  // @@protoc_insertion_point(field_get:BackupPB.MachinePath.path)
   return _internal_path();
 }
 inline void MachinePath::set_path(const std::string& value) {
   _internal_set_path(value);
-  // @@protoc_insertion_point(field_set:MachinePath.path)
+  // @@protoc_insertion_point(field_set:BackupPB.MachinePath.path)
 }
 inline std::string* MachinePath::mutable_path() {
-  // @@protoc_insertion_point(field_mutable:MachinePath.path)
+  // @@protoc_insertion_point(field_mutable:BackupPB.MachinePath.path)
   return _internal_mutable_path();
 }
 inline const std::string& MachinePath::_internal_path() const {
@@ -362,28 +365,28 @@ inline void MachinePath::set_path(std::string&& value) {
   _has_bits_[0] |= 0x00000002u;
   path_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:MachinePath.path)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.MachinePath.path)
 }
 inline void MachinePath::set_path(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000002u;
   path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:MachinePath.path)
+  // @@protoc_insertion_point(field_set_char:BackupPB.MachinePath.path)
 }
 inline void MachinePath::set_path(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000002u;
   path_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:MachinePath.path)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.MachinePath.path)
 }
 inline std::string* MachinePath::_internal_mutable_path() {
   _has_bits_[0] |= 0x00000002u;
   return path_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* MachinePath::release_path() {
-  // @@protoc_insertion_point(field_release:MachinePath.path)
+  // @@protoc_insertion_point(field_release:BackupPB.MachinePath.path)
   if (!_internal_has_path()) {
     return nullptr;
   }
@@ -398,7 +401,7 @@ inline void MachinePath::set_allocated_path(std::string* path) {
   }
   path_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), path,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:MachinePath.path)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.MachinePath.path)
 }
 
 #ifdef __GNUC__
@@ -407,6 +410,7 @@ inline void MachinePath::set_allocated_path(std::string* path) {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace BackupPB
 
 // @@protoc_insertion_point(global_scope)
 

@@ -14,19 +14,21 @@
 #include <google/protobuf/wire_format.h>
 // @@protoc_insertion_point(includes)
 #include <google/protobuf/port_def.inc>
+namespace BackupPB {
 class JobRequestDefaultTypeInternal {
  public:
   ::PROTOBUF_NAMESPACE_ID::internal::ExplicitlyConstructed<JobRequest> _instance;
 } _JobRequest_default_instance_;
+}  // namespace BackupPB
 static void InitDefaultsscc_info_JobRequest_JobRequest_2eproto() {
   GOOGLE_PROTOBUF_VERIFY_VERSION;
 
   {
-    void* ptr = &::_JobRequest_default_instance_;
-    new (ptr) ::JobRequest();
+    void* ptr = &::BackupPB::_JobRequest_default_instance_;
+    new (ptr) ::BackupPB::JobRequest();
     ::PROTOBUF_NAMESPACE_ID::internal::OnShutdownDestroyMessage(ptr);
   }
-  ::JobRequest::InitAsDefaultInstance();
+  ::BackupPB::JobRequest::InitAsDefaultInstance();
 }
 
 ::PROTOBUF_NAMESPACE_ID::internal::SCCInfo<0> scc_info_JobRequest_JobRequest_2eproto =
@@ -37,32 +39,33 @@ static const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* file_level_enum_descriptor
 static constexpr ::PROTOBUF_NAMESPACE_ID::ServiceDescriptor const** file_level_service_descriptors_JobRequest_2eproto = nullptr;
 
 const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_JobRequest_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  PROTOBUF_FIELD_OFFSET(::JobRequest, _has_bits_),
-  PROTOBUF_FIELD_OFFSET(::JobRequest, _internal_metadata_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::JobRequest, _has_bits_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::JobRequest, _internal_metadata_),
   ~0u,  // no _extensions_
   ~0u,  // no _oneof_case_
   ~0u,  // no _weak_field_map_
-  PROTOBUF_FIELD_OFFSET(::JobRequest, pbaction_),
-  PROTOBUF_FIELD_OFFSET(::JobRequest, path_),
-  PROTOBUF_FIELD_OFFSET(::JobRequest, size_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::JobRequest, pbaction_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::JobRequest, path_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::JobRequest, size_),
   2,
   0,
   1,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 8, sizeof(::JobRequest)},
+  { 0, 8, sizeof(::BackupPB::JobRequest)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
-  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::_JobRequest_default_instance_),
+  reinterpret_cast<const ::PROTOBUF_NAMESPACE_ID::Message*>(&::BackupPB::_JobRequest_default_instance_),
 };
 
 const char descriptor_table_protodef_JobRequest_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
-  "\n\020JobRequest.proto\"\244\001\n\nJobRequest\022&\n\010pba"
-  "ction\030\001 \002(\0162\024.JobRequest.PBAction\022\014\n\004pat"
-  "h\030\002 \002(\t\022\014\n\004size\030\003 \001(\004\"R\n\010PBAction\022\014\n\010ADD"
-  "_FILE\020\000\022\021\n\rADD_DIRECTORY\020\001\022\n\n\006UPDATE\020\002\022\n"
-  "\n\006DELETE\020\003\022\r\n\tCANCELLED\020\004"
+  "\n\020JobRequest.proto\022\010BackupPB\"\255\001\n\nJobRequ"
+  "est\022/\n\010pbaction\030\001 \002(\0162\035.BackupPB.JobRequ"
+  "est.PBAction\022\014\n\004path\030\002 \002(\t\022\014\n\004size\030\003 \001(\004"
+  "\"R\n\010PBAction\022\014\n\010ADD_FILE\020\000\022\021\n\rADD_DIRECT"
+  "ORY\020\001\022\n\n\006UPDATE\020\002\022\n\n\006DELETE\020\003\022\r\n\tCANCELL"
+  "ED\020\004"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_JobRequest_2eproto_deps[1] = {
 };
@@ -71,7 +74,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Job
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_JobRequest_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_JobRequest_2eproto = {
-  false, false, descriptor_table_protodef_JobRequest_2eproto, "JobRequest.proto", 185,
+  false, false, descriptor_table_protodef_JobRequest_2eproto, "JobRequest.proto", 204,
   &descriptor_table_JobRequest_2eproto_once, descriptor_table_JobRequest_2eproto_sccs, descriptor_table_JobRequest_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_JobRequest_2eproto::offsets,
   file_level_metadata_JobRequest_2eproto, 1, file_level_enum_descriptors_JobRequest_2eproto, file_level_service_descriptors_JobRequest_2eproto,
@@ -79,6 +82,7 @@ const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_JobReq
 
 // Force running AddDescriptors() at dynamic initialization time.
 static bool dynamic_init_dummy_JobRequest_2eproto = (static_cast<void>(::PROTOBUF_NAMESPACE_ID::internal::AddDescriptors(&descriptor_table_JobRequest_2eproto)), true);
+namespace BackupPB {
 const ::PROTOBUF_NAMESPACE_ID::EnumDescriptor* JobRequest_PBAction_descriptor() {
   ::PROTOBUF_NAMESPACE_ID::internal::AssignDescriptors(&descriptor_table_JobRequest_2eproto);
   return file_level_enum_descriptors_JobRequest_2eproto[0];
@@ -132,7 +136,7 @@ JobRequest::JobRequest(::PROTOBUF_NAMESPACE_ID::Arena* arena)
   : ::PROTOBUF_NAMESPACE_ID::Message(arena) {
   SharedCtor();
   RegisterArenaDtor(arena);
-  // @@protoc_insertion_point(arena_constructor:JobRequest)
+  // @@protoc_insertion_point(arena_constructor:BackupPB.JobRequest)
 }
 JobRequest::JobRequest(const JobRequest& from)
   : ::PROTOBUF_NAMESPACE_ID::Message(),
@@ -146,7 +150,7 @@ JobRequest::JobRequest(const JobRequest& from)
   ::memcpy(&size_, &from.size_,
     static_cast<size_t>(reinterpret_cast<char*>(&pbaction_) -
     reinterpret_cast<char*>(&size_)) + sizeof(pbaction_));
-  // @@protoc_insertion_point(copy_constructor:JobRequest)
+  // @@protoc_insertion_point(copy_constructor:BackupPB.JobRequest)
 }
 
 void JobRequest::SharedCtor() {
@@ -158,7 +162,7 @@ void JobRequest::SharedCtor() {
 }
 
 JobRequest::~JobRequest() {
-  // @@protoc_insertion_point(destructor:JobRequest)
+  // @@protoc_insertion_point(destructor:BackupPB.JobRequest)
   SharedDtor();
   _internal_metadata_.Delete<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -184,7 +188,7 @@ const JobRequest& JobRequest::default_instance() {
 
 
 void JobRequest::Clear() {
-// @@protoc_insertion_point(message_clear_start:JobRequest)
+// @@protoc_insertion_point(message_clear_start:BackupPB.JobRequest)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
@@ -211,13 +215,13 @@ const char* JobRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // required .JobRequest.PBAction pbaction = 1;
+      // required .BackupPB.JobRequest.PBAction pbaction = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
-          if (PROTOBUF_PREDICT_TRUE(::JobRequest_PBAction_IsValid(val))) {
-            _internal_set_pbaction(static_cast<::JobRequest_PBAction>(val));
+          if (PROTOBUF_PREDICT_TRUE(::BackupPB::JobRequest_PBAction_IsValid(val))) {
+            _internal_set_pbaction(static_cast<::BackupPB::JobRequest_PBAction>(val));
           } else {
             ::PROTOBUF_NAMESPACE_ID::internal::WriteVarint(1, val, mutable_unknown_fields());
           }
@@ -229,7 +233,7 @@ const char* JobRequest::_InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID:
           auto str = _internal_mutable_path();
           ptr = ::PROTOBUF_NAMESPACE_ID::internal::InlineGreedyStringParser(str, ptr, ctx);
           #ifndef NDEBUG
-          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "JobRequest.path");
+          ::PROTOBUF_NAMESPACE_ID::internal::VerifyUTF8(str, "BackupPB.JobRequest.path");
           #endif  // !NDEBUG
           CHK_(ptr);
         } else goto handle_unusual;
@@ -267,12 +271,12 @@ failure:
 
 ::PROTOBUF_NAMESPACE_ID::uint8* JobRequest::_InternalSerialize(
     ::PROTOBUF_NAMESPACE_ID::uint8* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
-  // @@protoc_insertion_point(serialize_to_array_start:JobRequest)
+  // @@protoc_insertion_point(serialize_to_array_start:BackupPB.JobRequest)
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // required .JobRequest.PBAction pbaction = 1;
+  // required .BackupPB.JobRequest.PBAction pbaction = 1;
   if (cached_has_bits & 0x00000004u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
@@ -284,7 +288,7 @@ failure:
     ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::VerifyUTF8StringNamedField(
       this->_internal_path().data(), static_cast<int>(this->_internal_path().length()),
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::SERIALIZE,
-      "JobRequest.path");
+      "BackupPB.JobRequest.path");
     target = stream->WriteStringMaybeAliased(
         2, this->_internal_path(), target);
   }
@@ -299,12 +303,12 @@ failure:
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormat::InternalSerializeUnknownFieldsToArray(
         _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
   }
-  // @@protoc_insertion_point(serialize_to_array_end:JobRequest)
+  // @@protoc_insertion_point(serialize_to_array_end:BackupPB.JobRequest)
   return target;
 }
 
 size_t JobRequest::RequiredFieldsByteSizeFallback() const {
-// @@protoc_insertion_point(required_fields_byte_size_fallback_start:JobRequest)
+// @@protoc_insertion_point(required_fields_byte_size_fallback_start:BackupPB.JobRequest)
   size_t total_size = 0;
 
   if (_internal_has_path()) {
@@ -315,7 +319,7 @@ size_t JobRequest::RequiredFieldsByteSizeFallback() const {
   }
 
   if (_internal_has_pbaction()) {
-    // required .JobRequest.PBAction pbaction = 1;
+    // required .BackupPB.JobRequest.PBAction pbaction = 1;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_pbaction());
   }
@@ -323,7 +327,7 @@ size_t JobRequest::RequiredFieldsByteSizeFallback() const {
   return total_size;
 }
 size_t JobRequest::ByteSizeLong() const {
-// @@protoc_insertion_point(message_byte_size_start:JobRequest)
+// @@protoc_insertion_point(message_byte_size_start:BackupPB.JobRequest)
   size_t total_size = 0;
 
   if (((_has_bits_[0] & 0x00000005) ^ 0x00000005) == 0) {  // All required fields are present.
@@ -332,7 +336,7 @@ size_t JobRequest::ByteSizeLong() const {
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
         this->_internal_path());
 
-    // required .JobRequest.PBAction pbaction = 1;
+    // required .BackupPB.JobRequest.PBAction pbaction = 1;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_pbaction());
 
@@ -361,22 +365,22 @@ size_t JobRequest::ByteSizeLong() const {
 }
 
 void JobRequest::MergeFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_merge_from_start:JobRequest)
+// @@protoc_insertion_point(generalized_merge_from_start:BackupPB.JobRequest)
   GOOGLE_DCHECK_NE(&from, this);
   const JobRequest* source =
       ::PROTOBUF_NAMESPACE_ID::DynamicCastToGenerated<JobRequest>(
           &from);
   if (source == nullptr) {
-  // @@protoc_insertion_point(generalized_merge_from_cast_fail:JobRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_fail:BackupPB.JobRequest)
     ::PROTOBUF_NAMESPACE_ID::internal::ReflectionOps::Merge(from, this);
   } else {
-  // @@protoc_insertion_point(generalized_merge_from_cast_success:JobRequest)
+  // @@protoc_insertion_point(generalized_merge_from_cast_success:BackupPB.JobRequest)
     MergeFrom(*source);
   }
 }
 
 void JobRequest::MergeFrom(const JobRequest& from) {
-// @@protoc_insertion_point(class_specific_merge_from_start:JobRequest)
+// @@protoc_insertion_point(class_specific_merge_from_start:BackupPB.JobRequest)
   GOOGLE_DCHECK_NE(&from, this);
   _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
@@ -398,14 +402,14 @@ void JobRequest::MergeFrom(const JobRequest& from) {
 }
 
 void JobRequest::CopyFrom(const ::PROTOBUF_NAMESPACE_ID::Message& from) {
-// @@protoc_insertion_point(generalized_copy_from_start:JobRequest)
+// @@protoc_insertion_point(generalized_copy_from_start:BackupPB.JobRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
 }
 
 void JobRequest::CopyFrom(const JobRequest& from) {
-// @@protoc_insertion_point(class_specific_copy_from_start:JobRequest)
+// @@protoc_insertion_point(class_specific_copy_from_start:BackupPB.JobRequest)
   if (&from == this) return;
   Clear();
   MergeFrom(from);
@@ -435,9 +439,10 @@ void JobRequest::InternalSwap(JobRequest* other) {
 
 
 // @@protoc_insertion_point(namespace_scope)
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> PROTOBUF_NOINLINE ::JobRequest* Arena::CreateMaybeMessage< ::JobRequest >(Arena* arena) {
-  return Arena::CreateMessageInternal< ::JobRequest >(arena);
+template<> PROTOBUF_NOINLINE ::BackupPB::JobRequest* Arena::CreateMaybeMessage< ::BackupPB::JobRequest >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::BackupPB::JobRequest >(arena);
 }
 PROTOBUF_NAMESPACE_CLOSE
 

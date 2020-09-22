@@ -55,12 +55,15 @@ struct TableStruct_DirectoryEntryMessage_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_DirectoryEntryMessage_2eproto;
+namespace BackupPB {
 class DirectoryEntryMessage;
 class DirectoryEntryMessageDefaultTypeInternal;
 extern DirectoryEntryMessageDefaultTypeInternal _DirectoryEntryMessage_default_instance_;
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> ::DirectoryEntryMessage* Arena::CreateMaybeMessage<::DirectoryEntryMessage>(Arena*);
+template<> ::BackupPB::DirectoryEntryMessage* Arena::CreateMaybeMessage<::BackupPB::DirectoryEntryMessage>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace BackupPB {
 
 enum DirectoryEntryMessage_Type : int {
   DirectoryEntryMessage_Type_DIRTYPE = 0,
@@ -88,7 +91,7 @@ inline bool DirectoryEntryMessage_Type_Parse(
 // ===================================================================
 
 class DirectoryEntryMessage PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:DirectoryEntryMessage) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BackupPB.DirectoryEntryMessage) */ {
  public:
   inline DirectoryEntryMessage() : DirectoryEntryMessage(nullptr) {}
   virtual ~DirectoryEntryMessage();
@@ -184,7 +187,7 @@ class DirectoryEntryMessage PROTOBUF_FINAL :
   void InternalSwap(DirectoryEntryMessage* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "DirectoryEntryMessage";
+    return "BackupPB.DirectoryEntryMessage";
   }
   protected:
   explicit DirectoryEntryMessage(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -281,20 +284,20 @@ class DirectoryEntryMessage PROTOBUF_FINAL :
   std::string* _internal_mutable_checksum();
   public:
 
-  // required .DirectoryEntryMessage.Type type = 2;
+  // required .BackupPB.DirectoryEntryMessage.Type type = 2;
   bool has_type() const;
   private:
   bool _internal_has_type() const;
   public:
   void clear_type();
-  ::DirectoryEntryMessage_Type type() const;
-  void set_type(::DirectoryEntryMessage_Type value);
+  ::BackupPB::DirectoryEntryMessage_Type type() const;
+  void set_type(::BackupPB::DirectoryEntryMessage_Type value);
   private:
-  ::DirectoryEntryMessage_Type _internal_type() const;
-  void _internal_set_type(::DirectoryEntryMessage_Type value);
+  ::BackupPB::DirectoryEntryMessage_Type _internal_type() const;
+  void _internal_set_type(::BackupPB::DirectoryEntryMessage_Type value);
   public:
 
-  // @@protoc_insertion_point(class_scope:DirectoryEntryMessage)
+  // @@protoc_insertion_point(class_scope:BackupPB.DirectoryEntryMessage)
  private:
   class _Internal;
 
@@ -335,15 +338,15 @@ inline void DirectoryEntryMessage::clear_name() {
   _has_bits_[0] &= ~0x00000001u;
 }
 inline const std::string& DirectoryEntryMessage::name() const {
-  // @@protoc_insertion_point(field_get:DirectoryEntryMessage.name)
+  // @@protoc_insertion_point(field_get:BackupPB.DirectoryEntryMessage.name)
   return _internal_name();
 }
 inline void DirectoryEntryMessage::set_name(const std::string& value) {
   _internal_set_name(value);
-  // @@protoc_insertion_point(field_set:DirectoryEntryMessage.name)
+  // @@protoc_insertion_point(field_set:BackupPB.DirectoryEntryMessage.name)
 }
 inline std::string* DirectoryEntryMessage::mutable_name() {
-  // @@protoc_insertion_point(field_mutable:DirectoryEntryMessage.name)
+  // @@protoc_insertion_point(field_mutable:BackupPB.DirectoryEntryMessage.name)
   return _internal_mutable_name();
 }
 inline const std::string& DirectoryEntryMessage::_internal_name() const {
@@ -357,28 +360,28 @@ inline void DirectoryEntryMessage::set_name(std::string&& value) {
   _has_bits_[0] |= 0x00000001u;
   name_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:DirectoryEntryMessage.name)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.DirectoryEntryMessage.name)
 }
 inline void DirectoryEntryMessage::set_name(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000001u;
   name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:DirectoryEntryMessage.name)
+  // @@protoc_insertion_point(field_set_char:BackupPB.DirectoryEntryMessage.name)
 }
 inline void DirectoryEntryMessage::set_name(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000001u;
   name_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:DirectoryEntryMessage.name)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.DirectoryEntryMessage.name)
 }
 inline std::string* DirectoryEntryMessage::_internal_mutable_name() {
   _has_bits_[0] |= 0x00000001u;
   return name_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* DirectoryEntryMessage::release_name() {
-  // @@protoc_insertion_point(field_release:DirectoryEntryMessage.name)
+  // @@protoc_insertion_point(field_release:BackupPB.DirectoryEntryMessage.name)
   if (!_internal_has_name()) {
     return nullptr;
   }
@@ -393,10 +396,10 @@ inline void DirectoryEntryMessage::set_allocated_name(std::string* name) {
   }
   name_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), name,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:DirectoryEntryMessage.name)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.DirectoryEntryMessage.name)
 }
 
-// required .DirectoryEntryMessage.Type type = 2;
+// required .BackupPB.DirectoryEntryMessage.Type type = 2;
 inline bool DirectoryEntryMessage::_internal_has_type() const {
   bool value = (_has_bits_[0] & 0x00000004u) != 0;
   return value;
@@ -408,21 +411,21 @@ inline void DirectoryEntryMessage::clear_type() {
   type_ = 0;
   _has_bits_[0] &= ~0x00000004u;
 }
-inline ::DirectoryEntryMessage_Type DirectoryEntryMessage::_internal_type() const {
-  return static_cast< ::DirectoryEntryMessage_Type >(type_);
+inline ::BackupPB::DirectoryEntryMessage_Type DirectoryEntryMessage::_internal_type() const {
+  return static_cast< ::BackupPB::DirectoryEntryMessage_Type >(type_);
 }
-inline ::DirectoryEntryMessage_Type DirectoryEntryMessage::type() const {
-  // @@protoc_insertion_point(field_get:DirectoryEntryMessage.type)
+inline ::BackupPB::DirectoryEntryMessage_Type DirectoryEntryMessage::type() const {
+  // @@protoc_insertion_point(field_get:BackupPB.DirectoryEntryMessage.type)
   return _internal_type();
 }
-inline void DirectoryEntryMessage::_internal_set_type(::DirectoryEntryMessage_Type value) {
-  assert(::DirectoryEntryMessage_Type_IsValid(value));
+inline void DirectoryEntryMessage::_internal_set_type(::BackupPB::DirectoryEntryMessage_Type value) {
+  assert(::BackupPB::DirectoryEntryMessage_Type_IsValid(value));
   _has_bits_[0] |= 0x00000004u;
   type_ = value;
 }
-inline void DirectoryEntryMessage::set_type(::DirectoryEntryMessage_Type value) {
+inline void DirectoryEntryMessage::set_type(::BackupPB::DirectoryEntryMessage_Type value) {
   _internal_set_type(value);
-  // @@protoc_insertion_point(field_set:DirectoryEntryMessage.type)
+  // @@protoc_insertion_point(field_set:BackupPB.DirectoryEntryMessage.type)
 }
 
 // optional string checksum = 3;
@@ -438,15 +441,15 @@ inline void DirectoryEntryMessage::clear_checksum() {
   _has_bits_[0] &= ~0x00000002u;
 }
 inline const std::string& DirectoryEntryMessage::checksum() const {
-  // @@protoc_insertion_point(field_get:DirectoryEntryMessage.checksum)
+  // @@protoc_insertion_point(field_get:BackupPB.DirectoryEntryMessage.checksum)
   return _internal_checksum();
 }
 inline void DirectoryEntryMessage::set_checksum(const std::string& value) {
   _internal_set_checksum(value);
-  // @@protoc_insertion_point(field_set:DirectoryEntryMessage.checksum)
+  // @@protoc_insertion_point(field_set:BackupPB.DirectoryEntryMessage.checksum)
 }
 inline std::string* DirectoryEntryMessage::mutable_checksum() {
-  // @@protoc_insertion_point(field_mutable:DirectoryEntryMessage.checksum)
+  // @@protoc_insertion_point(field_mutable:BackupPB.DirectoryEntryMessage.checksum)
   return _internal_mutable_checksum();
 }
 inline const std::string& DirectoryEntryMessage::_internal_checksum() const {
@@ -460,28 +463,28 @@ inline void DirectoryEntryMessage::set_checksum(std::string&& value) {
   _has_bits_[0] |= 0x00000002u;
   checksum_.Set(
     &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::move(value), GetArena());
-  // @@protoc_insertion_point(field_set_rvalue:DirectoryEntryMessage.checksum)
+  // @@protoc_insertion_point(field_set_rvalue:BackupPB.DirectoryEntryMessage.checksum)
 }
 inline void DirectoryEntryMessage::set_checksum(const char* value) {
   GOOGLE_DCHECK(value != nullptr);
   _has_bits_[0] |= 0x00000002u;
   checksum_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(value),
               GetArena());
-  // @@protoc_insertion_point(field_set_char:DirectoryEntryMessage.checksum)
+  // @@protoc_insertion_point(field_set_char:BackupPB.DirectoryEntryMessage.checksum)
 }
 inline void DirectoryEntryMessage::set_checksum(const char* value,
     size_t size) {
   _has_bits_[0] |= 0x00000002u;
   checksum_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), ::std::string(
       reinterpret_cast<const char*>(value), size), GetArena());
-  // @@protoc_insertion_point(field_set_pointer:DirectoryEntryMessage.checksum)
+  // @@protoc_insertion_point(field_set_pointer:BackupPB.DirectoryEntryMessage.checksum)
 }
 inline std::string* DirectoryEntryMessage::_internal_mutable_checksum() {
   _has_bits_[0] |= 0x00000002u;
   return checksum_.Mutable(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
 }
 inline std::string* DirectoryEntryMessage::release_checksum() {
-  // @@protoc_insertion_point(field_release:DirectoryEntryMessage.checksum)
+  // @@protoc_insertion_point(field_release:BackupPB.DirectoryEntryMessage.checksum)
   if (!_internal_has_checksum()) {
     return nullptr;
   }
@@ -496,7 +499,7 @@ inline void DirectoryEntryMessage::set_allocated_checksum(std::string* checksum)
   }
   checksum_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), checksum,
       GetArena());
-  // @@protoc_insertion_point(field_set_allocated:DirectoryEntryMessage.checksum)
+  // @@protoc_insertion_point(field_set_allocated:BackupPB.DirectoryEntryMessage.checksum)
 }
 
 #ifdef __GNUC__
@@ -505,13 +508,14 @@ inline void DirectoryEntryMessage::set_allocated_checksum(std::string* checksum)
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace BackupPB
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::DirectoryEntryMessage_Type> : ::std::true_type {};
+template <> struct is_proto_enum< ::BackupPB::DirectoryEntryMessage_Type> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::DirectoryEntryMessage_Type>() {
-  return ::DirectoryEntryMessage_Type_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::BackupPB::DirectoryEntryMessage_Type>() {
+  return ::BackupPB::DirectoryEntryMessage_Type_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE

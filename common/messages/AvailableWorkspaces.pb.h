@@ -56,12 +56,15 @@ struct TableStruct_AvailableWorkspaces_2eproto {
   static const ::PROTOBUF_NAMESPACE_ID::uint32 offsets[];
 };
 extern const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_AvailableWorkspaces_2eproto;
+namespace BackupPB {
 class AvailableWorkspaces;
 class AvailableWorkspacesDefaultTypeInternal;
 extern AvailableWorkspacesDefaultTypeInternal _AvailableWorkspaces_default_instance_;
+}  // namespace BackupPB
 PROTOBUF_NAMESPACE_OPEN
-template<> ::AvailableWorkspaces* Arena::CreateMaybeMessage<::AvailableWorkspaces>(Arena*);
+template<> ::BackupPB::AvailableWorkspaces* Arena::CreateMaybeMessage<::BackupPB::AvailableWorkspaces>(Arena*);
 PROTOBUF_NAMESPACE_CLOSE
+namespace BackupPB {
 
 enum AvailableWorkspaces_Status : int {
   AvailableWorkspaces_Status_OK = 0,
@@ -89,7 +92,7 @@ inline bool AvailableWorkspaces_Status_Parse(
 // ===================================================================
 
 class AvailableWorkspaces PROTOBUF_FINAL :
-    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:AvailableWorkspaces) */ {
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:BackupPB.AvailableWorkspaces) */ {
  public:
   inline AvailableWorkspaces() : AvailableWorkspaces(nullptr) {}
   virtual ~AvailableWorkspaces();
@@ -185,7 +188,7 @@ class AvailableWorkspaces PROTOBUF_FINAL :
   void InternalSwap(AvailableWorkspaces* other);
   friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
   static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
-    return "AvailableWorkspaces";
+    return "BackupPB.AvailableWorkspaces";
   }
   protected:
   explicit AvailableWorkspaces(::PROTOBUF_NAMESPACE_ID::Arena* arena);
@@ -259,20 +262,20 @@ class AvailableWorkspaces PROTOBUF_FINAL :
   const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >&
       paths() const;
 
-  // optional .AvailableWorkspaces.Status status = 1;
+  // optional .BackupPB.AvailableWorkspaces.Status status = 1;
   bool has_status() const;
   private:
   bool _internal_has_status() const;
   public:
   void clear_status();
-  ::AvailableWorkspaces_Status status() const;
-  void set_status(::AvailableWorkspaces_Status value);
+  ::BackupPB::AvailableWorkspaces_Status status() const;
+  void set_status(::BackupPB::AvailableWorkspaces_Status value);
   private:
-  ::AvailableWorkspaces_Status _internal_status() const;
-  void _internal_set_status(::AvailableWorkspaces_Status value);
+  ::BackupPB::AvailableWorkspaces_Status _internal_status() const;
+  void _internal_set_status(::BackupPB::AvailableWorkspaces_Status value);
   public:
 
-  // @@protoc_insertion_point(class_scope:AvailableWorkspaces)
+  // @@protoc_insertion_point(class_scope:BackupPB.AvailableWorkspaces)
  private:
   class _Internal;
 
@@ -296,7 +299,7 @@ class AvailableWorkspaces PROTOBUF_FINAL :
 #endif  // __GNUC__
 // AvailableWorkspaces
 
-// optional .AvailableWorkspaces.Status status = 1;
+// optional .BackupPB.AvailableWorkspaces.Status status = 1;
 inline bool AvailableWorkspaces::_internal_has_status() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -308,21 +311,21 @@ inline void AvailableWorkspaces::clear_status() {
   status_ = 0;
   _has_bits_[0] &= ~0x00000001u;
 }
-inline ::AvailableWorkspaces_Status AvailableWorkspaces::_internal_status() const {
-  return static_cast< ::AvailableWorkspaces_Status >(status_);
+inline ::BackupPB::AvailableWorkspaces_Status AvailableWorkspaces::_internal_status() const {
+  return static_cast< ::BackupPB::AvailableWorkspaces_Status >(status_);
 }
-inline ::AvailableWorkspaces_Status AvailableWorkspaces::status() const {
-  // @@protoc_insertion_point(field_get:AvailableWorkspaces.status)
+inline ::BackupPB::AvailableWorkspaces_Status AvailableWorkspaces::status() const {
+  // @@protoc_insertion_point(field_get:BackupPB.AvailableWorkspaces.status)
   return _internal_status();
 }
-inline void AvailableWorkspaces::_internal_set_status(::AvailableWorkspaces_Status value) {
-  assert(::AvailableWorkspaces_Status_IsValid(value));
+inline void AvailableWorkspaces::_internal_set_status(::BackupPB::AvailableWorkspaces_Status value) {
+  assert(::BackupPB::AvailableWorkspaces_Status_IsValid(value));
   _has_bits_[0] |= 0x00000001u;
   status_ = value;
 }
-inline void AvailableWorkspaces::set_status(::AvailableWorkspaces_Status value) {
+inline void AvailableWorkspaces::set_status(::BackupPB::AvailableWorkspaces_Status value) {
   _internal_set_status(value);
-  // @@protoc_insertion_point(field_set:AvailableWorkspaces.status)
+  // @@protoc_insertion_point(field_set:BackupPB.AvailableWorkspaces.status)
 }
 
 // repeated .MachinePath paths = 2;
@@ -333,31 +336,31 @@ inline int AvailableWorkspaces::paths_size() const {
   return _internal_paths_size();
 }
 inline ::MachinePath* AvailableWorkspaces::mutable_paths(int index) {
-  // @@protoc_insertion_point(field_mutable:AvailableWorkspaces.paths)
+  // @@protoc_insertion_point(field_mutable:BackupPB.AvailableWorkspaces.paths)
   return paths_.Mutable(index);
 }
 inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >*
 AvailableWorkspaces::mutable_paths() {
-  // @@protoc_insertion_point(field_mutable_list:AvailableWorkspaces.paths)
+  // @@protoc_insertion_point(field_mutable_list:BackupPB.AvailableWorkspaces.paths)
   return &paths_;
 }
 inline const ::MachinePath& AvailableWorkspaces::_internal_paths(int index) const {
   return paths_.Get(index);
 }
 inline const ::MachinePath& AvailableWorkspaces::paths(int index) const {
-  // @@protoc_insertion_point(field_get:AvailableWorkspaces.paths)
+  // @@protoc_insertion_point(field_get:BackupPB.AvailableWorkspaces.paths)
   return _internal_paths(index);
 }
 inline ::MachinePath* AvailableWorkspaces::_internal_add_paths() {
   return paths_.Add();
 }
 inline ::MachinePath* AvailableWorkspaces::add_paths() {
-  // @@protoc_insertion_point(field_add:AvailableWorkspaces.paths)
+  // @@protoc_insertion_point(field_add:BackupPB.AvailableWorkspaces.paths)
   return _internal_add_paths();
 }
 inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >&
 AvailableWorkspaces::paths() const {
-  // @@protoc_insertion_point(field_list:AvailableWorkspaces.paths)
+  // @@protoc_insertion_point(field_list:BackupPB.AvailableWorkspaces.paths)
   return paths_;
 }
 
@@ -367,13 +370,14 @@ AvailableWorkspaces::paths() const {
 
 // @@protoc_insertion_point(namespace_scope)
 
+}  // namespace BackupPB
 
 PROTOBUF_NAMESPACE_OPEN
 
-template <> struct is_proto_enum< ::AvailableWorkspaces_Status> : ::std::true_type {};
+template <> struct is_proto_enum< ::BackupPB::AvailableWorkspaces_Status> : ::std::true_type {};
 template <>
-inline const EnumDescriptor* GetEnumDescriptor< ::AvailableWorkspaces_Status>() {
-  return ::AvailableWorkspaces_Status_descriptor();
+inline const EnumDescriptor* GetEnumDescriptor< ::BackupPB::AvailableWorkspaces_Status>() {
+  return ::BackupPB::AvailableWorkspaces_Status_descriptor();
 }
 
 PROTOBUF_NAMESPACE_CLOSE
