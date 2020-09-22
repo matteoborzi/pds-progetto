@@ -61,10 +61,11 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_MetaInfo_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\016MetaInfo.proto\022\010BackupPB\032\033DirectoryEnt"
-  "ryMessage.proto\"\211\001\n\021WorkspaceMetaInfo\0222\n"
+  "ryMessage.proto\"\222\001\n\021WorkspaceMetaInfo\0222\n"
   "\006status\030\001 \002(\0162\".BackupPB.WorkspaceMetaIn"
-  "fo.Status\022$\n\004list\030\002 \003(\0132\026.DirectoryEntry"
-  "Message\"\032\n\006Status\022\006\n\002OK\020\000\022\010\n\004FAIL\020\001"
+  "fo.Status\022-\n\004list\030\002 \003(\0132\037.BackupPB.Direc"
+  "toryEntryMessage\"\032\n\006Status\022\006\n\002OK\020\000\022\010\n\004FA"
+  "IL\020\001"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_MetaInfo_2eproto_deps[1] = {
   &::descriptor_table_DirectoryEntryMessage_2eproto,
@@ -74,7 +75,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Met
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_MetaInfo_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_MetaInfo_2eproto = {
-  false, false, descriptor_table_protodef_MetaInfo_2eproto, "MetaInfo.proto", 195,
+  false, false, descriptor_table_protodef_MetaInfo_2eproto, "MetaInfo.proto", 204,
   &descriptor_table_MetaInfo_2eproto_once, descriptor_table_MetaInfo_2eproto_sccs, descriptor_table_MetaInfo_2eproto_deps, 1, 1,
   schemas, file_default_instances, TableStruct_MetaInfo_2eproto::offsets,
   file_level_metadata_MetaInfo_2eproto, 1, file_level_enum_descriptors_MetaInfo_2eproto, file_level_service_descriptors_MetaInfo_2eproto,
@@ -202,7 +203,7 @@ const char* WorkspaceMetaInfo::_InternalParse(const char* ptr, ::PROTOBUF_NAMESP
           }
         } else goto handle_unusual;
         continue;
-      // repeated .DirectoryEntryMessage list = 2;
+      // repeated .BackupPB.DirectoryEntryMessage list = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr -= 1;
@@ -251,7 +252,7 @@ failure:
       1, this->_internal_status(), target);
   }
 
-  // repeated .DirectoryEntryMessage list = 2;
+  // repeated .BackupPB.DirectoryEntryMessage list = 2;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_list_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
@@ -280,7 +281,7 @@ size_t WorkspaceMetaInfo::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .DirectoryEntryMessage list = 2;
+  // repeated .BackupPB.DirectoryEntryMessage list = 2;
   total_size += 1UL * this->_internal_list_size();
   for (const auto& msg : this->list_) {
     total_size +=

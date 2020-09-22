@@ -244,22 +244,22 @@ class WorkspaceMetaInfo PROTOBUF_FINAL :
     kListFieldNumber = 2,
     kStatusFieldNumber = 1,
   };
-  // repeated .DirectoryEntryMessage list = 2;
+  // repeated .BackupPB.DirectoryEntryMessage list = 2;
   int list_size() const;
   private:
   int _internal_list_size() const;
   public:
   void clear_list();
-  ::DirectoryEntryMessage* mutable_list(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage >*
+  ::BackupPB::DirectoryEntryMessage* mutable_list(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::DirectoryEntryMessage >*
       mutable_list();
   private:
-  const ::DirectoryEntryMessage& _internal_list(int index) const;
-  ::DirectoryEntryMessage* _internal_add_list();
+  const ::BackupPB::DirectoryEntryMessage& _internal_list(int index) const;
+  ::BackupPB::DirectoryEntryMessage* _internal_add_list();
   public:
-  const ::DirectoryEntryMessage& list(int index) const;
-  ::DirectoryEntryMessage* add_list();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage >&
+  const ::BackupPB::DirectoryEntryMessage& list(int index) const;
+  ::BackupPB::DirectoryEntryMessage* add_list();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::DirectoryEntryMessage >&
       list() const;
 
   // required .BackupPB.WorkspaceMetaInfo.Status status = 1;
@@ -284,7 +284,7 @@ class WorkspaceMetaInfo PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage > list_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::DirectoryEntryMessage > list_;
   int status_;
   friend struct ::TableStruct_MetaInfo_2eproto;
 };
@@ -328,37 +328,37 @@ inline void WorkspaceMetaInfo::set_status(::BackupPB::WorkspaceMetaInfo_Status v
   // @@protoc_insertion_point(field_set:BackupPB.WorkspaceMetaInfo.status)
 }
 
-// repeated .DirectoryEntryMessage list = 2;
+// repeated .BackupPB.DirectoryEntryMessage list = 2;
 inline int WorkspaceMetaInfo::_internal_list_size() const {
   return list_.size();
 }
 inline int WorkspaceMetaInfo::list_size() const {
   return _internal_list_size();
 }
-inline ::DirectoryEntryMessage* WorkspaceMetaInfo::mutable_list(int index) {
+inline ::BackupPB::DirectoryEntryMessage* WorkspaceMetaInfo::mutable_list(int index) {
   // @@protoc_insertion_point(field_mutable:BackupPB.WorkspaceMetaInfo.list)
   return list_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::DirectoryEntryMessage >*
 WorkspaceMetaInfo::mutable_list() {
   // @@protoc_insertion_point(field_mutable_list:BackupPB.WorkspaceMetaInfo.list)
   return &list_;
 }
-inline const ::DirectoryEntryMessage& WorkspaceMetaInfo::_internal_list(int index) const {
+inline const ::BackupPB::DirectoryEntryMessage& WorkspaceMetaInfo::_internal_list(int index) const {
   return list_.Get(index);
 }
-inline const ::DirectoryEntryMessage& WorkspaceMetaInfo::list(int index) const {
+inline const ::BackupPB::DirectoryEntryMessage& WorkspaceMetaInfo::list(int index) const {
   // @@protoc_insertion_point(field_get:BackupPB.WorkspaceMetaInfo.list)
   return _internal_list(index);
 }
-inline ::DirectoryEntryMessage* WorkspaceMetaInfo::_internal_add_list() {
+inline ::BackupPB::DirectoryEntryMessage* WorkspaceMetaInfo::_internal_add_list() {
   return list_.Add();
 }
-inline ::DirectoryEntryMessage* WorkspaceMetaInfo::add_list() {
+inline ::BackupPB::DirectoryEntryMessage* WorkspaceMetaInfo::add_list() {
   // @@protoc_insertion_point(field_add:BackupPB.WorkspaceMetaInfo.list)
   return _internal_add_list();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::DirectoryEntryMessage >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::DirectoryEntryMessage >&
 WorkspaceMetaInfo::list() const {
   // @@protoc_insertion_point(field_list:BackupPB.WorkspaceMetaInfo.list)
   return list_;
