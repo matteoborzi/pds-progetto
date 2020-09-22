@@ -182,15 +182,25 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             BackupPB::WorkspaceMetaInfo response{};
             for(auto directory_entry : std::filesystem::recursive_directory_iterator(server_path)){
                 BackupPB::DirectoryEntryMessage* message = response.add_list();
-                message->set_name(directory_entry.path());
+                std::string name = directory_entry.path();
+                boost::algorithm::erase_first(name, server_path);
+                message->set_name(name);
                 if(directory_entry.is_directory())
                     message->set_type(BackupPB::DirectoryEntryMessage_Type_DIRTYPE);
                 else {
                     message->set_type(BackupPB::DirectoryEntryMessage_Type_FILETYPE);
-                    message->set_checksum(directory_entry.path());
+                    std::optional<std::string> checksum = getChecksum(directory_entry.path());
+                    if(checksum == std::nullopt){
+                        response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
+                        response.clear_list();
+                        break;
+                    }
+                    else{
+                        message->set_checksum(checksum.value());
+                        response.set_status(BackupPB::WorkspaceMetaInfo_Status_OK);
+                    }
                 }
             }
-            response.set_status(BackupPB::WorkspaceMetaInfo_Status_OK);
             try{
                 writeToSocket(s, response);
             }
@@ -198,7 +208,9 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
                 std::cerr << e.what() << std::endl;
                 return nullptr;
             }
-            return pool;
+            if(response.status() == BackupPB::WorkspaceMetaInfo_Status_OK)
+                return pool;
+            else return nullptr;
         }
     }
     else{
