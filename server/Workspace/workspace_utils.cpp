@@ -121,3 +121,22 @@ std::set<std::pair<std::string, std::string>> getAvailableClientPath(const std::
     }
     return availables;
 }
+
+bool updateMapping(const std::string &user, const std::string &oldMachineID, const std::string &oldClientPath,
+                   const std::string &newMachineID, const std::string &newClientPath) {
+    //opening the DB file
+    SQLite::Database db(filename); //throws an exception if it can not be open
+
+    SQLite::Statement query(db, "UPDATE WORKSPACE\n"
+                                    "SET machineID = ?, clientPath = ?\n "
+                                    "WHERE username = ?, machineID = ?, clientPath = ?");
+    query.bind(1, newMachineID);
+    query.bind(2, newClientPath);
+    query.bind(3, user);
+    query.bind(4, oldMachineID);
+    query.bind(5, oldClientPath);
+
+    int res = query.exec();
+
+    return res==1;
+}
