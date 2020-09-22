@@ -218,7 +218,7 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
             std::string checksum = computeChecksum(absolutePath);
             //send data
             try {
-                sendFile(socket, absolutePath);
+                sendFile(socket, absolutePath, req.size());
             } catch (std::exception &) {
 
                 //TODO decide how handle errors
