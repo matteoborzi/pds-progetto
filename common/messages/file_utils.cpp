@@ -22,12 +22,12 @@ void sendFile(boost::asio::ip::tcp::socket & socket,const std::string& path, siz
 
     size_t bytes_read;
     char buf[BLOCK_SIZE];
-    while((bytes_read=file.readsome(buf, BLOCK_SIZE))>0){
+    while((bytes_read=file.read(buf, BLOCK_SIZE).gcount())>0){
         boost::asio::write(socket, boost::asio::buffer(buf, bytes_read));
         size -= bytes_read;
     }
     if(size!=0)
-        throw std::logic_error("The file "+path+ "has not been sent correctly");
+        throw std::logic_error("The file "+path+ " has not been sent correctly");
 
     file.close();
 }
@@ -46,6 +46,7 @@ void receiveFile(boost::asio::ip::tcp::socket & socket,const std::string& path, 
         boost::asio::read(socket, boost::asio::buffer(buf,byte_to_read));
 
         file.write(buf, byte_to_read);
+        size -= byte_to_read;
     }
 
     file.close();
