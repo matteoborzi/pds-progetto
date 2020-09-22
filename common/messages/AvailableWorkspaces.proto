@@ -6,7 +6,7 @@ import "MachinePath.proto";
 
 message AvailableWorkspaces{
 	enum Status {OK=0; FAIL=1;}
-    optional Status status = 1;
+    required Status status = 1;
 	repeated MachinePath paths = 2;
 
 }
