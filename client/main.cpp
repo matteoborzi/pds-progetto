@@ -156,7 +156,6 @@ bool chooseWorkspace(boost::asio::ip::tcp::socket &socket, std::string &machineI
         return false;
     }
 
-    //TODO decidere se saltare i file/directory errati o usicire dalla funzione
     for(BackupPB::DirectoryEntryMessage directoryEntry : response.list()){
         switch (directoryEntry.type()) {
 
@@ -220,7 +219,7 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
             std::string checksum = computeChecksum(absolutePath);
             //send data
             try {
-                sendFile(socket, absolutePath);
+                sendFile(socket, absolutePath, req.size());
             } catch (std::exception &) {
 
                 //TODO decide how handle errors
