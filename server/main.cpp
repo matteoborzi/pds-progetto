@@ -1,15 +1,24 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <iostream>
 #include <thread>
+#include <filesystem>
+#include <boost/algorithm/string.hpp>
 
 #include "waiter/Waiter.h"
 #include "pathPool/PathPool.h"
 #include "authentication/authentication.h"
 #include "jobRequestQueue/JobRequestQueue.h"
+#include "Workspace/workspace_utils.h"
+#include "ChecksumStorage/ChecksumStorage.h"
 
 #include "../common/messages/socket_utils.h"
 #include "../common/messages/AuthenticationRequest.pb.h"
 #include "../common/messages/AuthenticationResponse.pb.h"
+#include "../common/messages/Workspace.pb.h"
+#include "../common/messages/MetaInfo.pb.h"
+#include "../common/messages/DirectoryEntryMessage.pb.h"
+#include "../common/messages/MachinePath.pb.h"
+#include "../common/messages/AvailableWorkspaces.pb.h"
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
@@ -64,6 +73,7 @@ int main(int argc, char* argv[]) {
                 std::cout<< "Username: " << username.value() << std::endl;
 
                 std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
+                //TODO se poolItem è nullptr mandare un WorkspaceMetaInfo_FAIL al client (?)
                 if(poolItem->isValid()){
                     switch (poolItem->getRestore()) {
                         case true:
@@ -91,7 +101,6 @@ int main(int argc, char* argv[]) {
         thread.detach();
 
     }
-
 
 //    return 1;
 }
@@ -129,7 +138,74 @@ std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
 }
 
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::string& username){
-    //read message with path and machineID
+
+    /*read workspace from socket containing
+        -client path
+        -machineid
+        -a flag which indicates if a restore or a backup operation has to be done
+    */
+    BackupPB::Workspace workspace;
+    try{
+        workspace = readFromSocket<BackupPB::Workspace>(s);
+    }
+    catch(std::exception& e){
+        std::cerr << e.what() << std::endl;
+        return nullptr;
+    }
+
+    if(!workspace.restore()){
+        //restore flag is NOT active --> backup
+        std::string server_path;
+        try{
+            server_path = computeServerPath(username, workspace.machineid(), workspace.path());
+        }
+        catch(std::exception& e){
+            std::cerr << e.what() << std::endl;
+            return nullptr;
+        }
+        std::shared_ptr<PathPool> pool = std::make_shared<PathPool>(server_path, false);
+        if(!pool->isValid()){ //there is already another client that is using that workspace
+            BackupPB::WorkspaceMetaInfo response{};
+            response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
+            try{
+                writeToSocket(s, response);
+            }
+            catch(std::exception& e){
+                std::cerr << e.what() << std::endl;
+                return nullptr;
+            }
+            return pool;
+        }
+        else{
+            cleanFileSystem(server_path);
+            //retrieve folders, files and checksum and send to client
+            BackupPB::WorkspaceMetaInfo response{};
+            for(auto directory_entry : std::filesystem::recursive_directory_iterator(server_path)){
+                BackupPB::DirectoryEntryMessage* message = response.add_list();
+                message->set_name(directory_entry.path());
+                if(directory_entry.is_directory())
+                    message->set_type(BackupPB::DirectoryEntryMessage_Type_DIRTYPE);
+                else {
+                    message->set_type(BackupPB::DirectoryEntryMessage_Type_FILETYPE);
+                    message->set_checksum(directory_entry.path());
+                }
+            }
+            response.set_status(BackupPB::WorkspaceMetaInfo_Status_OK);
+            try{
+                writeToSocket(s, response);
+            }
+            catch(std::exception& e){
+                std::cerr << e.what() << std::endl;
+                return nullptr;
+            }
+            return pool;
+        }
+    }
+    else{
+        //restore flag is active --> restore
+
+        return nullptr;
+    }
     //if (!RESTORE)
         //compute server path
 
@@ -140,16 +216,14 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
         //cleanFileSystem()
         //compute metadata and send back to client
 
-
-
     //else
         // send list of all workspaces
         // wait response
+        //check that new workspace does not exists
+        //if exists->send fail
         // create PathPool for folder#
-        // update entry (if new workspace not exists)
+        // update entry
         // cleanFileSystem()
-
-
 
     //return pathPool
 
@@ -190,9 +264,23 @@ bool restore(boost::asio::ip::tcp::socket& socket, std::shared_ptr<PathPool> poo
 }
 
 void cleanFileSystem(const std::string& path){
-    //scan recursively all files in path
-        // if (.tmp is present && normal !present)
-            //updateChecksum()
-        // if (both presents)
-            //keep older
+    std::filesystem::directory_entry dir{path};
+    if(!dir.exists() || !dir.is_directory())
+        throw std::logic_error("Expecting an existing folder but get "+path);
+    for(std::filesystem::directory_entry element : std::filesystem::recursive_directory_iterator(path)) {
+        //scan recursively all files in path
+        std::string file_path{element.path().string()};
+        if(element.is_regular_file() && boost::algorithm::ends_with(element.path().string(), TMP_EXTENSION)) {
+            boost::algorithm::erase_last(file_path, std::string{TMP_EXTENSION});
+
+            std::filesystem::directory_entry old{file_path};
+            // if (.tmp is present && normal !present)
+            if(!old.exists())
+                updateChecksum(file_path);
+            else
+                // if (both presents)
+                //keep older
+                std::filesystem::remove(file_path+TMP_EXTENSION);
+        }
+    }
 }

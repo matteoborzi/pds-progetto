@@ -80,3 +80,44 @@ void createServerFolder(std::string server_path){
     if(!std::filesystem::create_directory(dir))
         throw std::runtime_error("Cannot create ./"+server_path+" folder");
 }
+
+/**
+ *
+ * @param user
+ * @param machineID
+ * @param path
+ * @return true if the combination is not already present in the WORKSPACE db table, false otherwise
+ */
+bool isClientPathAlreadyPresent(const std::string& user, const std::string& machineID, const std::string& path){
+    //opening the DB file
+    SQLite::Database db(filename); //throws an exception if it can not be open
+    SQLite::Statement query(db, "SELECT COUNT(*) FROM WORKSPACE WHERE username = ? AND machineID = ? AND clientPath = ? ");
+    query.bind(1, user);
+    query.bind(2, machineID);
+    query.bind(3, path);
+    if(query.executeStep()){
+        int res = query.getColumn(0);
+        return res == 0;
+    }
+    return false;
+}
+
+/**
+ *
+ * @param user
+ * @return a set containing all pairs (machineID, clientPath) associated with the selected user
+ */
+std::set<std::pair<std::string, std::string>> getAvailableClientPath(const std::string& user){
+    //opening the DB file
+    SQLite::Database db(filename); //throws an exception if it can not be open
+    std::set<std::pair<std::string, std::string>> availables{};
+
+    SQLite::Statement query(db, "SELECT machineID, clientPath FROM WORKSPACE WHERE username = ?");
+    query.bind(1, user);
+    while(query.executeStep()){
+        std::string machine = query.getColumn(0);
+        std::string path = query.getColumn(1);
+        availables.insert(std::make_pair(machine, path));
+    }
+    return availables;
+}
