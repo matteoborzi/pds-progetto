@@ -15,10 +15,11 @@
 #include "../common/messages/AuthenticationRequest.pb.h"
 #include "../common/messages/AuthenticationResponse.pb.h"
 #include "../common/messages/Workspace.pb.h"
-#include "../common/messages/MetaInfo.pb.h"
 #include "../common/messages/DirectoryEntryMessage.pb.h"
+#include "../common/messages/MetaInfo.pb.h"
 #include "../common/messages/MachinePath.pb.h"
 #include "../common/messages/AvailableWorkspaces.pb.h"
+#include "../common/messages/RestoreResponse.pb.h"
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
@@ -184,7 +185,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
                 BackupPB::DirectoryEntryMessage* message = response.add_list();
                 std::string name = directory_entry.path();
                 boost::algorithm::erase_first(name, server_path);
-                message->set_name(name);
+                message->set_name("/"+name);
                 if(directory_entry.is_directory())
                     message->set_type(BackupPB::DirectoryEntryMessage_Type_DIRTYPE);
                 else {
@@ -215,31 +216,68 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
     }
     else{
         //restore flag is active --> restore
-
-        return nullptr;
+        //send available clientPath for that user
+        std::set<std::pair<std::string, std::string>> availablePaths = getAvailableClientPath(username);
+        BackupPB::AvailableWorkspaces availablePathMessage{};
+        for(std::pair<std::string,std::string> entry : availablePaths){
+            BackupPB::MachinePath* machinePath = availablePathMessage.add_paths();
+            machinePath->set_path(entry.second);
+            machinePath->set_machineid(entry.first);
+        }
+        availablePathMessage.set_status(BackupPB::AvailableWorkspaces_Status_OK);
+        try{
+            writeToSocket(s, availablePathMessage);
+        }
+        catch(std::exception& e){
+            std::cerr << e.what() << std::endl;
+            return nullptr;
+        }
+        //receive chosen machineID,path
+        BackupPB::MachinePath choosenPath;
+        try{
+            choosenPath = readFromSocket<BackupPB::MachinePath>(s);
+        }
+        catch(std::exception& e){
+            std::cerr << e.what() << std::endl;
+            return nullptr;
+        }
+        try{
+            if( ( choosenPath.machineid() != workspace.machineid()
+                || choosenPath.path() != workspace.path() )
+                && isClientPathAlreadyPresent(username, workspace.machineid(), workspace.path())){
+                std::cerr << "Error, the mapping "+username+", "+workspace.machineid()+", "+workspace.path()+" already exists"+
+                             "and can not be overwritten " << std::endl;
+                BackupPB::RestoreResponse restoreResponse{};
+                restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
+                writeToSocket(s, restoreResponse);
+                return nullptr;
+            }
+        }
+        catch(std::exception& e){
+            std::cerr << e.what() << std::endl;
+            return nullptr;
+        }
+        //retrieve associated server path
+        std::string server_path = computeServerPath(username, choosenPath.machineid(), choosenPath.path());
+        //create PathPool, update db and send response to client (OK or FAIL)
+        PathPool pool{server_path, true};
+        BackupPB::RestoreResponse restoreResponse{};
+        if(!pool.isValid() || !updateMapping(username, choosenPath.machineid(), choosenPath.path(), workspace.machineid(), workspace.path()) )
+            restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
+        else
+            restoreResponse.set_status(BackupPB::RestoreResponse_Status_OK);
+        try{
+            writeToSocket(s, restoreResponse);
+        }
+        catch(std::exception& e){
+            std::cerr << e.what() << std::endl;
+            return nullptr;
+        }
+        if(restoreResponse.status() == BackupPB::RestoreResponse_Status_FAIL && pool.isValid())
+                return nullptr;
+        cleanFileSystem(server_path);
+        return std::make_shared<PathPool>(pool);
     }
-    //if (!RESTORE)
-        //compute server path
-
-        //create pathPool with corresponding path
-
-            //error response [TO CLIENT] and return inValid PathPool
-
-        //cleanFileSystem()
-        //compute metadata and send back to client
-
-    //else
-        // send list of all workspaces
-        // wait response
-        //check that new workspace does not exists
-        //if exists->send fail
-        // create PathPool for folder#
-        // update entry
-        // cleanFileSystem()
-
-    //return pathPool
-
-    return nullptr;
 }
 
 
