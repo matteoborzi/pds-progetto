@@ -12,6 +12,7 @@
 #include "ChecksumStorage/ChecksumStorage.h"
 
 #include "../common/messages/socket_utils.h"
+#include "../common/messages/file_utils.h"
 #include "../common/messages/AuthenticationRequest.pb.h"
 #include "../common/messages/AuthenticationResponse.pb.h"
 #include "../common/messages/Workspace.pb.h"
@@ -20,6 +21,7 @@
 #include "../common/messages/MachinePath.pb.h"
 #include "../common/messages/AvailableWorkspaces.pb.h"
 #include "../common/messages/RestoreResponse.pb.h"
+#include "../common/messages/JobRequest.pb.h"
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
@@ -283,15 +285,16 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
 
 void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPath, JobRequestQueue& queue){
     //get job request
+    BackupPB::JobRequest req= readFromSocket<BackupPB::JobRequest>(socket);
+    //removing initial /
+    std::string path{serverPath+req.path().substr(1,req.path().size() )};
 
-    //switch Action
-
+    if(req.pbaction()==BackupPB::JobRequest_PBAction_ADD_FILE ||req.pbaction()==BackupPB::JobRequest_PBAction_UPDATE )
         //add_file && update -> receive file, save into temporary and put into queue
+        receiveFile(socket, path+TMP_EXTENSION, req.size());
 
-        //add_dir -> put in queue
-
-
-        //delete ->  put in queue
+    //saving in queue
+    queue.enqueueJobRequest(req);
 
 }
 
