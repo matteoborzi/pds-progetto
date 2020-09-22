@@ -69,11 +69,15 @@ int main(int argc, char *argv[]) {
         return 3;
     }
 
-    //TODO see if restore option is active and folder is not empty
+    //TODO eventually catch exception thrown by path constructor
+    if(argc==3 && std::filesystem::is_empty(std::filesystem::path{conf.getPath()}) ){
+        std::cerr << "Error: root chosen for restore is not empty" << std::endl;
+        return 4;
+    }
 
     if (!login(socket, conf.getUsername(), conf.getPassword())) {
         std::cerr << "Error during authentication" << std::endl;
-        return 4;
+        return 5;
     }
 
     std::cout << "Successful login" << std::endl;
@@ -88,7 +92,7 @@ int main(int argc, char *argv[]) {
     if (!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())) {
         std::cerr << "Error during workspace choice" << std::endl;
         //TODO see if it is necessary to send some messages to the server
-        return 5;
+        return 7;
     }
 
 
