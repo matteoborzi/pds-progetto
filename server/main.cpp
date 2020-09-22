@@ -1,11 +1,14 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <iostream>
 #include <thread>
+#include <filesystem>
+#include <boost/algorithm/string.hpp>
 
 #include "waiter/Waiter.h"
 #include "pathPool/PathPool.h"
 #include "authentication/authentication.h"
 #include "jobRequestQueue/JobRequestQueue.h"
+#include "ChecksumStorage/ChecksumStorage.h"
 
 #include "../common/messages/socket_utils.h"
 #include "../common/messages/AuthenticationRequest.pb.h"
@@ -190,9 +193,20 @@ bool restore(boost::asio::ip::tcp::socket& socket, std::shared_ptr<PathPool> poo
 }
 
 void cleanFileSystem(const std::string& path){
-    //scan recursively all files in path
-        // if (.tmp is present && normal !present)
-            //updateChecksum()
-        // if (both presents)
-            //keep older
+    for(std::filesystem::directory_entry element : std::filesystem::recursive_directory_iterator(path)) {
+        //scan recursively all files in path
+        std::string file_path{element.path().string()};
+        if(element.is_regular_file() && boost::algorithm::ends_with(element.path().string(), TMP_EXTENSION)) {
+            boost::algorithm::erase_last(file_path, std::string{TMP_EXTENSION});
+
+            std::filesystem::directory_entry old{file_path};
+            // if (.tmp is present && normal !present)
+            if(!old.exists())
+                updateChecksum(file_path);
+            else
+                // if (both presents)
+                //keep older
+                std::filesystem::remove(file_path+TMP_EXTENSION);
+        }
+    }
 }
