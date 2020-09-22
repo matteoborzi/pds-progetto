@@ -61,10 +61,10 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_AvailableWorkspaces_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\031AvailableWorkspaces.proto\022\010BackupPB\032\021M"
-  "achinePath.proto\"\204\001\n\023AvailableWorkspaces"
-  "\0224\n\006status\030\001 \001(\0162$.BackupPB.AvailableWor"
-  "kspaces.Status\022\033\n\005paths\030\002 \003(\0132\014.MachineP"
-  "ath\"\032\n\006Status\022\006\n\002OK\020\000\022\010\n\004FAIL\020\001"
+  "achinePath.proto\"\215\001\n\023AvailableWorkspaces"
+  "\0224\n\006status\030\001 \002(\0162$.BackupPB.AvailableWor"
+  "kspaces.Status\022$\n\005paths\030\002 \003(\0132\025.BackupPB"
+  ".MachinePath\"\032\n\006Status\022\006\n\002OK\020\000\022\010\n\004FAIL\020\001"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_AvailableWorkspaces_2eproto_deps[1] = {
   &::descriptor_table_MachinePath_2eproto,
@@ -74,7 +74,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Ava
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_AvailableWorkspaces_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_AvailableWorkspaces_2eproto = {
-  false, false, descriptor_table_protodef_AvailableWorkspaces_2eproto, "AvailableWorkspaces.proto", 191,
+  false, false, descriptor_table_protodef_AvailableWorkspaces_2eproto, "AvailableWorkspaces.proto", 200,
   &descriptor_table_AvailableWorkspaces_2eproto_once, descriptor_table_AvailableWorkspaces_2eproto_sccs, descriptor_table_AvailableWorkspaces_2eproto_deps, 1, 1,
   schemas, file_default_instances, TableStruct_AvailableWorkspaces_2eproto::offsets,
   file_level_metadata_AvailableWorkspaces_2eproto, 1, file_level_enum_descriptors_AvailableWorkspaces_2eproto, file_level_service_descriptors_AvailableWorkspaces_2eproto,
@@ -114,6 +114,9 @@ class AvailableWorkspaces::_Internal {
   using HasBits = decltype(std::declval<AvailableWorkspaces>()._has_bits_);
   static void set_has_status(HasBits* has_bits) {
     (*has_bits)[0] |= 1u;
+  }
+  static bool MissingRequiredFields(const HasBits& has_bits) {
+    return ((has_bits[0] & 0x00000001) ^ 0x00000001) != 0;
   }
 };
 
@@ -187,7 +190,7 @@ const char* AvailableWorkspaces::_InternalParse(const char* ptr, ::PROTOBUF_NAME
     ptr = ::PROTOBUF_NAMESPACE_ID::internal::ReadTag(ptr, &tag);
     CHK_(ptr);
     switch (tag >> 3) {
-      // optional .BackupPB.AvailableWorkspaces.Status status = 1;
+      // required .BackupPB.AvailableWorkspaces.Status status = 1;
       case 1:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 8)) {
           ::PROTOBUF_NAMESPACE_ID::uint64 val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
@@ -199,7 +202,7 @@ const char* AvailableWorkspaces::_InternalParse(const char* ptr, ::PROTOBUF_NAME
           }
         } else goto handle_unusual;
         continue;
-      // repeated .MachinePath paths = 2;
+      // repeated .BackupPB.MachinePath paths = 2;
       case 2:
         if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 18)) {
           ptr -= 1;
@@ -241,14 +244,14 @@ failure:
   (void) cached_has_bits;
 
   cached_has_bits = _has_bits_[0];
-  // optional .BackupPB.AvailableWorkspaces.Status status = 1;
+  // required .BackupPB.AvailableWorkspaces.Status status = 1;
   if (cached_has_bits & 0x00000001u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
       1, this->_internal_status(), target);
   }
 
-  // repeated .MachinePath paths = 2;
+  // repeated .BackupPB.MachinePath paths = 2;
   for (unsigned int i = 0,
       n = static_cast<unsigned int>(this->_internal_paths_size()); i < n; i++) {
     target = stream->EnsureSpace(target);
@@ -268,22 +271,20 @@ size_t AvailableWorkspaces::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:BackupPB.AvailableWorkspaces)
   size_t total_size = 0;
 
+  // required .BackupPB.AvailableWorkspaces.Status status = 1;
+  if (_internal_has_status()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
+  }
   ::PROTOBUF_NAMESPACE_ID::uint32 cached_has_bits = 0;
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // repeated .MachinePath paths = 2;
+  // repeated .BackupPB.MachinePath paths = 2;
   total_size += 1UL * this->_internal_paths_size();
   for (const auto& msg : this->paths_) {
     total_size +=
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(msg);
-  }
-
-  // optional .BackupPB.AvailableWorkspaces.Status status = 1;
-  cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000001u) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::EnumSize(this->_internal_status());
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -338,6 +339,7 @@ void AvailableWorkspaces::CopyFrom(const AvailableWorkspaces& from) {
 }
 
 bool AvailableWorkspaces::IsInitialized() const {
+  if (_Internal::MissingRequiredFields(_has_bits_)) return false;
   if (!::PROTOBUF_NAMESPACE_ID::internal::AllAreInitialized(paths_)) return false;
   return true;
 }

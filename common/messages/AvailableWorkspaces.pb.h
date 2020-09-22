@@ -244,25 +244,25 @@ class AvailableWorkspaces PROTOBUF_FINAL :
     kPathsFieldNumber = 2,
     kStatusFieldNumber = 1,
   };
-  // repeated .MachinePath paths = 2;
+  // repeated .BackupPB.MachinePath paths = 2;
   int paths_size() const;
   private:
   int _internal_paths_size() const;
   public:
   void clear_paths();
-  ::MachinePath* mutable_paths(int index);
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >*
+  ::BackupPB::MachinePath* mutable_paths(int index);
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::MachinePath >*
       mutable_paths();
   private:
-  const ::MachinePath& _internal_paths(int index) const;
-  ::MachinePath* _internal_add_paths();
+  const ::BackupPB::MachinePath& _internal_paths(int index) const;
+  ::BackupPB::MachinePath* _internal_add_paths();
   public:
-  const ::MachinePath& paths(int index) const;
-  ::MachinePath* add_paths();
-  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >&
+  const ::BackupPB::MachinePath& paths(int index) const;
+  ::BackupPB::MachinePath* add_paths();
+  const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::MachinePath >&
       paths() const;
 
-  // optional .BackupPB.AvailableWorkspaces.Status status = 1;
+  // required .BackupPB.AvailableWorkspaces.Status status = 1;
   bool has_status() const;
   private:
   bool _internal_has_status() const;
@@ -284,7 +284,7 @@ class AvailableWorkspaces PROTOBUF_FINAL :
   typedef void DestructorSkippable_;
   ::PROTOBUF_NAMESPACE_ID::internal::HasBits<1> _has_bits_;
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
-  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath > paths_;
+  ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::MachinePath > paths_;
   int status_;
   friend struct ::TableStruct_AvailableWorkspaces_2eproto;
 };
@@ -299,7 +299,7 @@ class AvailableWorkspaces PROTOBUF_FINAL :
 #endif  // __GNUC__
 // AvailableWorkspaces
 
-// optional .BackupPB.AvailableWorkspaces.Status status = 1;
+// required .BackupPB.AvailableWorkspaces.Status status = 1;
 inline bool AvailableWorkspaces::_internal_has_status() const {
   bool value = (_has_bits_[0] & 0x00000001u) != 0;
   return value;
@@ -328,37 +328,37 @@ inline void AvailableWorkspaces::set_status(::BackupPB::AvailableWorkspaces_Stat
   // @@protoc_insertion_point(field_set:BackupPB.AvailableWorkspaces.status)
 }
 
-// repeated .MachinePath paths = 2;
+// repeated .BackupPB.MachinePath paths = 2;
 inline int AvailableWorkspaces::_internal_paths_size() const {
   return paths_.size();
 }
 inline int AvailableWorkspaces::paths_size() const {
   return _internal_paths_size();
 }
-inline ::MachinePath* AvailableWorkspaces::mutable_paths(int index) {
+inline ::BackupPB::MachinePath* AvailableWorkspaces::mutable_paths(int index) {
   // @@protoc_insertion_point(field_mutable:BackupPB.AvailableWorkspaces.paths)
   return paths_.Mutable(index);
 }
-inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >*
+inline ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::MachinePath >*
 AvailableWorkspaces::mutable_paths() {
   // @@protoc_insertion_point(field_mutable_list:BackupPB.AvailableWorkspaces.paths)
   return &paths_;
 }
-inline const ::MachinePath& AvailableWorkspaces::_internal_paths(int index) const {
+inline const ::BackupPB::MachinePath& AvailableWorkspaces::_internal_paths(int index) const {
   return paths_.Get(index);
 }
-inline const ::MachinePath& AvailableWorkspaces::paths(int index) const {
+inline const ::BackupPB::MachinePath& AvailableWorkspaces::paths(int index) const {
   // @@protoc_insertion_point(field_get:BackupPB.AvailableWorkspaces.paths)
   return _internal_paths(index);
 }
-inline ::MachinePath* AvailableWorkspaces::_internal_add_paths() {
+inline ::BackupPB::MachinePath* AvailableWorkspaces::_internal_add_paths() {
   return paths_.Add();
 }
-inline ::MachinePath* AvailableWorkspaces::add_paths() {
+inline ::BackupPB::MachinePath* AvailableWorkspaces::add_paths() {
   // @@protoc_insertion_point(field_add:BackupPB.AvailableWorkspaces.paths)
   return _internal_add_paths();
 }
-inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::MachinePath >&
+inline const ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::BackupPB::MachinePath >&
 AvailableWorkspaces::paths() const {
   // @@protoc_insertion_point(field_list:BackupPB.AvailableWorkspaces.paths)
   return paths_;
