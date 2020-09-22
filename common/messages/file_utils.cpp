@@ -1,6 +1,7 @@
 #include <filesystem>
 #include <fstream>
 #include <boost/asio/write.hpp>
+#include <boost/asio/read.hpp>
 #include "file_utils.h"
 
 #define BLOCK_SIZE 1024*4
@@ -31,6 +32,22 @@ void sendFile(boost::asio::ip::tcp::socket & socket,const std::string& path, siz
     file.close();
 }
 
-void receiveFile(boost::asio::ip::tcp::socket &,const std::string&, size_t size){
+void receiveFile(boost::asio::ip::tcp::socket & socket,const std::string& path, size_t size){
+
+    std::ofstream file{path, std::ios::out | std::ios::binary};
+
+    if(!file)
+        throw std::runtime_error("Cannot create "+path);
+
+    char buf[BLOCK_SIZE];
+
+    while(size>0){
+        size_t byte_to_read  = size>BLOCK_SIZE ? BLOCK_SIZE : size;
+        boost::asio::read(socket, boost::asio::buffer(buf,byte_to_read));
+
+        file.write(buf, byte_to_read);
+    }
+
+    file.close();
 
 }
