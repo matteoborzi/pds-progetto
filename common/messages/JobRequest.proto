@@ -3,7 +3,7 @@ syntax = "proto2";
 package BackupPB;
 
 message JobRequest{
-	enum PBAction { ADD_FILE=0; ADD_DIRECTORY=1; UPDATE=2; DELETE=3; CANCELLED=4;};
+	enum PBAction { ADD_FILE=0; ADD_DIRECTORY=1; UPDATE=2; DELETE=3; CANCELLED=4; END_RESTORE=5;};
     required PBAction pbaction = 1;
     required string path = 2;
     optional uint64 size = 3;
