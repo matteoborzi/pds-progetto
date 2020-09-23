@@ -51,12 +51,11 @@ std::shared_ptr<Directory> getParent(const std::string& path){
             break;
 
         std::shared_ptr<DirectoryEntry> next = result->get(field);
-        if(next == std::shared_ptr<Directory>(nullptr) || next->myType() == FILETYPE) {
+        if(next == nullptr || next->myType() == FILETYPE) {
             result = std::shared_ptr<Directory>(nullptr);
             break;
         }
         result = std::static_pointer_cast<Directory>(next);
-
         index++;
     }
 
@@ -73,7 +72,13 @@ bool deleteDirectoryOrFile(const std::string &path) {
     return res;
 }
 
-bool addDirectory(const std::string& path){
+bool addDirectory(const std::string& param_path){
+
+    std::string path=param_path;
+    //if the path doesn't start with "/", it is added
+    if(path[0]!='/')
+        path = "/" + param_path;
+
     std::shared_ptr<Directory> parent = getParent(path);
     std::string toAdd = getLast(path);
     bool res = false;
@@ -104,13 +109,13 @@ bool addFile(const std::string& param_path){
 
     std::string path=param_path;
     //if the path doesn't start with "/", it is added
-    if(path.compare(0,1,"/") == 0)
+    if(path[0]!='/')
         path = "/" + param_path;
     std::filesystem::directory_entry file{abs_path+path};
     if(!file.exists() || !file.is_regular_file())
         return res;
     std::time_t time = last_edit_time(file);
-    if(time <= 0)
+    if(time < 0)
         return res;
     res = addFile(path, checksum, time);
     return res;
