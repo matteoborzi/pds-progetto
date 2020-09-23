@@ -6,7 +6,7 @@ std::string concatenatePath(const std::string& base,const std::string& relative)
 
     if(base=="/")
         return relative;
-    if(base.compare(base.size()-1,1,"/") == 0 )
+    if(base[base.size()-1] == '/' )
         throw std::runtime_error("Base path should not end with /. Check Configuration implementation");
     //TODO implement for base path containing \
 
