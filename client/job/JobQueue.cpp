@@ -24,7 +24,7 @@ void JobQueue::add(Job &j) {
         }
     }
     //waiting for some new space
-    full.wait(l, [this] { return queue.size() + sent.size() < MAX_SIZE; });
+    full.wait(l, [this] { return queue.size() + sent.size() <= MAX_SIZE; });
     //adding the element
     queue.emplace_back(j);
     //notifying threads waiting for a new job
@@ -63,6 +63,8 @@ Job JobQueue::getLastAndSetSent() {
             break;
 
         }
+        if(!res.has_value())
+            empty.wait(l);
     }
     return res.value();
 }
@@ -115,9 +117,16 @@ void JobQueue::retry(const std::string &path) {
         if (j1 == j.value()) {
             j1.setAct(getAction(j.value().getAct(), j1.getAct()));
 
+            if(j1.getAct()==CANCELLED)
+                //removing job if cancelled
+                queue.remove(j1);
+
             // an item from sent has been removed:
             // this means that an element from the queue can be sent in getLastAndSetSent
             empty.notify_one();
+
+            //removed at least one job
+            full.notify_one();
             return;
         }
     }
