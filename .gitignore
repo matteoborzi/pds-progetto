@@ -36,19 +36,13 @@
 
 server/.idea
 server/cmake-build-debug
-server/CMakeLists.txt
 server/cmake-build-debug-wsl
 
 client/.idea
 client/cmake-build-debug
-client/CMakeLists.txt
 client/cmake-build-debug-wsl
 
 test/.idea
 test/cmake-build-debug
 test/CMakeLists.txt
 test/cmake-build-debug-wsl
-
-
-
-
