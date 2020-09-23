@@ -245,41 +245,33 @@ void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
             response = readFromSocket<BackupPB::JobResponse>(socket);
         }
         catch(std::exception& e){
-            if(counter <= 0){
+            throw std::runtime_error("Error in receiving messages from server ");
+        }
+
+        if(response.status() == BackupPB::JobResponse_Status_FAIL){
+            if(counter <= 10){
                 queue.retry(response.path());
                 counter++;
-                continue;
             }
-            else{
-                throw std::runtime_error("Error in receiving messages from server ");
-            }
+            else throw std::runtime_error("Server is not working properly");
         }
-        if(counter)
+        else{
             counter = 0;
-        if(response.status() == BackupPB::JobResponse_Status_FAIL)
-            queue.retry(response.path());
-        else if(!response.has_checksum()) //status OK and it is an add_folder or a delete
-            queue.setConcluded(response.path());
-        else if(response.has_checksum()){ //a file has been sent for an add_file or for an update
-            std::string basePath = Configuration::getConfiguration().value().getPath();
-            std::string absolutePath = concatenatePath(basePath, response.path());
-            std::filesystem::directory_entry f(absolutePath);
-            if(!f.exists())
-                continue;
-            else {
+            if(!response.has_checksum()) //status OK and it is an add_folder or a delete
+                queue.setConcluded(response.path());
+            else if(response.has_checksum()){ //a file has been sent for an add_file or for an update
+                std::string basePath = Configuration::getConfiguration().value().getPath();
                 std::shared_ptr<File> file = getFile(response.path());
-                if(file->getChecksum() == response.checksum())
-                    queue.setConcluded(response.path());
-                else
-                    queue.retry(response.path());
+                if(file == nullptr)
+                    continue;
+                else {
+                    if(file->getChecksum() == response.checksum())
+                        queue.setConcluded(response.path());
+                    else
+                        queue.retry(response.path());
+                }
             }
         }
-        //receive data from socket
-
-        //if checksum is present and file still exists in directory structure compute equals
-        //if they are not equals retry
-        //if it does not exists anymore do nothing (do not retry)
-        //otherwise retry or setConcluded job
     }
 }
 
