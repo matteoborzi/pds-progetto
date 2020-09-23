@@ -292,7 +292,8 @@ void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPa
     if(req.pbaction()==BackupPB::JobRequest_PBAction_ADD_FILE ||req.pbaction()==BackupPB::JobRequest_PBAction_UPDATE )
         //add_file && update -> receive file, save into temporary and put into queue
         receiveFile(socket, path+TMP_EXTENSION, req.size());
-
+    else if(req.pbaction()==BackupPB::JobRequest_PBAction_ADD_DIRECTORY)
+        std::filesystem::create_directories(path);
     //saving in queue
     queue.enqueueJobRequest(req);
 
