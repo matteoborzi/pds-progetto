@@ -7,17 +7,17 @@
 
 #include <mutex>
 #include <condition_variable>
-#include <list>
+#include <queue>
 #include "../../common/messages/JobRequest.pb.h"
 
 class JobRequestQueue {
+    std::mutex m;
+    std::condition_variable empty;
+    std::queue<BackupPB::JobRequest> queue;
 
 public:
-
     void enqueueJobRequest(BackupPB::JobRequest&);
-
     BackupPB::JobRequest dequeueJobRequest();
-
 };
 
 

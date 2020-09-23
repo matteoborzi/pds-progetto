@@ -4,10 +4,20 @@
 
 #include "JobRequestQueue.h"
 
-void JobRequestQueue::enqueueJobRequest(BackupPB::JobRequest& j){
+void JobRequestQueue::enqueueJobRequest(BackupPB::JobRequest& jr){
+    std::unique_lock l{m};
+
+    queue.push(jr);
+    empty.notify_one();
 
 }
 
 BackupPB::JobRequest JobRequestQueue::dequeueJobRequest(){
-    return BackupPB::JobRequest{};
+    std::unique_lock l{m};
+
+    BackupPB::JobRequest jr{};
+    empty.wait(l, [this] { return !queue.empty(); });
+    jr = queue.front();
+
+    return jr;
 }
