@@ -25,6 +25,7 @@
 #include "DirectoryStructure/utils.h"
 #include "Configuration/file_util.h"
 #include "../common/messages/file_utils.h"
+#include "../common/messages/AvailableWorkspaces.pb.h"
 
 bool login(boost::asio::ip::tcp::socket &, std::string &, std::string &);
 
@@ -284,7 +285,12 @@ bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::
         //prompt for choice
         //send to server
 
-        //wait files and dir
+        //wait files and dir until END_RESTORE option
     return true;
+}
+
+int promptChoice(BackupPB::AvailableWorkspaces ws){
+
+    return -1;
 }
 
