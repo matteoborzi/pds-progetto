@@ -22,6 +22,7 @@
 #include "../common/messages/AvailableWorkspaces.pb.h"
 #include "../common/messages/RestoreResponse.pb.h"
 #include "../common/messages/JobRequest.pb.h"
+#include "../common/messages/JobResponse.pb.h"
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
@@ -303,14 +304,42 @@ void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPa
 
 void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue){
     while(true){
-        //pick a job from queue
-        //switch Action
+        BackupPB::JobRequest request = queue.dequeueJobRequest();
+        BackupPB::JobResponse response{};
+        response.set_path(request.path());
+        switch(request.pbaction()){
+            case BackupPB::JobRequest_PBAction_ADD_FILE :
+            case BackupPB::JobRequest_PBAction_UPDATE :
+                if(!updateChecksum(request.path())){
+                    response.set_status(BackupPB::JobResponse_Status_FAIL);
+                }
+                else{
+                    std::optional<std::string> checksum = getChecksum(request.path());
+                    if(!checksum.has_value())
+                        response.set_status(BackupPB::JobResponse_Status_FAIL);
+                    else {
+                        response.set_status(BackupPB::JobResponse_Status_OK);
+                        response.set_checksum(checksum.value());
+                    }
+                }
+                break;
+            case BackupPB::JobRequest_PBAction_ADD_DIRECTORY:
+                response.set_status(BackupPB::JobResponse_Status_OK);
+                break;
+            case BackupPB::JobRequest_PBAction_DELETE :
+                if(!deleteFolderRecursively(request.path()))
+                    response.set_status(BackupPB::JobResponse_Status_FAIL);
+                else
+                    response.set_status(BackupPB::JobResponse_Status_OK);
+                break;
+        }
 
-            //add_file && update -> computeChecksum [AND CACHE], move temporary file and generate response
-
-            //add_dir -> create dir and respond
-
-            //delete -> delete file  [AND IN CACHE TOO] or directory [CLEAR CACHE IN SUBFOLDERS] respond
+        try{
+            writeToSocket(socket, response);
+        }
+        catch(std::exception& e){
+            throw e;
+        }
     }
 }
 
