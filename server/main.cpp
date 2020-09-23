@@ -183,6 +183,9 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             cleanFileSystem(server_path);
             //retrieve folders, files and checksum and send to client
             BackupPB::WorkspaceMetaInfo response{};
+
+            response.set_status(BackupPB::WorkspaceMetaInfo_Status_OK);
+
             for(auto directory_entry : std::filesystem::recursive_directory_iterator(server_path)){
                 BackupPB::DirectoryEntryMessage* message = response.add_list();
                 std::string name = directory_entry.path();
@@ -198,10 +201,9 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
                         response.clear_list();
                         break;
                     }
-                    else{
+                    else
                         message->set_checksum(checksum.value());
-                        response.set_status(BackupPB::WorkspaceMetaInfo_Status_OK);
-                    }
+
                 }
             }
             try{
