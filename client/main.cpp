@@ -70,7 +70,7 @@ int main(int argc, char *argv[]) {
     }
 
     //TODO eventually catch exception thrown by path constructor
-    if(argc==3 && std::filesystem::is_empty(std::filesystem::path{conf.getPath()}) ){
+    if(argc==3 && !std::filesystem::is_empty(std::filesystem::path{conf.getPath()}) ){
         std::cerr << "Error: root chosen for restore is not empty" << std::endl;
         return 4;
     }
