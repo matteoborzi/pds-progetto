@@ -38,8 +38,8 @@ std::optional <std::string> getChecksum(const std::string &path) {
  */
 bool deleteFolderRecursively(const std::string &path) {
     std::filesystem::directory_entry dir{path};
-    if(!dir.exists() || !dir.is_directory())
-        throw std::logic_error("Expecting an existing folder but get "+path);
+    if(!dir.exists())
+        return false;
     try{
         //opening the DB file
         SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open
