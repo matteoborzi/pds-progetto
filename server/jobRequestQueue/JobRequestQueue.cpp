@@ -18,6 +18,7 @@ BackupPB::JobRequest JobRequestQueue::dequeueJobRequest(){
     BackupPB::JobRequest jr{};
     empty.wait(l, [this] { return !queue.empty(); });
     jr = queue.front();
+    queue.pop();
 
     return jr;
 }
