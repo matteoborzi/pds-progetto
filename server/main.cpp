@@ -27,8 +27,9 @@
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
 void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&, JobRequestQueue&);
-void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&);
-void cleanFileSystem(const std::string& path);
+void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&, const std::string&);
+void cleanFileSystem(const std::string& );
+bool restore(boost::asio::ip::tcp::socket&, const std::string&);
 
 int main(int argc, char* argv[]) {
 
@@ -79,14 +80,15 @@ int main(int argc, char* argv[]) {
                 std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
                 //TODO se poolItem è nullptr mandare un WorkspaceMetaInfo_FAIL al client (?)
                 if(poolItem->isValid()){
+                    std::string path= poolItem->getPath();
                     switch (poolItem->getRestore()) {
                         case true:
-                            //TODO implement restore
+                            restore(s, path);
                             break;
                         case false:
-                            std::string path= poolItem->getPath();
+
                             JobRequestQueue queue{};
-                            std::thread responder{sendResponses, std::ref(s), std::ref(queue)};
+                            std::thread responder{sendResponses, std::ref(s), std::ref(queue), std::cref(path)};
                             while(true)
                                 serveJobRequest(s, path, queue);
 
@@ -160,17 +162,24 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
     if(!workspace.restore()){
         //restore flag is NOT active --> backup
         std::string server_path;
+
+        BackupPB::WorkspaceMetaInfo response{};
+        response.set_status(BackupPB::WorkspaceMetaInfo_Status_OK);
         try{
             server_path = computeServerPath(username, workspace.machineid(), workspace.path());
         }
         catch(std::exception& e){
             std::cerr << e.what() << std::endl;
-            return nullptr;
-        }
-        std::shared_ptr<PathPool> pool = std::make_shared<PathPool>(server_path, false);
-        if(!pool->isValid()){ //there is already another client that is using that workspace
-            BackupPB::WorkspaceMetaInfo response{};
             response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
+
+        }
+        std::shared_ptr<PathPool> pool=nullptr;
+
+        if(response.status()==BackupPB::WorkspaceMetaInfo_Status_OK)
+            pool = std::make_shared<PathPool>(server_path, false);
+
+        if(pool==nullptr|| !pool->isValid()){ //there is already another client that is using that workspace
+
             try{
                 writeToSocket(s, response);
             }
@@ -179,34 +188,38 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
                 return nullptr;
             }
             return pool;
-        }
-        else{
-            cleanFileSystem(server_path);
+        } else{
+
             //retrieve folders, files and checksum and send to client
-            BackupPB::WorkspaceMetaInfo response{};
 
-            response.set_status(BackupPB::WorkspaceMetaInfo_Status_OK);
+            try {
+                cleanFileSystem(server_path);
+                for(auto directory_entry : std::filesystem::recursive_directory_iterator(server_path)){
+                    BackupPB::DirectoryEntryMessage* message = response.add_list();
+                    std::string name = directory_entry.path();
+                    boost::algorithm::erase_first(name, server_path);
+                    message->set_name("/"+name);
+                    if(directory_entry.is_directory())
+                        message->set_type(BackupPB::DirectoryEntryMessage_Type_DIRTYPE);
+                    else {
+                        message->set_type(BackupPB::DirectoryEntryMessage_Type_FILETYPE);
+                        std::optional<std::string> checksum = getChecksum(directory_entry.path());
+                        if(checksum == std::nullopt){
+                            response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
+                            response.clear_list();
+                            break;
+                        }
+                        else
+                            message->set_checksum(checksum.value());
 
-            for(auto directory_entry : std::filesystem::recursive_directory_iterator(server_path)){
-                BackupPB::DirectoryEntryMessage* message = response.add_list();
-                std::string name = directory_entry.path();
-                boost::algorithm::erase_first(name, server_path);
-                message->set_name("/"+name);
-                if(directory_entry.is_directory())
-                    message->set_type(BackupPB::DirectoryEntryMessage_Type_DIRTYPE);
-                else {
-                    message->set_type(BackupPB::DirectoryEntryMessage_Type_FILETYPE);
-                    std::optional<std::string> checksum = getChecksum(directory_entry.path());
-                    if(checksum == std::nullopt){
-                        response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
-                        response.clear_list();
-                        break;
                     }
-                    else
-                        message->set_checksum(checksum.value());
-
                 }
+            }catch(std::exception& e){
+                std::cerr << e.what() << std::endl;
+                response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
             }
+
+
             try{
                 writeToSocket(s, response);
             }
@@ -222,14 +235,24 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
     else{
         //restore flag is active --> restore
         //send available clientPath for that user
-        std::set<std::pair<std::string, std::string>> availablePaths = getAvailableClientPath(username);
+        std::set<std::pair<std::string, std::string>> availablePaths;
         BackupPB::AvailableWorkspaces availablePathMessage{};
-        for(std::pair<std::string,std::string> entry : availablePaths){
-            BackupPB::MachinePath* machinePath = availablePathMessage.add_paths();
-            machinePath->set_path(entry.second);
-            machinePath->set_machineid(entry.first);
+
+        try{
+            availablePaths = getAvailableClientPath(username);
+
+            for(std::pair<std::string,std::string> entry : availablePaths){
+                BackupPB::MachinePath* machinePath = availablePathMessage.add_paths();
+                machinePath->set_path(entry.second);
+                machinePath->set_machineid(entry.first);
+            }
+            availablePathMessage.set_status(BackupPB::AvailableWorkspaces_Status_OK);
+        } catch (...) {
+            availablePathMessage.set_status(BackupPB::AvailableWorkspaces_Status_FAIL);
+            availablePathMessage.clear_paths();
         }
-        availablePathMessage.set_status(BackupPB::AvailableWorkspaces_Status_OK);
+
+
         try{
             writeToSocket(s, availablePathMessage);
         }
@@ -237,18 +260,21 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             std::cerr << e.what() << std::endl;
             return nullptr;
         }
+        if(availablePathMessage.status()==BackupPB::AvailableWorkspaces_Status_FAIL)
+            return nullptr;
+
         //receive chosen machineID,path
-        BackupPB::MachinePath choosenPath;
+        BackupPB::MachinePath chosenPath;
         try{
-            choosenPath = readFromSocket<BackupPB::MachinePath>(s);
+            chosenPath = readFromSocket<BackupPB::MachinePath>(s);
         }
         catch(std::exception& e){
             std::cerr << e.what() << std::endl;
             return nullptr;
         }
         try{
-            if( ( choosenPath.machineid() != workspace.machineid()
-                || choosenPath.path() != workspace.path() )
+            if( (chosenPath.machineid() != workspace.machineid()
+                 || chosenPath.path() != workspace.path() )
                 && isClientPathAlreadyPresent(username, workspace.machineid(), workspace.path())){
                 std::cerr << "Error, the mapping "+username+", "+workspace.machineid()+", "+workspace.path()+" already exists"+
                              "and can not be overwritten " << std::endl;
@@ -263,11 +289,11 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             return nullptr;
         }
         //retrieve associated server path
-        std::string server_path = computeServerPath(username, choosenPath.machineid(), choosenPath.path());
+        std::string server_path = computeServerPath(username, chosenPath.machineid(), chosenPath.path());
         //create PathPool, update db and send response to client (OK or FAIL)
         PathPool pool{server_path, true};
         BackupPB::RestoreResponse restoreResponse{};
-        if(!pool.isValid() || !updateMapping(username, choosenPath.machineid(), choosenPath.path(), workspace.machineid(), workspace.path()) )
+        if(!pool.isValid() || !updateMapping(username, chosenPath.machineid(), chosenPath.path(), workspace.machineid(), workspace.path()) )
             restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
         else
             restoreResponse.set_status(BackupPB::RestoreResponse_Status_OK);
@@ -278,9 +304,13 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             std::cerr << e.what() << std::endl;
             return nullptr;
         }
-        if(restoreResponse.status() == BackupPB::RestoreResponse_Status_FAIL && pool.isValid())
+
+        if(pool.isValid()) {
+            if(restoreResponse.status() == BackupPB::RestoreResponse_Status_FAIL)
                 return nullptr;
-        cleanFileSystem(server_path);
+            else
+                cleanFileSystem(server_path);
+        }
         return std::make_shared<PathPool>(pool);
     }
 }
@@ -302,19 +332,21 @@ void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPa
 
 }
 
-void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue){
+void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue, const std::string& base_path){
     while(true){
         BackupPB::JobRequest request = queue.dequeueJobRequest();
         BackupPB::JobResponse response{};
         response.set_path(request.path());
+
+        std::string complete_path{base_path+request.path().substr(1,request.path().size())};
         switch(request.pbaction()){
             case BackupPB::JobRequest_PBAction_ADD_FILE :
             case BackupPB::JobRequest_PBAction_UPDATE :
-                if(!updateChecksum(request.path())){
+                if(!updateChecksum(complete_path)){
                     response.set_status(BackupPB::JobResponse_Status_FAIL);
                 }
                 else{
-                    std::optional<std::string> checksum = getChecksum(request.path());
+                    std::optional<std::string> checksum = getChecksum(complete_path);
                     if(!checksum.has_value())
                         response.set_status(BackupPB::JobResponse_Status_FAIL);
                     else {
@@ -327,7 +359,7 @@ void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue
                 response.set_status(BackupPB::JobResponse_Status_OK);
                 break;
             case BackupPB::JobRequest_PBAction_DELETE :
-                if(!deleteFolderRecursively(request.path()))
+                if(!deleteFolderRecursively(complete_path))
                     response.set_status(BackupPB::JobResponse_Status_FAIL);
                 else
                     response.set_status(BackupPB::JobResponse_Status_OK);
@@ -343,8 +375,13 @@ void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue
     }
 }
 
-bool restore(boost::asio::ip::tcp::socket& socket, std::shared_ptr<PathPool> pool){
+bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path){
     //TODO implement
+    //foreach file:
+        //send JobRequest (trim server path from path)
+        //send File (if file)
+
+    //send empty job request
     return true;
 }
 
