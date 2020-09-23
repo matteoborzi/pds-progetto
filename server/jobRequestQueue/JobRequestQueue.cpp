@@ -4,10 +4,10 @@
 
 #include "JobRequestQueue.h"
 
-void enqueueJobRequest(BackupPB::JobRequest& j){
+void JobRequestQueue::enqueueJobRequest(BackupPB::JobRequest& j){
 
 }
 
-BackupPB::JobRequest dequeueJobRequest(){
+BackupPB::JobRequest JobRequestQueue::dequeueJobRequest(){
     return BackupPB::JobRequest{};
 }
