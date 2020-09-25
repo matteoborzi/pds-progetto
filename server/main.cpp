@@ -287,18 +287,32 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             std::cerr << e.what() << std::endl;
             return nullptr;
         }
+
         //retrieve associated server path
-        //TODO catch unhandled exception in computeServerPath
-        std::string server_path = computeServerPath(username, chosenPath.machineid(), chosenPath.path());
+        std::string server_path;
+        try{
+            server_path = computeServerPath(username, chosenPath.machineid(), chosenPath.path());
+        } catch(std::exception& e){
+            std::cerr << "Could not compute server path for user " << username << std::endl;
+            std::cerr << e.what() << std::endl;
+            return nullptr;
+        }
+
         //create PathPool, update db and send response to client (OK or FAIL)
         PathPool pool{server_path, true};
         BackupPB::RestoreResponse restoreResponse{};
 
-        //TODO catch unhandled exception in updateMapping
-        if(!pool.isValid() || !updateMapping(username, chosenPath.machineid(), chosenPath.path(), workspace.machineid(), workspace.path()) )
+        try{
+            if(!pool.isValid() || !updateMapping(username, chosenPath.machineid(), chosenPath.path(), workspace.machineid(), workspace.path()) )
+                restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
+            else
+                restoreResponse.set_status(BackupPB::RestoreResponse_Status_OK);
+        } catch(std::exception& e){
+            std::cerr << "Could not update DB mapping for user " << username << std::endl;
+            std::cerr << e.what() << std::endl;
             restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
-        else
-            restoreResponse.set_status(BackupPB::RestoreResponse_Status_OK);
+        }
+
         try{
             writeToSocket(s, restoreResponse);
         }
