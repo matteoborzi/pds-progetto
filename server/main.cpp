@@ -179,7 +179,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             pool = std::make_shared<PathPool>(server_path, false);
 
         if(pool==nullptr|| !pool->isValid()){ //there is already another client that is using that workspace
-
+            response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
             try{
                 writeToSocket(s, response);
             }
@@ -204,7 +204,8 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
                     else {
                         message->set_type(BackupPB::DirectoryEntryMessage_Type_FILETYPE);
                         std::optional<std::string> checksum = getChecksum(directory_entry.path());
-                        if(checksum == std::nullopt){
+                        //TODO change with !checksum.has_value()
+                        if(checksum.has_value() == std::nullopt){
                             response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
                             response.clear_list();
                             break;
