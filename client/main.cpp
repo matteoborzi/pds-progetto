@@ -264,6 +264,7 @@ void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
                 std::string basePath = Configuration::getConfiguration().value().getPath();
                 std::shared_ptr<File> file = getFile(response.path());
                 if(file == nullptr)
+                    //TODO inserire setConcluded al Job
                     continue;
                 else {
                     if(file->getChecksum() == response.checksum())
