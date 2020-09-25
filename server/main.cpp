@@ -78,7 +78,6 @@ int main(int argc, char* argv[]) {
                 std::cout<< "Username: " << username.value() << std::endl;
 
                 std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
-                //TODO se poolItem è nullptr mandare un WorkspaceMetaInfo_FAIL al client (?)
                 if(poolItem->isValid()){
                     std::string path= poolItem->getPath();
                     switch (poolItem->getRestore()) {
@@ -204,7 +203,6 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
                     else {
                         message->set_type(BackupPB::DirectoryEntryMessage_Type_FILETYPE);
                         std::optional<std::string> checksum = getChecksum(directory_entry.path());
-                        //TODO change with !checksum.has_value()
                         if(!checksum.has_value()){
                             response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
                             response.clear_list();
@@ -290,10 +288,13 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             return nullptr;
         }
         //retrieve associated server path
+        //TODO catch unhandled exception in computeServerPath
         std::string server_path = computeServerPath(username, chosenPath.machineid(), chosenPath.path());
         //create PathPool, update db and send response to client (OK or FAIL)
         PathPool pool{server_path, true};
         BackupPB::RestoreResponse restoreResponse{};
+
+        //TODO catch unhandled exception in updateMapping
         if(!pool.isValid() || !updateMapping(username, chosenPath.machineid(), chosenPath.path(), workspace.machineid(), workspace.path()) )
             restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
         else
