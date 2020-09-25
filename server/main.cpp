@@ -205,7 +205,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
                         message->set_type(BackupPB::DirectoryEntryMessage_Type_FILETYPE);
                         std::optional<std::string> checksum = getChecksum(directory_entry.path());
                         //TODO change with !checksum.has_value()
-                        if(checksum.has_value() == std::nullopt){
+                        if(!checksum.has_value()){
                             response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
                             response.clear_list();
                             break;
