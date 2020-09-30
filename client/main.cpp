@@ -37,8 +37,9 @@ void receiveData(boost::asio::ip::tcp::socket &, JobQueue &);
 
 bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path);
 
-int main(int argc, char *argv[]) {
+int promptChoice(BackupPB::AvailableWorkspaces);
 
+int main(int argc, char *argv[]) {
 //    boost::asio::io_context io_service;
 ////socket creation
 //    boost::asio::ip::tcp::socket socket(io_service);
@@ -290,8 +291,35 @@ bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::
     return true;
 }
 
+/**
+ * Prompt and select the desired workspace
+ * @param ws AvailableWorkspaces message
+ * @return the index of the selected Workspace, -1 if error (empty message or index selected is out of bound)
+ */
 int promptChoice(BackupPB::AvailableWorkspaces ws){
+    if(ws.paths().empty()) {
+        std::cout<<"No workspace to restore available on the server"<<std::endl;
+        return -1;
+    }
 
-    return -1;
+    int i=1,choice;
+
+    std::cout<<"Available workspaces to restore:"<<std::endl;
+    for(BackupPB::MachinePath p : ws.paths()){
+        std::cout<<i<<"- "<<p.path()<<" on "<<p.machineid()<<std::endl;
+        i++;
+    }
+    std::cout<<"Enter the index:\n>"<<std::endl;
+    std::cin>>choice;
+    if(!std::cin){
+        std::cout<<"Wrong input format"<<std::endl;
+        return -1;
+    }
+    if(choice<1 || choice > ws.paths_size()) {
+        std::cout<<"Index out of bound"<<std::endl;
+        return -1;
+    }
+
+    return choice -1;
 }
 
