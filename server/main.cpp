@@ -403,13 +403,40 @@ void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue
     }
 }
 
-bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path){
-    //TODO implement
-    //foreach file:
-        //send JobRequest (trim server path from path)
-        //send File (if file)
+bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path) {
+    for (std::filesystem::directory_entry entry : std::filesystem::recursive_directory_iterator(path)) {
+        BackupPB::JobRequest request{};
+        if (entry.is_directory())
+            request.set_pbaction(BackupPB::JobRequest_PBAction_ADD_DIRECTORY);
+        else if (entry.is_regular_file()) {
+            request.set_pbaction(BackupPB::JobRequest_PBAction_ADD_FILE);
+            request.set_size(entry.file_size());
+        }
+        std::string path_to_send = entry.path();
+        boost::algorithm::erase_first(path_to_send, path);
+        request.set_path(path_to_send);
 
-    //send empty job request
+        try {
+            writeToSocket(socket, request);
+            if (request.pbaction() == BackupPB::JobRequest_PBAction_ADD_FILE)
+                sendFile(socket, path, request.size());
+        }
+        catch (std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            return false;
+        }
+    }
+    BackupPB::JobRequest end{};
+    end.set_pbaction(BackupPB::JobRequest_PBAction_END_RESTORE);
+    end.set_path(" ");
+    try {
+        writeToSocket(socket, end);
+    }
+    catch (std::exception &e) {
+        std::cerr << e.what() << std::endl;
+        return false;
+    }
+
     return true;
 }
 
