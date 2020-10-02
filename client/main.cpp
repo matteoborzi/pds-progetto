@@ -262,11 +262,11 @@ void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
             if(!response.has_checksum()) //status OK and it is an add_folder or a delete
                 queue.setConcluded(response.path());
             else if(response.has_checksum()){ //a file has been sent for an add_file or for an update
-                std::string basePath = Configuration::getConfiguration().value().getPath();
                 std::shared_ptr<File> file = getFile(response.path());
                 if(file == nullptr)
-                    //TODO inserire setConcluded al Job
-                    continue;
+                    /*the file is not present anymore,
+                    so nothing should be done and the job is removed from the sent queue */
+                    queue.setConcluded(response.path());
                 else {
                     if(file->getChecksum() == response.checksum())
                         queue.setConcluded(response.path());
