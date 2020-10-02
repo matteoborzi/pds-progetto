@@ -239,7 +239,6 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
 }
 
 void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
-    //TODO fare check che gli / sui path siano corretti
     static std::atomic_int counter = 0;
     while (true) {
         BackupPB::JobResponse response{};
