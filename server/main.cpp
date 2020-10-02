@@ -272,6 +272,18 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             return nullptr;
         }
         try{
+            // if the selection of the folder to restore was not successful
+            if(chosenPath.erroronselection())
+                return nullptr;
+
+            /* check that, given a certain user, the chosen combination machineID-path of the folder to restore is ok
+             * in particular, can not be accepted a combination where
+             * - the machineID-path related to the folder where the user wants to copy the restored folder
+             *   already exists on the server
+             * - the machineID-path related to the folder whose content the user wants to restore,
+             *   is different with respect to the previous one.
+             * this combination is not allowed since all the data contained in the first folder (on the server) would be loss
+             */
             if( (chosenPath.machineid() != workspace.machineid()
                  || chosenPath.path() != workspace.path() )
                 && isClientPathAlreadyPresent(username, workspace.machineid(), workspace.path())){
