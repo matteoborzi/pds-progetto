@@ -82,6 +82,7 @@ int main(int argc, char* argv[]) {
                     std::string path= poolItem->getPath();
                     switch (poolItem->getRestore()) {
                         case true:
+                            //TODO check restore return 
                             restore(s, path);
                             break;
                         case false:
