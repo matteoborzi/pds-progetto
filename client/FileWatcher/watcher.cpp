@@ -63,12 +63,17 @@ void watch(JobQueue &queue) {
 
 
                 } else {
-                    if(!element.exists())
-                        continue;
-                    time_t edit_time=last_edit_time(element);
+                    time_t edit_time;
                     std::string checksum;
-                    if(first)
-                        checksum = computeChecksum(element.path());
+                    try {
+                        edit_time = last_edit_time(element);
+                        if (first)
+                            checksum = computeChecksum(element.path());
+                    }catch(...){
+                        //TODO remove print
+                        std::cout<<"Winzoz fa schifo"<<std::endl;
+                        continue;
+                    }
 
 
                     if ((! first &&  edit_time> file->getLastEditTime() ) //file is newer than one in DirectoryStructure
