@@ -32,6 +32,8 @@ void watch(JobQueue &queue) {
         //scanning file system
         std::filesystem::recursive_directory_iterator iter={abs_path, std::filesystem::directory_options::skip_permission_denied};
 
+        bool error=false;
+
         while(iter!=end(iter)) {
             std::filesystem::directory_entry element= *iter;
 
@@ -89,7 +91,7 @@ void watch(JobQueue &queue) {
                         }catch(std::exception& e){
                             //TODO remove print
                             std::cout<<"Winzoz fa schifo pt2"<<e.what()<<std::endl;
-                            error_count++;
+                            error=true;
                             break;
                         }
 
@@ -124,12 +126,13 @@ void watch(JobQueue &queue) {
             }catch(std::exception& e){
                 //TODO remove print
                 std::cout<<"Winzoz fa schifo pt2"<<e.what()<<std::endl;
-                error_count++;
+                error=true;
                 break;
             }
         }
 
-        if(error_count > 0) {
+        if(error) {
+            error_count++;
             if(error_count>=MAX_RETRY)
                 //TODO decide if exception is needed
                 return;
