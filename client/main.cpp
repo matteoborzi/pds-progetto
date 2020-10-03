@@ -19,6 +19,7 @@
 #include "../common/messages/Workspace.pb.h"
 #include "../common/messages/MetaInfo.pb.h"
 #include "../common/messages/JobResponse.pb.h"
+#include "../common/messages/RestoreResponse.pb.h"
 
 
 #include "../common/Checksum.h"
@@ -278,15 +279,109 @@ void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
 }
 
 bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
-    //send workspace choice
 
-    //wait response
+    // Prepare restore message
+    BackupPB::Workspace restore_request{};
 
-    //if available
-        //prompt for choice
-        //send to server
+    restore_request.set_machineid(machineId);
+    restore_request.set_path(path);
+    restore_request.set_restore(true);
 
-        //wait files and dir until END_RESTORE option
+    // Try to send request on socket
+    // Returns if write fails
+    try{
+        writeToSocket<BackupPB::Workspace>(socket, restore_request);
+    } catch(std::exception& e){
+        std::cerr << "Socket write error: " << e.what() << std::endl;
+        return false;
+    }
+
+
+    // Try to read the list of available workspaces from socket
+    // Returns if read fails
+    BackupPB::AvailableWorkspaces available_workspaces{};
+
+    try{
+        available_workspaces = readFromSocket<BackupPB::AvailableWorkspaces>(socket);
+    } catch(std::exception& e) {
+        std::cerr << "Socket read error: " << e.what() << std::endl;
+        return false;
+    }
+
+
+    if(available_workspaces.status() == BackupPB::AvailableWorkspaces_Status_OK){
+        int ind = promptChoice(available_workspaces);
+
+        // Returning for non valid machine-path choice
+        if(ind < 0){
+            std::cerr << "The selected path to restore is not valid" << std::endl;
+            return false;
+        }
+
+        // Selected folder to restore is located at index ind in paths
+        BackupPB::MachinePath machine_path = available_workspaces.paths(ind);
+
+        // Try to send MachinePath message to socket
+        // Returns if write fails
+        try{
+            writeToSocket<BackupPB::MachinePath>(socket, machine_path);
+        } catch(std::exception& e){
+            std::cerr << "Socket write error: " << e.what() << std::endl;
+            return false;
+        }
+
+        // Try to read a restore response from socket
+        // Returns if read fails
+        BackupPB::RestoreResponse restore_response{};
+
+        try{
+            restore_response = readFromSocket<BackupPB::RestoreResponse>(socket);
+        } catch(std::exception& e) {
+            std::cerr << "Socket read error: " << e.what() << std::endl;
+            return false;
+        }
+
+        // Return if server rejected the request
+        if(restore_response.status() == BackupPB::RestoreResponse_Status_FAIL){
+            std::cerr << "Restore request has been rejected" << std::endl;
+            return false;
+        }
+
+        // Read a JobRequest from the socket until a message with status END_RESTORE is received
+        BackupPB::JobRequest job_request{};
+        do{
+            // Try to read JobRequest from socket
+            // Returns if read fails
+            try{
+                job_request = readFromSocket<BackupPB::JobRequest>(socket);
+            } catch(std::exception& e){
+                std::cerr << "Socket read error: " << e.what() << std::endl;
+                return false;
+            }
+
+            // Compute the correct path
+            std::string complete_path{path + "/" + job_request.path()};
+
+            // If the request is an ADD_FILE tries to read the file from the socket
+            // Returns if read fails
+            if(job_request.pbaction() == BackupPB::JobRequest_PBAction_ADD_FILE) {
+                try {
+                    receiveFile(socket, complete_path, job_request.size());
+                } catch (std::exception &e) {
+                    std::cerr << "Error while receiving file: " << e.what() << std::endl;
+                    return false;
+                }
+            }
+
+            // If the request is an ADD_DIRECTORY there is no socket read
+            else if(job_request.pbaction() == BackupPB::JobRequest_PBAction_ADD_DIRECTORY)
+                std::filesystem::create_directories(complete_path);
+
+        } while(job_request.pbaction() != BackupPB::JobRequest_PBAction_END_RESTORE);
+
+    }
+
+    std::cout << "Restore completed" << std::endl;
     return true;
 }
 
