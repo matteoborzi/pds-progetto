@@ -63,10 +63,17 @@ void watch(JobQueue &queue) {
 
 
                 } else {
+                    if(!element.exists())
+                        continue;
+                    time_t edit_time=last_edit_time(element);
+                    std::string checksum;
+                    if(first)
+                        checksum = computeChecksum(element.path());
 
-                    if ((! first && last_edit_time(element) > file->getLastEditTime() ) //file is newer than one in DirectoryStructure
+
+                    if ((! first &&  edit_time> file->getLastEditTime() ) //file is newer than one in DirectoryStructure
                         //(only from second check)
-                        || (first && file->getChecksum() != computeChecksum(element.path()))) { //different checksum
+                        || (first && file->getChecksum() != checksum)) { //different checksum
                         // (computing it only at first check)
 
                         //The file has been updated
@@ -75,7 +82,7 @@ void watch(JobQueue &queue) {
 
                         if(!first) //(otherwise this call is made in following lines)
                             //updating information about file
-                            file->setLastEditTime(last_edit_time(element));
+                            file->setLastEditTime(edit_time);
 
 
                     }
