@@ -25,13 +25,12 @@ void watch(JobQueue &queue) {
     int error_count=0;
 
     while (true) {
+        std::cout << "Whatching..." << std::endl;
         //clearing all previously visited elements
         Directory::getRoot()->unsetVisited();
 
         //scanning file system
         std::filesystem::recursive_directory_iterator iter={abs_path, std::filesystem::directory_options::skip_permission_denied};
-
-
 
         while(iter!=end(iter)) {
             std::filesystem::directory_entry element= *iter;
@@ -81,9 +80,19 @@ void watch(JobQueue &queue) {
                         edit_time = last_edit_time(element);
                         if (first)
                             checksum = computeChecksum(element.path());
-                    }catch(...){
+                    }catch(std::exception& e){
                         //TODO remove print
                         std::cout<<"Winzoz fa schifo: "<<e.what()<<std::endl;
+                        //TODO fare meglio sta roba
+                        try{
+                            iter++;
+                        }catch(std::exception& e){
+                            //TODO remove print
+                            std::cout<<"Winzoz fa schifo pt2"<<e.what()<<std::endl;
+                            error_count++;
+                            break;
+                        }
+
                         continue;
                     }
 
@@ -120,7 +129,7 @@ void watch(JobQueue &queue) {
             }
         }
 
-        if(error_count) {
+        if(error_count > 0) {
             if(error_count>=MAX_RETRY)
                 //TODO decide if exception is needed
                 return;
@@ -131,14 +140,16 @@ void watch(JobQueue &queue) {
 
         //getting not visited entry to be deleted
         for (auto &entry : Directory::getRoot()->getNotVisited()) {
+            std::cout << "Deleting " + entry.first<< std::endl;
             std::string deletePath=entry.first;
             
-            Job deleteDoF{entry.first, DELETE, entry.second->myType()==FILETYPE };
+            Job deleteDoF{deletePath, DELETE, entry.second->myType()==FILETYPE };
             queue.add(deleteDoF);
 
             deleteDirectoryOrFile(deletePath);
         }
         first = false;
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::cout << "sleeping?" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
     }
 }
