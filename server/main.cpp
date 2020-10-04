@@ -420,7 +420,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path) {
         try {
             writeToSocket(socket, request);
             if (request.pbaction() == BackupPB::JobRequest_PBAction_ADD_FILE)
-                sendFile(socket, path, request.size());
+                sendFile(socket, entry.path(), request.size());
         }
         catch (std::exception &e) {
             std::cerr << e.what() << std::endl;
