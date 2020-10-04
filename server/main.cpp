@@ -289,7 +289,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
                  || chosenPath.path() != workspace.path() )
                 && isClientPathAlreadyPresent(username, workspace.machineid(), workspace.path())){
                 std::cerr << "Error, the mapping "+username+", "+workspace.machineid()+", "+workspace.path()+" already exists"+
-                             "and can not be overwritten " << std::endl;
+                             " and can not be overwritten " << std::endl;
                 BackupPB::RestoreResponse restoreResponse{};
                 restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
                 writeToSocket(s, restoreResponse);

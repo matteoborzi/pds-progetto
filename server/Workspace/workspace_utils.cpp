@@ -97,7 +97,7 @@ bool isClientPathAlreadyPresent(const std::string& user, const std::string& mach
     query.bind(3, path);
     if(query.executeStep()){
         int res = query.getColumn(0);
-        return res == 0;
+        return res != 0;
     }
     return false;
 }
@@ -125,11 +125,11 @@ std::set<std::pair<std::string, std::string>> getAvailableClientPath(const std::
 bool updateMapping(const std::string &user, const std::string &oldMachineID, const std::string &oldClientPath,
                    const std::string &newMachineID, const std::string &newClientPath) {
     //opening the DB file
-    SQLite::Database db(filename); //throws an exception if it can not be open
+    SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open
 
     SQLite::Statement query(db, "UPDATE WORKSPACE\n"
                                     "SET machineID = ?, clientPath = ?\n "
-                                    "WHERE username = ?, machineID = ?, clientPath = ?");
+                                    "WHERE username = ? AND machineID = ? AND clientPath = ?");
     query.bind(1, newMachineID);
     query.bind(2, newClientPath);
     query.bind(3, user);
