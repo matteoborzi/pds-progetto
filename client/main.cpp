@@ -403,7 +403,8 @@ int promptChoice(BackupPB::AvailableWorkspaces ws){
         std::cout<<i<<"- "<<p.path()<<" on "<<p.machineid()<<std::endl;
         i++;
     }
-    std::cout<<"Enter the index:\n>"<<std::endl;
+    std::cout<<"Enter the index:\n> ";
+    std::cout.flush();
     std::cin>>choice;
     if(!std::cin){
         std::cout<<"Wrong input format"<<std::endl;
