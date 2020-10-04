@@ -91,6 +91,10 @@ int main(int argc, char *argv[]) {
         if (!restore(socket, conf.getMachineID(), conf.getPath())) {
             std::cerr << "Error during file restore" << std::endl;
             return 6;
+        } 
+        else{
+        	std::cout << "Terminating program..." << std::endl;	
+        	return 0;
         }
     }
     if (!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())) {
