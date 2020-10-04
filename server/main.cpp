@@ -312,11 +312,11 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
         }
 
         //create PathPool, update db and send response to client (OK or FAIL)
-        PathPool pool{server_path, true};
+        std::shared_ptr<PathPool> pool=std::make_shared<PathPool>(server_path, true);
         BackupPB::RestoreResponse restoreResponse{};
 
         try{
-            if(!pool.isValid() || !updateMapping(username, chosenPath.machineid(), chosenPath.path(), workspace.machineid(), workspace.path()) )
+            if(!pool->isValid() || !updateMapping(username, chosenPath.machineid(), chosenPath.path(), workspace.machineid(), workspace.path()) )
                 restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
             else
                 restoreResponse.set_status(BackupPB::RestoreResponse_Status_OK);
@@ -334,13 +334,13 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
             return nullptr;
         }
 
-        if(pool.isValid()) {
+        if(pool->isValid()) {
             if(restoreResponse.status() == BackupPB::RestoreResponse_Status_FAIL)
                 return nullptr;
             else
                 cleanFileSystem(server_path);
         }
-        return std::make_shared<PathPool>(pool);
+        return pool;
     }
 }
 

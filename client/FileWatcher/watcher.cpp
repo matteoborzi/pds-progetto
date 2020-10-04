@@ -11,6 +11,8 @@
 #include "../DirectoryStructure/utils.h"
 #include "../../common/Checksum.h"
 
+#define MAX_RETRY 5
+
 void watch(JobQueue &queue) {
     // getting configuration
     std::optional<Configuration> conf = Configuration::getConfiguration();
@@ -20,12 +22,21 @@ void watch(JobQueue &queue) {
     std::string abs_path = conf.value().getPath();
     bool first = true;
 
+    int error_count=0;
+
     while (true) {
+        std::cout << "Whatching..." << std::endl;
         //clearing all previously visited elements
         Directory::getRoot()->unsetVisited();
 
         //scanning file system
-        for (auto element : std::filesystem::recursive_directory_iterator{abs_path, std::filesystem::directory_options::skip_permission_denied}) {
+        std::filesystem::recursive_directory_iterator iter={abs_path, std::filesystem::directory_options::skip_permission_denied};
+
+        bool error=false;
+
+        while(iter!=end(iter)) {
+            std::filesystem::directory_entry element= *iter;
+
             std::string path = element.path();
             if (abs_path != "/")
                 //extracting relative path
@@ -43,6 +54,7 @@ void watch(JobQueue &queue) {
                     }
                     Job addDir{path, ADD_DIRECTORY, false};
                     queue.add(addDir);
+                    std::cout<<"ADDING DIR: "<<path<<std::endl;
                 }
                 //otherwise nothing to do (a directory cannot be updated)
                 dir->setVisited();
@@ -59,6 +71,7 @@ void watch(JobQueue &queue) {
                         throw std::runtime_error("Unable to create metadata for file " + path);
                     }
                     Job addFile{path, ADD_FILE, true};
+                    std::cout<<"ADDING FILE: "<<path<<std::endl;
                     queue.add(addFile);
 
 
@@ -69,9 +82,19 @@ void watch(JobQueue &queue) {
                         edit_time = last_edit_time(element);
                         if (first)
                             checksum = computeChecksum(element.path());
-                    }catch(...){
+                    }catch(std::exception& e){
                         //TODO remove print
-                        std::cout<<"Winzoz fa schifo"<<std::endl;
+                        std::cout<<"Winzoz fa schifo: "<<e.what()<<std::endl;
+                        //TODO fare meglio sta roba
+                        try{
+                            iter++;
+                        }catch(std::exception& e){
+                            //TODO remove print
+                            std::cout<<"Winzoz fa schifo pt2"<<e.what()<<std::endl;
+                            error=true;
+                            break;
+                        }
+
                         continue;
                     }
 
@@ -98,19 +121,38 @@ void watch(JobQueue &queue) {
                 }
                 file->setVisited();
             }
-
+            try{
+                iter++;
+            }catch(std::exception& e){
+                //TODO remove print
+                std::cout<<"Winzoz fa schifo pt2"<<e.what()<<std::endl;
+                error=true;
+                break;
+            }
         }
+
+        if(error) {
+            error_count++;
+            if(error_count>=MAX_RETRY)
+                //TODO decide if exception is needed
+                return;
+            continue;
+        }
+
+        error_count=0;
 
         //getting not visited entry to be deleted
         for (auto &entry : Directory::getRoot()->getNotVisited()) {
+            std::cout << "Deleting " + entry.first<< std::endl;
             std::string deletePath=entry.first;
             
-            Job deleteDoF{entry.first, DELETE, entry.second->myType()==FILETYPE };
+            Job deleteDoF{deletePath, DELETE, entry.second->myType()==FILETYPE };
             queue.add(deleteDoF);
 
             deleteDirectoryOrFile(deletePath);
         }
         first = false;
-        std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+        std::cout << "sleeping?" << std::endl;
+        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
     }
 }
