@@ -36,6 +36,8 @@ add_executable(client main.cpp
         ../common/messages/Workspace.pb.cc ../common/messages/Workspace.pb.h
         ../common/messages/MachinePath.pb.cc ../common/messages/MachinePath.pb.h
         ../common/messages/MetaInfo.pb.cc   ../common/messages/MetaInfo.pb.h
+        ../common/messages/RestoreResponse.pb.cc ../common/messages/RestoreResponse.pb.h
+
         )
 target_link_libraries(client ${CMAKE_THREAD_LIBS_INIT}  ${Boost_SYSTEM_LIBRARY})
 
