@@ -25,7 +25,7 @@ void watch(JobQueue &queue) {
     int error_count=0;
 
     while (true) {
-        std::cout << "Whatching..." << std::endl;
+        
         //clearing all previously visited elements
         Directory::getRoot()->unsetVisited();
 
@@ -152,7 +152,7 @@ void watch(JobQueue &queue) {
             deleteDirectoryOrFile(deletePath);
         }
         first = false;
-        std::cout << "sleeping?" << std::endl;
-        std::this_thread::sleep_for(std::chrono::milliseconds(10000));
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     }
 }
