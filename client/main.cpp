@@ -256,8 +256,8 @@ void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
 
         if(response.status() == BackupPB::JobResponse_Status_FAIL){
             if(counter <= 10){
-                queue.retry(response.path());
                 counter++;
+                queue.retry(response.path());
             }
             else throw std::runtime_error("Server is not working properly");
         }
