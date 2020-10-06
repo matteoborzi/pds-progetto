@@ -5,6 +5,7 @@
 #include <filesystem>
 #include <iostream>
 #include "workspace_utils.h"
+#include "../ChecksumStorage/ChecksumStorage.h"
 #include <boost/algorithm/string.hpp>
 #include <SQLiteCpp/Database.h>
 #include <SQLiteCpp/Statement.h>
@@ -139,4 +140,26 @@ bool updateMapping(const std::string &user, const std::string &oldMachineID, con
     int res = query.exec();
 
     return res==1;
+}
+
+void cleanFileSystem(const std::string& path){
+    std::filesystem::directory_entry dir{path};
+    if(!dir.exists() || !dir.is_directory())
+        throw std::logic_error("Expecting an existing folder but get "+path);
+    for(std::filesystem::directory_entry element : std::filesystem::recursive_directory_iterator(path)) {
+        //scan recursively all files in path
+        std::string file_path{element.path().string()};
+        if(element.is_regular_file() && boost::algorithm::ends_with(element.path().string(), TMP_EXTENSION)) {
+            boost::algorithm::erase_last(file_path, std::string{TMP_EXTENSION});
+
+            std::filesystem::directory_entry old{file_path};
+            // if (.tmp is present && normal !present)
+            if(!old.exists())
+                updateChecksum(file_path);
+            else
+                // if (both presents)
+                //keep older
+                std::filesystem::remove(file_path+TMP_EXTENSION);
+        }
+    }
 }
