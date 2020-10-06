@@ -24,7 +24,7 @@
 #include "../common/messages/JobRequest.pb.h"
 #include "../common/messages/JobResponse.pb.h"
 
-std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
+
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
 void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&, JobRequestQueue&);
 void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&, const std::string&);
@@ -111,37 +111,7 @@ int main(int argc, char* argv[]) {
 //    return 1;
 }
 
-std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
 
-    BackupPB::AuthenticationRequest authenticationRequest;
-    BackupPB::AuthenticationResponse authenticationResponse;
-    std::optional<std::string> username;
-
-    try{
-        authenticationRequest = readFromSocket<BackupPB::AuthenticationRequest>(s);
-    } catch(std::exception& e) {
-        std::cerr<< e.what() << std::endl;
-        return std::nullopt;
-    }
-
-    if(!authenticate(authenticationRequest.username(), authenticationRequest.password())){
-        //std::cerr << "Login failed" << std::endl;
-        authenticationResponse.set_status(BackupPB::AuthenticationResponse_Status_FAIL);
-        username = std::nullopt;
-    } else {
-        authenticationResponse.set_status(BackupPB::AuthenticationResponse_Status_OK);
-        username = authenticationRequest.username();
-    }
-
-    try{
-        writeToSocket(s, authenticationResponse);
-    } catch(std::exception& e){
-        std::cerr << e.what() << std::endl;
-        return std::nullopt;
-    }
-
-    return username;
-}
 
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::string& username){
 
