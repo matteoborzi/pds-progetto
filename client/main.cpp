@@ -265,7 +265,7 @@ void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
             counter = 0;
             if(!response.has_checksum()) //status OK and it is an add_folder or a delete
                 queue.setConcluded(response.path());
-            else if(response.has_checksum()){ //a file has been sent for an add_file or for an update
+            else { //a file has been sent for an add_file or for an update
                 std::shared_ptr<File> file = getFile(response.path());
                 if(file == nullptr)
                     /*the file is not present anymore,
