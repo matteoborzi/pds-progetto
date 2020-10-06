@@ -138,6 +138,8 @@ void JobQueue::retry(const std::string &path) {
     // this means that an element from the queue can be sent in getLastAndSetSent
     empty.notify_one();
 
+    return;
+
 }
 
 /**
