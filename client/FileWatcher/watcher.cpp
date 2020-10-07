@@ -27,7 +27,7 @@ void watch(JobQueue &queue) {
     while (true) {
         
         //clearing all previously visited elements
-        Directory::getRoot()->unsetVisited();
+       unsetAllVisited();
 
         //scanning file system
         std::filesystem::recursive_directory_iterator iter={abs_path, std::filesystem::directory_options::skip_permission_denied};
@@ -142,7 +142,7 @@ void watch(JobQueue &queue) {
         error_count=0;
 
         //getting not visited entry to be deleted
-        for (auto &entry : Directory::getRoot()->getNotVisited()) {
+        for (auto &entry : getNotVisited()) {
             std::cout << "Deleting " + entry.first<< std::endl;
             std::string deletePath=entry.first;
             
