@@ -79,9 +79,13 @@ int main(int argc, char *argv[]) {
         }
     }while(!connected);
 
-    //TODO eventually catch exception thrown by path constructor
-    if(argc==3 && !std::filesystem::is_empty(std::filesystem::path{conf.getPath()}) ){
-        std::cerr << "Error: root chosen for restore is not empty" << std::endl;
+    try {
+        if (argc == 3 && !std::filesystem::is_empty(std::filesystem::path{conf.getPath()})) {
+            std::cerr << "Error: root chosen for restore is not empty" << std::endl;
+            return 4;
+        }
+    }catch(...){
+        std::cerr<<"Impossible to determine whether the selected folder is empty or not"<<std::endl;
         return 4;
     }
 
@@ -105,7 +109,6 @@ int main(int argc, char *argv[]) {
     }
     if (!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())) {
         std::cerr << "Error during workspace choice" << std::endl;
-        //TODO see if it is necessary to send some messages to the server
         return 7;
     }
 
