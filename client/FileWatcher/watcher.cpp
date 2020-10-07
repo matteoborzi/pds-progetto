@@ -12,6 +12,7 @@
 #include "../../common/Checksum.h"
 
 #define MAX_RETRY 5
+#define WATCH_PERIOD 5
 
 bool tryIncrement(std::filesystem::recursive_directory_iterator &iterator);
 
@@ -145,7 +146,7 @@ void watch(JobQueue &queue) {
         }
         first = false;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+        std::this_thread::sleep_for(std::chrono::seconds(WATCH_PERIOD));
     }
 }
 
