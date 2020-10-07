@@ -6,7 +6,12 @@
 #include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include "Configuration.h"
+
+#define MAX_PORT 65535
+
 std::optional<Configuration> Configuration::configuration = std::nullopt;
+
+void printCorrectConfFile();
 
 std::optional<Configuration> Configuration::getConfiguration(std::string& filename) {
     if(!configuration.has_value()){
@@ -42,23 +47,42 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
             local_username = boost::locale::conv::to_utf<char>(local_username, "UTF-8", boost::locale::conv::stop);
             local_password = boost::locale::conv::to_utf<char>(local_password, "UTF-8", boost::locale::conv::stop);
             local_machineID = boost::locale::conv::to_utf<char>(local_machineID, "UTF-8", boost::locale::conv::stop);
+            
 
-            //TODO add messages for format error
-            if(local_username.find("/") == std::string::npos) //username should not contains a /
-                if(local_machineID.find("/") == std::string::npos) {//same for machineID
-                    int32_t addr;
-                    if (inet_pton(AF_INET, local_ipAddress.c_str(), &addr) ==
-                        1) { //if returns 1, the ip address is valid
-                        std::filesystem::directory_entry dir{local_path};
-                        if (dir.exists() && dir.is_directory()) { //check that the path exists and is a directory
-                            if (local_port >= 0 && local_port <= 65535) //check that the port is in a valid range
-                                configuration.emplace(
-                                        Configuration(local_path, local_machineID, local_username, local_password,
-                                                      local_ipAddress, local_port));
-                                std::cout<<"Configuration loaded correctly"<<std::endl;
-                        }
-                    }
-                }
+            bool error= false;
+            if(!local_username.find("/") == std::string::npos) {//username should not contains a /
+                std::cerr<<"Name should not contain /"<<std::endl;
+                error=true;
+            }
+
+            if(!local_machineID.find("/") == std::string::npos) {//same for machineID
+                std::cerr<<"MachineID should not contain /"<<std::endl;
+                error=true;
+            }
+
+            int32_t addr;
+            if (inet_pton(AF_INET, local_ipAddress.c_str(), &addr) !=1) { //if returns 1, the ip address is valid
+                std::cerr<<"Wrong IP address format, only IPv4 accepted"<<std::endl;
+                error=true;
+            }
+
+            std::filesystem::directory_entry dir{local_path};
+            if (!(dir.exists() && dir.is_directory())) { //check that the path exists and is a directory
+                std::cerr<<"Directory to backup or restore does not exists"<<std::endl;
+                error=true;
+            }
+
+            if (!(local_port > 0 && local_port <= MAX_PORT)){//check that the port is in a valid range
+                std::cerr<<"Port is not in a valid range "<<std::endl;
+                error=true;
+            }
+
+            if(!error) {
+                configuration.emplace(
+                        Configuration(local_path, local_machineID, local_username, local_password,
+                                      local_ipAddress, local_port));
+                std::cout << "Configuration loaded correctly" << std::endl;
+            }else printCorrectConfFile();
         }
         catch ( boost::property_tree::ptree_bad_path exception) {
             /*
@@ -68,6 +92,7 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
              */
             file.close();
             std::cerr << "missing field(s) in configuration file" << std::endl;
+            printCorrectConfFile();
             return std::nullopt;
         }
         catch (boost::locale::conv::conversion_error exception){
@@ -79,7 +104,7 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
             // in any other case
             file.close();
             std::cerr << "something wrong in configuration file" << std::endl;
-            //TODO add an explanation of the fields that the configuration file should have (?)
+            printCorrectConfFile();
             return std::nullopt;
         }
         file.close();
@@ -116,6 +141,19 @@ std::string& Configuration::getIpAddress() {
 
 int Configuration::getPort() {
     return port;
+}
+
+void printCorrectConfFile() {
+    std::cerr<<"Correct file format:"<<std::endl;
+    
+    std::cerr<<"{\n"
+               "  \"path\": absolute_path,\n"
+               "  \"username\": string,\n"
+               "  \"machineID\": string,\n"
+               "  \"ipAddress\": IPv4 address string,\n"
+               "  \"password\": string,\n"
+               "  \"port\": number [1-"<<MAX_PORT<<"]\n"
+               "}"<<std::endl;
 }
 
 
