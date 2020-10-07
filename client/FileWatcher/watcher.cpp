@@ -13,6 +13,8 @@
 
 #define MAX_RETRY 5
 
+bool tryIncrement(std::filesystem::recursive_directory_iterator &iterator);
+
 void watch(JobQueue &queue) {
     // getting configuration
     std::optional<Configuration> conf = Configuration::getConfiguration();
@@ -83,15 +85,9 @@ void watch(JobQueue &queue) {
                         if (first)
                             checksum = computeChecksum(element.path());
                     }catch(std::exception& e){
-                        //TODO remove print
-                        std::cout<<"Winzoz fa schifo: "<<e.what()<<std::endl;
-                        //TODO fare meglio sta roba
-                        try{
-                            iter++;
-                        }catch(std::exception& e){
-                            //TODO remove print
-                            std::cout<<"Winzoz fa schifo pt2"<<e.what()<<std::endl;
-                            error=true;
+                        //file does not exist anymore
+                        if(!tryIncrement(iter)){
+                            error= true;
                             break;
                         }
 
@@ -121,12 +117,8 @@ void watch(JobQueue &queue) {
                 }
                 file->setVisited();
             }
-            try{
-                iter++;
-            }catch(std::exception& e){
-                //TODO remove print
-                std::cout<<"Winzoz fa schifo pt2"<<e.what()<<std::endl;
-                error=true;
+            if(!tryIncrement(iter)){
+                error= true;
                 break;
             }
         }
@@ -155,4 +147,13 @@ void watch(JobQueue &queue) {
 
         std::this_thread::sleep_for(std::chrono::milliseconds(5000));
     }
+}
+
+bool tryIncrement(std::filesystem::recursive_directory_iterator &iterator) {
+    try{
+        iterator++;
+    } catch (...) {
+        return false;
+    }
+    return true;
 }
