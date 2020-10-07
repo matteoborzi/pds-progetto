@@ -4,6 +4,11 @@
 
 #include "job_utils.h"
 
+/**
+ * convert a Action (defined in Action.h) to PBAction
+ * @param Action to convert
+ * @return the corresponding PBAction
+ */
 BackupPB::JobRequest::PBAction toPBAction(Action toConvert) {
     switch (toConvert) {
         case ADD_FILE:
@@ -17,8 +22,14 @@ BackupPB::JobRequest::PBAction toPBAction(Action toConvert) {
         case CANCELLED:
             return BackupPB::JobRequest::PBAction::JobRequest_PBAction_CANCELLED;
     }
+    return BackupPB::JobRequest::PBAction::JobRequest_PBAction_CANCELLED;
 }
 
+/**
+ * convert a PBAction to Action (defined in Action.h)
+ * @param PBAction to convert
+ * @return the corresponding Action
+ */
 Action toType(BackupPB::JobRequest::PBAction toConvert) {
     switch (toConvert) {
         case BackupPB::JobRequest::PBAction::JobRequest_PBAction_ADD_FILE:
@@ -32,4 +43,5 @@ Action toType(BackupPB::JobRequest::PBAction toConvert) {
         case BackupPB::JobRequest::PBAction::JobRequest_PBAction_CANCELLED:
             return CANCELLED;
     }
+    return CANCELLED;
 }
