@@ -30,6 +30,9 @@
 #include "communicationProtocol/dataManagement.h"
 #include "communicationProtocol/restore.h"
 
+#define MAX_CONNECTION_ATTEMPTS 3
+#define CONNECTION_RETRY_PERIOD 2 //seconds to wait before a reconnection
+
 
 int main(int argc, char *argv[]) {
 //    boost::asio::io_context io_service;
@@ -55,14 +58,26 @@ int main(int argc, char *argv[]) {
     boost::asio::io_context io_service;
 
     boost::asio::ip::tcp::socket socket(io_service);
-    try {
-        socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(
-                conf.getIpAddress()), conf.getPort()));
-    } catch (boost::system::system_error &e) {
-        //TODO evaluate a retry
-        std::cerr << "Impossible to connect to the server" << std::endl;
-        return 3;
-    }
+
+    int attempts = MAX_CONNECTION_ATTEMPTS;
+    bool connected = true;
+    do {
+        try {
+            socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(
+                    conf.getIpAddress()), conf.getPort()));
+        } catch (boost::system::system_error &e) {
+
+            attempts--;
+            connected= false;
+
+            if(attempts==0) {
+
+                std::cerr << "Impossible to connect to the server" << std::endl;
+                return 3;
+            }
+            std::this_thread::sleep_for(std::chrono::seconds(CONNECTION_RETRY_PERIOD));
+        }
+    }while(!connected);
 
     //TODO eventually catch exception thrown by path constructor
     if(argc==3 && !std::filesystem::is_empty(std::filesystem::path{conf.getPath()}) ){
