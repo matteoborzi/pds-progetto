@@ -58,9 +58,11 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
             //send data
             try {
                 sendFile(socket, absolutePath, req.size());
-            } catch (std::exception &) {
+            } catch (std::exception & e) {
 
                 //TODO decide how handle errors
+                std::cerr<<"Error while sending "+absolutePath+": "+e.what()+"\n";
+                throw e;
 
             }
 
