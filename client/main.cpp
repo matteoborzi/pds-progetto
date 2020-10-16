@@ -2,30 +2,13 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <thread>
 #include <filesystem>
-#include "../common/messages/JobRequest.pb.h"
-
 
 #include "Configuration/Configuration.h"
 #include "job/JobQueue.h"
 #include "FileWatcher/watcher.h"
 
 #include "../common/messages/socket_utils.h"
-#include "../common/messages/file_utils.h"
-#include "../common/job_utils.h"
-
-#include "../common/messages/AuthenticationRequest.pb.h"
-#include "../common/messages/AuthenticationResponse.pb.h"
-#include "../common/messages/DirectoryEntryMessage.pb.h"
-#include "../common/messages/Workspace.pb.h"
-#include "../common/messages/MetaInfo.pb.h"
-#include "../common/messages/JobResponse.pb.h"
-#include "../common/messages/RestoreResponse.pb.h"
-
-
-#include "../common/Checksum.h"
-#include "DirectoryStructure/utils.h"
 #include "Configuration/file_util.h"
-#include "../common/messages/AvailableWorkspaces.pb.h"
 #include "communicationProtocol/initialization.h"
 #include "communicationProtocol/dataManagement.h"
 #include "communicationProtocol/restore.h"
@@ -75,6 +58,7 @@ int main(int argc, char *argv[]) {
                 std::cerr << "Impossible to connect to the server" << std::endl;
                 return 3;
             }
+            std::cerr<<"An attempt to connect to the server failed, retrying in "<<CONNECTION_RETRY_PERIOD<<" second(s)"<<std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(CONNECTION_RETRY_PERIOD));
         }
     }while(!connected);
@@ -85,7 +69,7 @@ int main(int argc, char *argv[]) {
             return 4;
         }
     }catch(...){
-        std::cerr<<"Impossible to determine whether the selected folder is empty or not"<<std::endl;
+        std::cerr<<"Impossible to determine whether the selected folder for restore is empty or not"<<std::endl;
         return 4;
     }
 
