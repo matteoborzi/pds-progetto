@@ -50,15 +50,6 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
             
 
             bool error= false;
-            if(!local_username.find("/") == std::string::npos) {//username should not contains a /
-                std::cerr<<"Name should not contain /"<<std::endl;
-                error=true;
-            }
-
-            if(!local_machineID.find("/") == std::string::npos) {//same for machineID
-                std::cerr<<"MachineID should not contain /"<<std::endl;
-                error=true;
-            }
 
             int32_t addr;
             if (inet_pton(AF_INET, local_ipAddress.c_str(), &addr) !=1) { //if returns 1, the ip address is valid
