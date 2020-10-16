@@ -1,11 +1,12 @@
 //
 // Created by Angelica on 30/07/2020.
 //
-#include <boost/locale.hpp>
+
 #include <arpa/inet.h>
 #include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include "Configuration.h"
+#include "../../common/fieldValidation.h"
 
 #define MAX_PORT 65535
 
@@ -44,10 +45,12 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
              * check if username, password and machineID contains only utf8 characters
              * otherwise a conversion_error is thrown
              */
-            local_username = boost::locale::conv::to_utf<char>(local_username, "UTF-8", boost::locale::conv::stop);
-            local_password = boost::locale::conv::to_utf<char>(local_password, "UTF-8", boost::locale::conv::stop);
-            local_machineID = boost::locale::conv::to_utf<char>(local_machineID, "UTF-8", boost::locale::conv::stop);
-            
+            if(!validateFieldFormat(local_username) || ! validateFieldFormat(local_password) || !validateFieldFormat(local_machineID)){
+                file.close();
+                std::cerr << "invalid character set used, only utf8 is allowed" << std::endl;
+                return std::nullopt;
+            }
+
 
             bool error= false;
 
@@ -84,11 +87,6 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
             file.close();
             std::cerr << "missing field(s) in configuration file" << std::endl;
             printCorrectConfFile();
-            return std::nullopt;
-        }
-        catch (boost::locale::conv::conversion_error exception){
-            file.close();
-            std::cerr << "invalid character set used, only utf8 is allowed" << std::endl;
             return std::nullopt;
         }
         catch (...) {

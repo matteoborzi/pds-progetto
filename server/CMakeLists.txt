@@ -15,7 +15,7 @@ include_directories(
 
 
 find_package(Threads)
-link_libraries(stdc++fs  -lprotobuf -lcryptopp)
+link_libraries(stdc++fs  -lprotobuf -lcryptopp -lboost_locale)
 
 add_executable(server main.cpp
         authentication/authentication.cpp authentication/authentication.h
@@ -31,6 +31,7 @@ add_executable(server main.cpp
         ../common/messages/socket_utils.h
         ../common/messages/file_utils.cpp ../common/messages/file_utils.h
         ../common/Checksum.cpp ../common/Checksum.h
+        ../common/fieldValidation.cpp ../common/fieldValidation.h
 
         #messages
         ../common/messages/JobRequest.pb.h ../common/messages/JobRequest.pb.cc
