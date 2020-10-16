@@ -5,6 +5,12 @@
 #include <boost/asio/write.hpp>
 
 template<class T>
+/**
+ * function to read a message from socket
+ * @tparam T type of message to read
+ * @param socket from which read data
+ * @return message
+ */
 T readFromSocket(boost::asio::ip::tcp::socket& s){
     size_t size;
     size_t ret;
@@ -40,6 +46,13 @@ T readFromSocket(boost::asio::ip::tcp::socket& s){
 };
 
 template<class T>
+/**
+ * function to send a message on the socket
+ * @tparam T type of message to send
+ * @param socket on which send data
+ * @param message to be sent
+ * @return bool indicating succcess
+ */
 bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
     size_t size = message.ByteSizeLong();
     size_t ret;
