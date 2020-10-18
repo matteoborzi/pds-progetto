@@ -31,10 +31,8 @@ bool restore(boost::asio::ip::tcp::socket&, const std::string&);
 
 int main(int argc, char* argv[]) {
 
-    //TODO see how it works    GOOGLE_PROTOBUF_VERIFY_VERSION;
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
     int port;
-
-
 
     if(argc < 2) {
         std::cerr<<"Not enough arguments: port_number is missing" << std::endl;
@@ -80,7 +78,7 @@ int main(int argc, char* argv[]) {
                     std::string path= poolItem->getPath();
                     switch (poolItem->getRestore()) {
                         case true:
-                            //TODO check restore return 
+                            /* TODO check restore return */
                             restore(s, path);
                             break;
                         case false:
