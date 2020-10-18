@@ -69,35 +69,65 @@ int main(int argc, char* argv[]) {
 
         std::cout<<"Creating the thread..."<<std::endl;
         std::thread thread{[w](boost::asio::ip::tcp::socket&& s)->void{
+            try {
+                std::optional<std::string> username = doAuthentication(s);
 
-            std::optional<std::string> username = doAuthentication(s);
+                if (username.has_value()) {
+                    std::cout << "Username: " << username.value() << std::endl;
 
-            if(username.has_value()){
-                std::cout<< "Username: " << username.value() << std::endl;
+                    std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
+                    if (poolItem->isValid()) {
+                        std::string path = poolItem->getPath();
+                        switch (poolItem->getRestore()) {
+                            case true:
+                                //TODO check restore return
+                                restore(s, path);
+                                break;
+                            case false:
 
-                std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
-                if(poolItem->isValid()){
-                    std::string path= poolItem->getPath();
-                    switch (poolItem->getRestore()) {
-                        case true:
-                            //TODO check restore return 
-                            restore(s, path);
-                            break;
-                        case false:
+                                std::atomic_bool stopped_mine = false, stopped_other = false;
+                                std::condition_variable terminated;
+                                std::mutex terminated_mutex;
 
-                            JobRequestQueue queue{};
-                            std::thread responder{sendResponses, std::ref(s), std::ref(queue), std::cref(path)};
-                            while(true)
-                                serveJobRequest(s, path, queue);
+                                JobRequestQueue queue{};
+                                std::thread responder{sendResponses, std::ref(s), std::ref(queue), std::cref(path),
+                                                      std::ref(stopped_mine), std::ref(stopped_other)};
+                                while (!stopped_mine && !stopped_other) {
+                                    try {
+                                        serveJobRequest(s, path, queue);
+                                    } catch (std::exception &e) {
+                                        std::cerr << e.what();
+                                        //interrupting other thread
+                                        stopped_mine = true;
+                                    }
+                                }
+                                if(stopped_mine){
+                                    //adding a fictional job to awake other thread if sleeping
+                                    BackupPB::JobRequest empty_req{};
+                                    queue.enqueueJobRequest(empty_req);
 
+//                                    std::unique_lock l(terminated_mutex);
+//
+//                                    terminated.wait(l, [& stopped_other]()->bool{ return stopped_other;});
+//
+//                                    std::cout<<"Terminating "+username.value()+"\n";
+                                }
+
+                                responder.join();
+                                std::cout<<"Terminating "+username.value()+"\n";
+
+
+                        }
+
+                    } else {
+                        std::cout << username.value() << " failed to connect to the workspace" << std::endl;
                     }
 
-                }else{
-                    std::cout<<username.value()<<" failed to connect to the workspace"<<std::endl;
-                }
+                } else std::cout << "Login failed (server)" << std::endl;
 
-            } else std::cout << "Login failed (server)" << std::endl;
-
+            }catch(std::exception& e ){
+                std::cerr<<e.what();
+            }
 
 
             return;
