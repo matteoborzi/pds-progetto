@@ -3,6 +3,7 @@
 
 #include <string>
 
-bool authenticate(std::string username, std::string password);
+std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& );
+
 
 #endif //SERVER_AUTHENTICATION_H

@@ -12,6 +12,9 @@
 #include "../../common/Checksum.h"
 
 #define MAX_RETRY 5
+#define WATCH_PERIOD 5
+
+bool tryIncrement(std::filesystem::recursive_directory_iterator &iterator);
 
 void watch(JobQueue &queue) {
     // getting configuration
@@ -27,7 +30,7 @@ void watch(JobQueue &queue) {
     while (true) {
         
         //clearing all previously visited elements
-        Directory::getRoot()->unsetVisited();
+       unsetAllVisited();
 
         //scanning file system
         std::filesystem::recursive_directory_iterator iter={abs_path, std::filesystem::directory_options::skip_permission_denied};
@@ -54,7 +57,6 @@ void watch(JobQueue &queue) {
                     }
                     Job addDir{path, ADD_DIRECTORY, false};
                     queue.add(addDir);
-                    std::cout<<"ADDING DIR: "<<path<<std::endl;
                 }
                 //otherwise nothing to do (a directory cannot be updated)
                 dir->setVisited();
@@ -71,7 +73,6 @@ void watch(JobQueue &queue) {
                         throw std::runtime_error("Unable to create metadata for file " + path);
                     }
                     Job addFile{path, ADD_FILE, true};
-                    std::cout<<"ADDING FILE: "<<path<<std::endl;
                     queue.add(addFile);
 
 
@@ -83,15 +84,9 @@ void watch(JobQueue &queue) {
                         if (first)
                             checksum = computeChecksum(element.path());
                     }catch(std::exception& e){
-                        //TODO remove print
-                        std::cout<<"Winzoz fa schifo: "<<e.what()<<std::endl;
-                        //TODO fare meglio sta roba
-                        try{
-                            iter++;
-                        }catch(std::exception& e){
-                            //TODO remove print
-                            std::cout<<"Winzoz fa schifo pt2"<<e.what()<<std::endl;
-                            error=true;
+                        //file does not exist anymore
+                        if(!tryIncrement(iter)){
+                            error= true;
                             break;
                         }
 
@@ -121,12 +116,8 @@ void watch(JobQueue &queue) {
                 }
                 file->setVisited();
             }
-            try{
-                iter++;
-            }catch(std::exception& e){
-                //TODO remove print
-                std::cout<<"Winzoz fa schifo pt2"<<e.what()<<std::endl;
-                error=true;
+            if(!tryIncrement(iter)){
+                error= true;
                 break;
             }
         }
@@ -142,8 +133,7 @@ void watch(JobQueue &queue) {
         error_count=0;
 
         //getting not visited entry to be deleted
-        for (auto &entry : Directory::getRoot()->getNotVisited()) {
-            std::cout << "Deleting " + entry.first<< std::endl;
+        for (auto &entry : getNotVisited()) {
             std::string deletePath=entry.first;
             
             Job deleteDoF{deletePath, DELETE, entry.second->myType()==FILETYPE };
@@ -153,6 +143,15 @@ void watch(JobQueue &queue) {
         }
         first = false;
 
-        std::this_thread::sleep_for(std::chrono::milliseconds(5000));
+        std::this_thread::sleep_for(std::chrono::seconds(WATCH_PERIOD));
     }
+}
+
+bool tryIncrement(std::filesystem::recursive_directory_iterator &iterator) {
+    try{
+        iterator++;
+    } catch (...) {
+        return false;
+    }
+    return true;
 }

@@ -20,8 +20,8 @@ std::shared_ptr<Directory> getDirectory(const std::string& path);
 std::shared_ptr<File> getFile(const std::string& path);
 std::string getLast(const std::string& path);
 
-//TODO add method to getNotVisited starting from the root (with relative path)
-//TODO add method to unclear visited flag for all element
+std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> getNotVisited();
+void unsetAllVisited();
 
 Type toType(BackupPB::DirectoryEntryMessage::Type toConvert);
 BackupPB::DirectoryEntryMessage::Type toDirectoryEntryMessage(Type toConvert);

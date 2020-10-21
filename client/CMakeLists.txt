@@ -19,12 +19,17 @@ add_executable(client main.cpp
         DirectoryStructure/File.h DirectoryStructure/File.cpp DirectoryStructure/utils.cpp DirectoryStructure/utils.h
         FileWatcher/watcher.cpp FileWatcher/watcher.h
 
+        communicationProtocol/initialization.cpp communicationProtocol/initialization.h
+        communicationProtocol/dataManagement.cpp communicationProtocol/dataManagement.h
+        communicationProtocol/restore.cpp communicationProtocol/restore.h
+
         #UTILITIES
         ../common/time_utils.cpp ../common/time_utils.h
         ../common/Checksum.cpp ../common/Checksum.h
         ../common/messages/socket_utils.h
         ../common/job_utils.h ../common/job_utils.cpp
         ../common/messages/file_utils.cpp ../common/messages/file_utils.h
+        ../common/fieldValidation.cpp ../common/fieldValidation.h
 
         #PROTO BUF MESSAGES
         ../common/messages/AuthenticationRequest.pb.cc ../common/messages/AuthenticationRequest.pb.h
@@ -37,7 +42,6 @@ add_executable(client main.cpp
         ../common/messages/MachinePath.pb.cc ../common/messages/MachinePath.pb.h
         ../common/messages/MetaInfo.pb.cc   ../common/messages/MetaInfo.pb.h
         ../common/messages/RestoreResponse.pb.cc ../common/messages/RestoreResponse.pb.h
-
         )
 target_link_libraries(client ${CMAKE_THREAD_LIBS_INIT}  ${Boost_SYSTEM_LIBRARY})
 

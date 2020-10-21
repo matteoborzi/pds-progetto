@@ -15,14 +15,16 @@ include_directories(
 
 
 find_package(Threads)
-link_libraries(stdc++fs  -lprotobuf -lcryptopp)
+link_libraries(stdc++fs  -lprotobuf -lcryptopp -lboost_locale)
 
 add_executable(server main.cpp
         authentication/authentication.cpp authentication/authentication.h
         Workspace/workspace_utils.cpp Workspace/workspace_utils.h
+        Workspace/load.cpp Workspace/load.h
         waiter/Waiter.cpp waiter/Waiter.h
         pathPool/PathPool.cpp pathPool/PathPool.h
         jobRequestQueue/JobRequestQueue.cpp jobRequestQueue/JobRequestQueue.h
+        jobRequestQueue/jobManager.cpp jobRequestQueue/jobManager.h
         ChecksumStorage/ChecksumStorage.cpp ChecksumStorage/ChecksumStorage.h
 
         #UTILS
@@ -30,6 +32,7 @@ add_executable(server main.cpp
         ../common/messages/socket_utils.h
         ../common/messages/file_utils.cpp ../common/messages/file_utils.h
         ../common/Checksum.cpp ../common/Checksum.h
+        ../common/fieldValidation.cpp ../common/fieldValidation.h
 
         #messages
         ../common/messages/JobRequest.pb.h ../common/messages/JobRequest.pb.cc
@@ -42,7 +45,7 @@ add_executable(server main.cpp
         ../common/messages/MetaInfo.pb.cc   ../common/messages/MetaInfo.pb.h
         ../common/messages/DirectoryEntryMessage.pb.cc ../common/messages/DirectoryEntryMessage.pb.h
         ../common/messages/RestoreResponse.pb.cc ../common/messages/RestoreResponse.pb.h
-        )
+       )
 
 target_link_libraries(server ${CMAKE_THREAD_LIBS_INIT}  ${Boost_SYSTEM_LIBRARY}  SQLiteCpp
         sqlite3

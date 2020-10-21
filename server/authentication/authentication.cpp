@@ -11,18 +11,57 @@
 #include <crypto++/sha.h>
 #include <SQLiteCpp/Database.h>
 #include <SQLiteCpp/Transaction.h>
+#include <boost/asio/ip/tcp.hpp>
 #include "authentication.h"
+#include "../../common/messages/AuthenticationRequest.pb.h"
+#include "../../common/messages/AuthenticationResponse.pb.h"
+#include "../../common/messages/socket_utils.h"
 
 #define filename "../authentication.db"
 #define BLOCKSIZE 16 * 8
 
+bool authenticate(std::string username, std::string password);
 bool addUser(std::string& user, std::string& pw, SQLite::Database& db);
 std::string computeSaltedHash(std::string& password, std::string& salt);
 std::string generateRandomSalt();
 
 
+
 //user informations are stored in the table USER(username, salt, hash)
 //in the authentication.db file
+
+std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
+
+    BackupPB::AuthenticationRequest authenticationRequest;
+    BackupPB::AuthenticationResponse authenticationResponse;
+    std::optional<std::string> username;
+
+    try{
+        authenticationRequest = readFromSocket<BackupPB::AuthenticationRequest>(s);
+    } catch(std::exception& e) {
+        std::cerr<< e.what() << std::endl;
+        return std::nullopt;
+    }
+
+    if(!authenticate(authenticationRequest.username(), authenticationRequest.password())){
+        //std::cerr << "Login failed" << std::endl;
+        authenticationResponse.set_status(BackupPB::AuthenticationResponse_Status_FAIL);
+        username = std::nullopt;
+    } else {
+        authenticationResponse.set_status(BackupPB::AuthenticationResponse_Status_OK);
+        username = authenticationRequest.username();
+    }
+
+    try{
+        writeToSocket(s, authenticationResponse);
+    } catch(std::exception& e){
+        std::cerr << e.what() << std::endl;
+        return std::nullopt;
+    }
+
+    return username;
+}
+
 
 /**
  * Function to authenticate a user. The user is also added whether the username is not yet present in the list

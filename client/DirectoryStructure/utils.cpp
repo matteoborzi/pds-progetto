@@ -181,6 +181,7 @@ BackupPB::DirectoryEntryMessage::Type toDirectoryEntryMessage(Type toConvert) {
         case FILETYPE:
             return BackupPB::DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE;
     }
+    return BackupPB::DirectoryEntryMessage_Type_DIRTYPE;
 }
 
 Type toType(BackupPB::DirectoryEntryMessage::Type toConvert) {
@@ -190,4 +191,13 @@ Type toType(BackupPB::DirectoryEntryMessage::Type toConvert) {
         case BackupPB::DirectoryEntryMessage::Type::DirectoryEntryMessage_Type_FILETYPE:
             return FILETYPE;
     }
+    return DIRTYPE;
+}
+
+std::unordered_map<std::string, std::shared_ptr<DirectoryEntry>> getNotVisited() {
+    return Directory::getRoot()->getNotVisited();
+}
+
+void unsetAllVisited() {
+    Directory::getRoot()->unsetVisited();
 }
