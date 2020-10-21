@@ -3,6 +3,7 @@
 #include <vector>
 #include <fstream>
 #include <boost/algorithm/string.hpp>
+#include <boost/locale.hpp>
 #include <cstddef>
 #include <filesystem>
 #include <crypto++/osrng.h> 
@@ -13,6 +14,7 @@
 #include <SQLiteCpp/Transaction.h>
 #include <boost/asio/ip/tcp.hpp>
 #include "authentication.h"
+#include "../../common/fieldValidation.h"
 #include "../../common/messages/AuthenticationRequest.pb.h"
 #include "../../common/messages/AuthenticationResponse.pb.h"
 #include "../../common/messages/socket_utils.h"
@@ -71,6 +73,11 @@ std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
  * @throws runtime_error when error in retrieving or adding user
  */
 bool authenticate(std::string username, std::string password){
+
+    if(!validateFieldFormat(username) || ! validateFieldFormat(password)){
+        std::cerr << "invalid character set used, only utf8 is allowed" << std::endl;
+        return false;
+    }
 
     //opening the DB file
     SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open

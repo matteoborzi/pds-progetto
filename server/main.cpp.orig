@@ -67,6 +67,7 @@ int main(int argc, char* argv[]) {
 
         std::cout<<"Creating the thread..."<<std::endl;
         std::thread thread{[w](boost::asio::ip::tcp::socket&& s)->void{
+<<<<<<< HEAD
             try {
                 std::optional<std::string> username = doAuthentication(s);
 
@@ -119,6 +120,29 @@ int main(int argc, char* argv[]) {
 
                     } else {
                         std::cout << username.value() << " failed to connect to the workspace" << std::endl;
+=======
+
+            std::optional<std::string> username = doAuthentication(s);
+
+            if(username.has_value()){
+                std::cout<< "Username: " << username.value() << std::endl;
+
+                std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
+                if(poolItem->isValid()){
+                    std::string path= poolItem->getPath();
+                    switch (poolItem->getRestore()) {
+                        case true:
+                            /* TODO check restore return */
+                            restore(s, path);
+                            break;
+                        case false:
+
+                            JobRequestQueue queue{};
+                            std::thread responder{sendResponses, std::ref(s), std::ref(queue), std::cref(path)};
+                            while(true)
+                                serveJobRequest(s, path, queue);
+
+>>>>>>> origin/angelica
                     }
 
                 } else std::cout << "Login failed (server)" << std::endl;

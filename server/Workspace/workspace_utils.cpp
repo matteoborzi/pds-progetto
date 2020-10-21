@@ -6,6 +6,7 @@
 #include <iostream>
 #include "workspace_utils.h"
 #include "../ChecksumStorage/ChecksumStorage.h"
+#include "../../common/fieldValidation.h"
 #include <boost/algorithm/string.hpp>
 #include <SQLiteCpp/Database.h>
 #include <SQLiteCpp/Statement.h>
@@ -28,6 +29,10 @@ void createServerFolder(std::string server_path);
  * the server path where the user's folder is copied
  */
 std::string computeServerPath(std::string user, std::string machineID, std::string client_path){
+
+    if(!validateFieldFormat(machineID)){
+        throw std::runtime_error("Invalid character set used for machineID, only utf8 is allowed");
+    }
 
     //opening the DB file
     SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open
