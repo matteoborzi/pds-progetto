@@ -32,7 +32,7 @@ void watch(JobQueue &queue) {
         //clearing all previously visited elements
        unsetAllVisited();
 
-        //scanning file system
+        //scanning file system avoiding files with permission denied
         std::filesystem::recursive_directory_iterator iter={abs_path, std::filesystem::directory_options::skip_permission_denied};
 
         bool error=false;
@@ -81,9 +81,11 @@ void watch(JobQueue &queue) {
                 } else {
                     time_t edit_time;
                     std::string checksum;
+                    std::size_t size;
                     try {
                         edit_time = last_edit_time(element);
-                        if (first)
+                        size = element.file_size();
+                        if (first && size == file->getSize())
                             checksum = computeChecksum(element.path());
                     }catch(std::exception& e){
                         //file does not exist anymore
@@ -96,24 +98,28 @@ void watch(JobQueue &queue) {
                     }
 
 
-                    if ((! first &&  edit_time> file->getLastEditTime() ) //file is newer than one in DirectoryStructure
+                    if ((! first &&  (edit_time> file->getLastEditTime() || size != file->getSize())) //file is newer/different than the one in DirectoryStructure
                         //(only from second check)
-                        || (first && file->getChecksum() != checksum)) { //different checksum
+                        || (first && (file->getSize() != size || file->getChecksum() != checksum))) { //different checksum
                         // (computing it only at first check)
 
                         //The file has been updated
                         Job update{path, UPDATE, true};
                         queue.add(update);
 
-                        if(!first) //(otherwise this call is made in following lines)
+                        if(!first) { //(otherwise this call is made in following lines)
                             //updating information about file
                             file->setLastEditTime(edit_time);
+                            file->setSize(size);
+                        }
 
 
                     }
-                    if(first)
+                    if(first) {
                         //updating information about file (date not already present)
                         file->setLastEditTime(last_edit_time(element));
+                        file->setSize(size);
+                    }
 
                 }
                 file->setVisited();
