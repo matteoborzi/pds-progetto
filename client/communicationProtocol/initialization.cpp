@@ -13,6 +13,9 @@
 
 
 bool login(boost::asio::ip::tcp::socket &socket, std::string &username, std::string &password) {
+
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     BackupPB::AuthenticationRequest req;
 
     req.set_username(username);
@@ -38,6 +41,9 @@ bool login(boost::asio::ip::tcp::socket &socket, std::string &username, std::str
 }
 
 bool chooseWorkspace(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
+
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     BackupPB::Workspace workspaceChoice;
 
     workspaceChoice.set_machineid(machineId);

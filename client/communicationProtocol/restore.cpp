@@ -15,6 +15,8 @@ int promptChoice(BackupPB::AvailableWorkspaces);
 
 bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
 
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     // Prepare restore message
     BackupPB::Workspace restore_request{};
 

@@ -19,7 +19,6 @@
 
 int main(int argc, char *argv[]) {
 
-    GOOGLE_PROTOBUF_VERIFY_VERSION;
     
 //    boost::asio::io_context io_service;
 ////socket creation

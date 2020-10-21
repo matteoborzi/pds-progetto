@@ -17,6 +17,9 @@
 
 
 void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
+
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     while (true) {
         //get a job
         Job j = queue.getLastAndSetSent();
@@ -78,6 +81,9 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
 }
 
 void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
+
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     static std::atomic_int counter = 0;
     while (true) {
         BackupPB::JobResponse response{};
