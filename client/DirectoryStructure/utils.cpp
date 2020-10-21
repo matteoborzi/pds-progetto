@@ -6,6 +6,8 @@
 #include "../Configuration/Configuration.h"
 #include "../../common/Checksum.h"
 
+std::shared_ptr<Directory> getParent(const std::string& path);
+
 std::shared_ptr<Directory> getParent(const std::string& path){
     std::shared_ptr<Directory> result = Directory::getRoot();
     std::vector<std::string> fields;
@@ -93,15 +95,6 @@ bool addDirectory(const std::string& param_path){
 bool addFile(const std::string& param_path){
     bool res = false;
     std::string checksum = "";
-//    try{
-//        checksum = computeChecksum(param_path);
-//    }
-//    catch(...){
-//        //if something wrong in checksum computation
-//        return res;
-//    }
-//    if(checksum == "")
-//        return res;
     std::optional<Configuration> conf=Configuration::getConfiguration();
     if(!conf.has_value())
         throw std::runtime_error("Impossible to get configuration");
@@ -117,17 +110,17 @@ bool addFile(const std::string& param_path){
     std::time_t time = last_edit_time(file);
     if(time < 0)
         return res;
-    res = addFile(path, checksum, time);
+    res = addFile(path, checksum, time, file.file_size());
     return res;
 }
 
-bool addFile(const std::string& path, std::string& checksum, long time){
+bool addFile(const std::string& path, std::string& checksum, long time, size_t size){
     std::shared_ptr<Directory> parent = getParent(path);
     std::string toAdd = getLast(path);
     bool res = false;
     if(parent == nullptr || toAdd == "")
         return res;
-    std::shared_ptr<File> added = parent->addFile(toAdd, checksum, time);
+    std::shared_ptr<File> added = parent->addFile(toAdd, checksum, time, size);
     if(added != nullptr)
         res = true;
     return res;
