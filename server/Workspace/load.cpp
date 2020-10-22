@@ -7,6 +7,7 @@
 #include <filesystem>
 #include <boost/algorithm/string.hpp>
 #include "./workspace_utils.h"
+#include "../log/log_utils.h"
 #include "../../common/messages/Workspace.pb.h"
 #include "../../common/messages/socket_utils.h"
 #include "../../common/messages/MetaInfo.pb.h"
@@ -17,6 +18,8 @@
 
 
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::string& username){
+    // Get IP address for log purposes
+    std::string ipaddr = s.remote_endpoint().address().to_string();
 
     /*read workspace from socket containing
         -client path
@@ -33,7 +36,9 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
     }
 
     if(!workspace.restore()){
+
         //restore flag is NOT active --> backup
+        print_log_message(ipaddr,username,"Backup request");
         std::string server_path;
 
         BackupPB::WorkspaceMetaInfo response{};
@@ -107,6 +112,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
     }
     else{
         //restore flag is active --> restore
+        print_log_message(ipaddr,username,"Restore request");
         //send available clientPath for that user
         std::set<std::pair<std::string, std::string>> availablePaths;
         BackupPB::AvailableWorkspaces availablePathMessage{};

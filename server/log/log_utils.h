@@ -3,7 +3,6 @@
 
 #include <string>
 
-
 void print_log_message(const std::string&, const std::string&);
 void print_log_message(const std::string&, const std::string&, const std::string&);
 
