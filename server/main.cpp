@@ -86,7 +86,11 @@ int main(int argc, char* argv[]) {
                         switch (poolItem->getRestore()) {
                             case true:
                                 //TODO check restore return
-                                restore(s, path);
+                                bool restoreStatus = restore(s, path);
+                                if(restoreStatus)
+                                    print_log_message(ipaddr, username.value(),"Restore completed");
+                                else
+                                    print_log_message(ipaddr,username.value(),"Restore failed");
                                 break;
                             case false:
 
@@ -101,7 +105,7 @@ int main(int argc, char* argv[]) {
                                     try {
                                         serveJobRequest(s, path, queue);
                                     } catch (std::exception &e) {
-                                        std::cerr << e.what();
+                                        print_log_error(ipaddr,e.what());
                                         //interrupting other thread
                                         stopped_mine = true;
                                     }
@@ -131,7 +135,7 @@ int main(int argc, char* argv[]) {
                 } else  print_log_message(ipaddr,"Failed to log in");
 
             }catch(std::exception& e ){
-                std::cerr<<e.what();
+                print_log_error(ipaddr,e.what());
             }
 
 
@@ -164,7 +168,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path) {
                 sendFile(socket, entry.path(), request.size());
         }
         catch (std::exception &e) {
-            std::cerr << e.what() << std::endl;
+            print_log_error(ipaddr,e.what());
             return false;
         }
     }
@@ -175,7 +179,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path) {
         writeToSocket(socket, end);
     }
     catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        print_log_error(ipaddr,e.what());
         return false;
     }
 
