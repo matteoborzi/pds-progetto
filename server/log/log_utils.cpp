@@ -4,12 +4,27 @@
 #include <algorithm>
 #include "log_utils.h"
 
-void print_log_message(const std::string& ip, const std::string& user, const std::string& text) {
+//TODO rendere atomiche le operazioni
+// Concatenazione atomica di stringhe
+// \n inserito nella stringa
+// stampa atomica + flush
+
+std::string get_timestamp(){
     auto t = std::chrono::system_clock::to_time_t(std::chrono::system_clock::now());
-    auto timestamp = std::string(ctime(&t));
+    auto ts = std::string(ctime(&t));
 
-    timestamp.erase(std::remove(timestamp.begin(), timestamp.end(), '\n'), timestamp.end());
+    ts.erase(std::remove(ts.begin(), ts.end(), '\n'), ts.end());
+    return ts;
+}
 
-    std::cout<<"["<< timestamp  << ", "<< ip << ", " << user <<"]: "<<text<<std::endl;
+void print_log_message(const std::string& ip, const std::string& user, const std::string& logmsg) {
+    std::cout << "[" << get_timestamp() << ", " << ip << ", " << user << "]: " << logmsg << std::endl;
+}
 
+void print_log_message(const std::string& ip, const std::string& logmsg) {
+    std::cout <<"["<< get_timestamp() << ", "<< ip << "]: "<<  logmsg << std::endl;
+}
+
+void print_log_error(const std::string& ip, const std::string& logerr) {
+    std::cerr << "[" << get_timestamp() << ", "<< ip << "]: "<<  logerr << std::endl;
 }
