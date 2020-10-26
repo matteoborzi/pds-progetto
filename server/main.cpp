@@ -83,9 +83,7 @@ int main(int argc, char* argv[]) {
                         std::string path = poolItem->getPath();
                         switch (poolItem->getRestore()) {
                             case true:
-                                //TODO check restore return
-                                bool restoreStatus = restore(s, path);
-                                if(restoreStatus)
+                                if(restore(s, path))
                                     print_log_message(ipaddr, username.value(),"Restore completed");
                                 else
                                     print_log_message(ipaddr,username.value(),"Restore failed");
@@ -166,7 +164,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path) {
                 sendFile(socket, entry.path(), request.size());
         }
         catch (std::exception &e) {
-            print_log_error(ipaddr,e.what());
+            //print_log_error(ipaddr,e.what());
             return false;
         }
     }
@@ -177,7 +175,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path) {
         writeToSocket(socket, end);
     }
     catch (std::exception &e) {
-        print_log_error(ipaddr,e.what());
+        //print_log_error(ipaddr,e.what());
         return false;
     }
 
