@@ -15,6 +15,8 @@ int promptChoice(BackupPB::AvailableWorkspaces);
 
 bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
 
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     // Prepare restore message
     BackupPB::Workspace restore_request{};
 
@@ -101,9 +103,11 @@ bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::
             // Returns if read fails
             if(job_request.pbaction() == BackupPB::JobRequest_PBAction_ADD_FILE) {
                 try {
+
                     receiveFile(socket, complete_path, job_request.size());
+                    std::cout<<job_request.path()<<" received"<<std::endl;
                 } catch (std::exception &e) {
-                    std::cerr << "Error while receiving file: " << e.what() << std::endl;
+                    std::cerr << "Error while receiving "+job_request.path()+": " << e.what() << std::endl;
                     return false;
                 }
             }
@@ -116,7 +120,7 @@ bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::
 
     }
 
-    std::cout << "Restore completed" << std::endl;
+    std::cout << "Restore completed successfully" << std::endl;
     return true;
 }
 

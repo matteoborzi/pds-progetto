@@ -28,6 +28,7 @@ add_executable(server main.cpp
         ChecksumStorage/ChecksumStorage.cpp ChecksumStorage/ChecksumStorage.h
 
         #UTILS
+        log/log_utils.cpp log/log_utils.h
         ../common/messages/socket_utils.h
         ../common/messages/file_utils.cpp ../common/messages/file_utils.h
         ../common/Checksum.cpp ../common/Checksum.h

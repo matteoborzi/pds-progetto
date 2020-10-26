@@ -13,6 +13,7 @@
 
 #include "../common/messages/socket_utils.h"
 #include "../common/messages/file_utils.h"
+#include "log/log_utils.h"
 #include "../common/messages/AuthenticationRequest.pb.h"
 #include "../common/messages/AuthenticationResponse.pb.h"
 #include "../common/messages/Workspace.pb.h"
@@ -63,39 +64,75 @@ int main(int argc, char* argv[]) {
         boost::asio::ip::tcp::socket socket(my_context);
 
         acceptor.accept(socket);
-        std::cout << "Get a connection" << std::endl;
+        
+        // Get IP address for logs 
+        std::string ipaddr = socket.remote_endpoint().address().to_string();
+        
+        print_log_message(ipaddr,"Connection accepted");
 
-        std::cout<<"Creating the thread..."<<std::endl;
-        std::thread thread{[w](boost::asio::ip::tcp::socket&& s)->void{
+        print_log_message(ipaddr,"Creating the thread");
+        std::thread thread{[w, ipaddr](boost::asio::ip::tcp::socket&& s)->void{
+            try {
+                std::optional<std::string> username = doAuthentication(s);
 
-            std::optional<std::string> username = doAuthentication(s);
+                if (username.has_value()) {
+                    print_log_message(ipaddr,username.value(),"Successfully logged in");
 
-            if(username.has_value()){
-                std::cout<< "Username: " << username.value() << std::endl;
+                    std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
+                    if (poolItem->isValid()) {
+                        std::string path = poolItem->getPath();
+                        switch (poolItem->getRestore()) {
+                            case true:
+                                if(restore(s, path))
+                                    print_log_message(ipaddr, username.value(),"Restore completed");
+                                else
+                                    print_log_message(ipaddr,username.value(),"Restore failed");
+                                break;
+                            case false:
 
-                std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
-                if(poolItem->isValid()){
-                    std::string path= poolItem->getPath();
-                    switch (poolItem->getRestore()) {
-                        case true:
-                            /* TODO check restore return */
-                            restore(s, path);
-                            break;
-                        case false:
+                                std::atomic_bool stopped_mine = false, stopped_other = false;
+                                std::condition_variable terminated;
+                                std::mutex terminated_mutex;
 
-                            JobRequestQueue queue{};
-                            std::thread responder{sendResponses, std::ref(s), std::ref(queue), std::cref(path)};
-                            while(true)
-                                serveJobRequest(s, path, queue);
+                                JobRequestQueue queue{};
+                                std::thread responder{sendResponses, std::ref(s), std::ref(queue), std::cref(path),
+                                                      std::ref(stopped_mine), std::ref(stopped_other)};
+                                while (!stopped_mine && !stopped_other) {
+                                    try {
+                                        serveJobRequest(s, path, queue);
+                                    } catch (std::exception &e) {
+                                        print_log_error(ipaddr,e.what());
+                                        //interrupting other thread
+                                        stopped_mine = true;
+                                    }
+                                }
+                                if(stopped_mine){
+                                    //adding a fictional job to awake other thread if sleeping
+                                    BackupPB::JobRequest empty_req{};
+                                    queue.enqueueJobRequest(empty_req);
 
+//                                    std::unique_lock l(terminated_mutex);
+//
+//                                    terminated.wait(l, [& stopped_other]()->bool{ return stopped_other;});
+//
+//                                    std::cout<<"Terminating "+username.value()+"\n";
+                                }
+
+                                responder.join();
+                                std::cout<<"Terminating "+username.value()+"\n";
+
+
+                        }
+
+                    } else {
+                        print_log_message(ipaddr,username.value(),"Failed to connect to the workspace");
                     }
 
-                }else{
-                    std::cout<<username.value()<<" failed to connect to the workspace"<<std::endl;
-                }
+                } else  print_log_message(ipaddr,"Failed to log in");
 
-            } else std::cout << "Login failed (server)" << std::endl;
-
+            }catch(std::exception& e ){
+                print_log_error(ipaddr,e.what());
+            }
 
 
             return;
@@ -127,7 +164,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path) {
                 sendFile(socket, entry.path(), request.size());
         }
         catch (std::exception &e) {
-            std::cerr << e.what() << std::endl;
+            //print_log_error(ipaddr,e.what());
             return false;
         }
     }
@@ -138,7 +175,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path) {
         writeToSocket(socket, end);
     }
     catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        //print_log_error(ipaddr,e.what());
         return false;
     }
 

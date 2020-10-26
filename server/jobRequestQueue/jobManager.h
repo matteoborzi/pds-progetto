@@ -10,6 +10,7 @@
 #include "JobRequestQueue.h"
 
 void serveJobRequest(boost::asio::ip::tcp::socket&, std::string&, JobRequestQueue&);
-void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&, const std::string&);
+void sendResponses(boost::asio::ip::tcp::socket&,  JobRequestQueue&, const std::string&,
+                   std::atomic_bool&, std::atomic_bool&);
 
 #endif //SERVER_JOBMANAGER_H

@@ -1,9 +1,7 @@
 #include <crypto++/cryptlib.h>
-#define CRYPTOPP_ENABLE_NAMESPACE_WEAK 1
-#include <crypto++/md5.h>
+#include <crypto++/sha.h>
 #include <crypto++/files.h>
 #include <crypto++/hex.h>
-#include <fstream>
 #include <filesystem>
 #include "Checksum.h"
 
@@ -23,11 +21,11 @@ std::string computeChecksum(const std::string &path){
 	}
 
     //computing size of the checksum
-	const size_t size = CryptoPP::Weak1::MD5::DIGESTSIZE * 2;
+	const size_t size = CryptoPP::SHA256::DIGESTSIZE * 2;
 	byte buf[size] = {0};
 
 	//computing checksum using CryptoPP library
-    CryptoPP::Weak1::MD5 hash;
+    CryptoPP::SHA256 hash;
 	CryptoPP::FileSource(
 	        path.c_str(), true,
 	        new CryptoPP::HashFilter(

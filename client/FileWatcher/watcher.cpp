@@ -57,7 +57,6 @@ void watch(JobQueue &queue) {
                     }
                     Job addDir{path, ADD_DIRECTORY, false};
                     queue.add(addDir);
-                    std::cout<<"ADDING DIR: "<<path<<std::endl;
                 }
                 //otherwise nothing to do (a directory cannot be updated)
                 dir->setVisited();
@@ -74,7 +73,6 @@ void watch(JobQueue &queue) {
                         throw std::runtime_error("Unable to create metadata for file " + path);
                     }
                     Job fileToAdd{path, ADD_FILE, true};
-                    std::cout<<"ADDING FILE: "<<path<<std::endl;
                     queue.add(fileToAdd);
 
 
@@ -142,7 +140,6 @@ void watch(JobQueue &queue) {
 
         //getting not visited entry to be deleted
         for (auto &entry : getNotVisited()) {
-            std::cout << "Deleting " + entry.first<< std::endl;
             std::string deletePath=entry.first;
             
             Job deleteDoF{deletePath, DELETE, entry.second->myType()==FILETYPE };
