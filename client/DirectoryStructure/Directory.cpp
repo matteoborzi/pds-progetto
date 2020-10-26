@@ -46,10 +46,10 @@ std::shared_ptr<DirectoryEntry> Directory::get(const std::string &name) {
     return dir;
 }
 
-std::shared_ptr<File> Directory::addFile(const std::string &name, std::string checksum, long time) {
+std::shared_ptr<File> Directory::addFile(const std::string &name, std::string checksum, long time, size_t size) {
     if(name == "." || name == ".." || this->children.find(name) != children.end())
         return std::shared_ptr<File>(nullptr);
-    std::shared_ptr<File> file(new File(name, checksum, time));
+    std::shared_ptr<File> file(new File(name, checksum, time, size));
     children.insert(std::make_pair(file->getName(), file));
     return file;
 }
