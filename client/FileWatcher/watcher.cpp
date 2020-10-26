@@ -73,9 +73,9 @@ void watch(JobQueue &queue) {
                     if (file == nullptr) {
                         throw std::runtime_error("Unable to create metadata for file " + path);
                     }
-                    Job addFile{path, ADD_FILE, true};
+                    Job fileToAdd{path, ADD_FILE, true};
                     std::cout<<"ADDING FILE: "<<path<<std::endl;
-                    queue.add(addFile);
+                    queue.add(fileToAdd);
 
 
                 } else {
