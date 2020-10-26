@@ -242,6 +242,7 @@ class DirectoryEntryMessage PROTOBUF_FINAL :
   enum : int {
     kNameFieldNumber = 1,
     kChecksumFieldNumber = 3,
+    kSizeFieldNumber = 4,
     kTypeFieldNumber = 2,
   };
   // required string name = 1;
@@ -284,6 +285,19 @@ class DirectoryEntryMessage PROTOBUF_FINAL :
   std::string* _internal_mutable_checksum();
   public:
 
+  // optional uint64 size = 4;
+  bool has_size() const;
+  private:
+  bool _internal_has_size() const;
+  public:
+  void clear_size();
+  ::PROTOBUF_NAMESPACE_ID::uint64 size() const;
+  void set_size(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  private:
+  ::PROTOBUF_NAMESPACE_ID::uint64 _internal_size() const;
+  void _internal_set_size(::PROTOBUF_NAMESPACE_ID::uint64 value);
+  public:
+
   // required .BackupPB.DirectoryEntryMessage.Type type = 2;
   bool has_type() const;
   private:
@@ -311,6 +325,7 @@ class DirectoryEntryMessage PROTOBUF_FINAL :
   mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr name_;
   ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr checksum_;
+  ::PROTOBUF_NAMESPACE_ID::uint64 size_;
   int type_;
   friend struct ::TableStruct_DirectoryEntryMessage_2eproto;
 };
@@ -401,7 +416,7 @@ inline void DirectoryEntryMessage::set_allocated_name(std::string* name) {
 
 // required .BackupPB.DirectoryEntryMessage.Type type = 2;
 inline bool DirectoryEntryMessage::_internal_has_type() const {
-  bool value = (_has_bits_[0] & 0x00000004u) != 0;
+  bool value = (_has_bits_[0] & 0x00000008u) != 0;
   return value;
 }
 inline bool DirectoryEntryMessage::has_type() const {
@@ -409,7 +424,7 @@ inline bool DirectoryEntryMessage::has_type() const {
 }
 inline void DirectoryEntryMessage::clear_type() {
   type_ = 0;
-  _has_bits_[0] &= ~0x00000004u;
+  _has_bits_[0] &= ~0x00000008u;
 }
 inline ::BackupPB::DirectoryEntryMessage_Type DirectoryEntryMessage::_internal_type() const {
   return static_cast< ::BackupPB::DirectoryEntryMessage_Type >(type_);
@@ -420,7 +435,7 @@ inline ::BackupPB::DirectoryEntryMessage_Type DirectoryEntryMessage::type() cons
 }
 inline void DirectoryEntryMessage::_internal_set_type(::BackupPB::DirectoryEntryMessage_Type value) {
   assert(::BackupPB::DirectoryEntryMessage_Type_IsValid(value));
-  _has_bits_[0] |= 0x00000004u;
+  _has_bits_[0] |= 0x00000008u;
   type_ = value;
 }
 inline void DirectoryEntryMessage::set_type(::BackupPB::DirectoryEntryMessage_Type value) {
@@ -500,6 +515,34 @@ inline void DirectoryEntryMessage::set_allocated_checksum(std::string* checksum)
   checksum_.SetAllocated(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), checksum,
       GetArena());
   // @@protoc_insertion_point(field_set_allocated:BackupPB.DirectoryEntryMessage.checksum)
+}
+
+// optional uint64 size = 4;
+inline bool DirectoryEntryMessage::_internal_has_size() const {
+  bool value = (_has_bits_[0] & 0x00000004u) != 0;
+  return value;
+}
+inline bool DirectoryEntryMessage::has_size() const {
+  return _internal_has_size();
+}
+inline void DirectoryEntryMessage::clear_size() {
+  size_ = PROTOBUF_ULONGLONG(0);
+  _has_bits_[0] &= ~0x00000004u;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 DirectoryEntryMessage::_internal_size() const {
+  return size_;
+}
+inline ::PROTOBUF_NAMESPACE_ID::uint64 DirectoryEntryMessage::size() const {
+  // @@protoc_insertion_point(field_get:BackupPB.DirectoryEntryMessage.size)
+  return _internal_size();
+}
+inline void DirectoryEntryMessage::_internal_set_size(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _has_bits_[0] |= 0x00000004u;
+  size_ = value;
+}
+inline void DirectoryEntryMessage::set_size(::PROTOBUF_NAMESPACE_ID::uint64 value) {
+  _internal_set_size(value);
+  // @@protoc_insertion_point(field_set:BackupPB.DirectoryEntryMessage.size)
 }
 
 #ifdef __GNUC__

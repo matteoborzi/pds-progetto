@@ -47,12 +47,14 @@ const ::PROTOBUF_NAMESPACE_ID::uint32 TableStruct_DirectoryEntryMessage_2eproto:
   PROTOBUF_FIELD_OFFSET(::BackupPB::DirectoryEntryMessage, name_),
   PROTOBUF_FIELD_OFFSET(::BackupPB::DirectoryEntryMessage, type_),
   PROTOBUF_FIELD_OFFSET(::BackupPB::DirectoryEntryMessage, checksum_),
+  PROTOBUF_FIELD_OFFSET(::BackupPB::DirectoryEntryMessage, size_),
   0,
-  2,
+  3,
   1,
+  2,
 };
 static const ::PROTOBUF_NAMESPACE_ID::internal::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
-  { 0, 8, sizeof(::BackupPB::DirectoryEntryMessage)},
+  { 0, 9, sizeof(::BackupPB::DirectoryEntryMessage)},
 };
 
 static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] = {
@@ -61,10 +63,10 @@ static ::PROTOBUF_NAMESPACE_ID::Message const * const file_default_instances[] =
 
 const char descriptor_table_protodef_DirectoryEntryMessage_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\033DirectoryEntryMessage.proto\022\010BackupPB\""
-  "\216\001\n\025DirectoryEntryMessage\022\014\n\004name\030\001 \002(\t\022"
+  "\234\001\n\025DirectoryEntryMessage\022\014\n\004name\030\001 \002(\t\022"
   "2\n\004type\030\002 \002(\0162$.BackupPB.DirectoryEntryM"
-  "essage.Type\022\020\n\010checksum\030\003 \001(\t\"!\n\004Type\022\013\n"
-  "\007DIRTYPE\020\000\022\014\n\010FILETYPE\020\001"
+  "essage.Type\022\020\n\010checksum\030\003 \001(\t\022\014\n\004size\030\004 "
+  "\001(\004\"!\n\004Type\022\013\n\007DIRTYPE\020\000\022\014\n\010FILETYPE\020\001"
   ;
 static const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable*const descriptor_table_DirectoryEntryMessage_2eproto_deps[1] = {
 };
@@ -73,7 +75,7 @@ static ::PROTOBUF_NAMESPACE_ID::internal::SCCInfoBase*const descriptor_table_Dir
 };
 static ::PROTOBUF_NAMESPACE_ID::internal::once_flag descriptor_table_DirectoryEntryMessage_2eproto_once;
 const ::PROTOBUF_NAMESPACE_ID::internal::DescriptorTable descriptor_table_DirectoryEntryMessage_2eproto = {
-  false, false, descriptor_table_protodef_DirectoryEntryMessage_2eproto, "DirectoryEntryMessage.proto", 184,
+  false, false, descriptor_table_protodef_DirectoryEntryMessage_2eproto, "DirectoryEntryMessage.proto", 198,
   &descriptor_table_DirectoryEntryMessage_2eproto_once, descriptor_table_DirectoryEntryMessage_2eproto_sccs, descriptor_table_DirectoryEntryMessage_2eproto_deps, 1, 0,
   schemas, file_default_instances, TableStruct_DirectoryEntryMessage_2eproto::offsets,
   file_level_metadata_DirectoryEntryMessage_2eproto, 1, file_level_enum_descriptors_DirectoryEntryMessage_2eproto, file_level_service_descriptors_DirectoryEntryMessage_2eproto,
@@ -115,13 +117,16 @@ class DirectoryEntryMessage::_Internal {
     (*has_bits)[0] |= 1u;
   }
   static void set_has_type(HasBits* has_bits) {
-    (*has_bits)[0] |= 4u;
+    (*has_bits)[0] |= 8u;
   }
   static void set_has_checksum(HasBits* has_bits) {
     (*has_bits)[0] |= 2u;
   }
+  static void set_has_size(HasBits* has_bits) {
+    (*has_bits)[0] |= 4u;
+  }
   static bool MissingRequiredFields(const HasBits& has_bits) {
-    return ((has_bits[0] & 0x00000005) ^ 0x00000005) != 0;
+    return ((has_bits[0] & 0x00000009) ^ 0x00000009) != 0;
   }
 };
 
@@ -145,7 +150,9 @@ DirectoryEntryMessage::DirectoryEntryMessage(const DirectoryEntryMessage& from)
     checksum_.Set(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), from._internal_checksum(),
       GetArena());
   }
-  type_ = from.type_;
+  ::memcpy(&size_, &from.size_,
+    static_cast<size_t>(reinterpret_cast<char*>(&type_) -
+    reinterpret_cast<char*>(&size_)) + sizeof(type_));
   // @@protoc_insertion_point(copy_constructor:BackupPB.DirectoryEntryMessage)
 }
 
@@ -153,7 +160,9 @@ void DirectoryEntryMessage::SharedCtor() {
   ::PROTOBUF_NAMESPACE_ID::internal::InitSCC(&scc_info_DirectoryEntryMessage_DirectoryEntryMessage_2eproto.base);
   name_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
   checksum_.UnsafeSetDefault(&::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited());
-  type_ = 0;
+  ::memset(&size_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&type_) -
+      reinterpret_cast<char*>(&size_)) + sizeof(type_));
 }
 
 DirectoryEntryMessage::~DirectoryEntryMessage() {
@@ -198,7 +207,11 @@ void DirectoryEntryMessage::Clear() {
       checksum_.ClearNonDefaultToEmpty();
     }
   }
-  type_ = 0;
+  if (cached_has_bits & 0x0000000cu) {
+    ::memset(&size_, 0, static_cast<size_t>(
+        reinterpret_cast<char*>(&type_) -
+        reinterpret_cast<char*>(&size_)) + sizeof(type_));
+  }
   _has_bits_.Clear();
   _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
 }
@@ -246,6 +259,14 @@ const char* DirectoryEntryMessage::_InternalParse(const char* ptr, ::PROTOBUF_NA
           CHK_(ptr);
         } else goto handle_unusual;
         continue;
+      // optional uint64 size = 4;
+      case 4:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<::PROTOBUF_NAMESPACE_ID::uint8>(tag) == 32)) {
+          _Internal::set_has_size(&has_bits);
+          size_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else goto handle_unusual;
+        continue;
       default: {
       handle_unusual:
         if ((tag & 7) == 4 || tag == 0) {
@@ -287,7 +308,7 @@ failure:
   }
 
   // required .BackupPB.DirectoryEntryMessage.Type type = 2;
-  if (cached_has_bits & 0x00000004u) {
+  if (cached_has_bits & 0x00000008u) {
     target = stream->EnsureSpace(target);
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteEnumToArray(
       2, this->_internal_type(), target);
@@ -301,6 +322,12 @@ failure:
       "BackupPB.DirectoryEntryMessage.checksum");
     target = stream->WriteStringMaybeAliased(
         3, this->_internal_checksum(), target);
+  }
+
+  // optional uint64 size = 4;
+  if (cached_has_bits & 0x00000004u) {
+    target = stream->EnsureSpace(target);
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::WriteUInt64ToArray(4, this->_internal_size(), target);
   }
 
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
@@ -334,7 +361,7 @@ size_t DirectoryEntryMessage::ByteSizeLong() const {
 // @@protoc_insertion_point(message_byte_size_start:BackupPB.DirectoryEntryMessage)
   size_t total_size = 0;
 
-  if (((_has_bits_[0] & 0x00000005) ^ 0x00000005) == 0) {  // All required fields are present.
+  if (((_has_bits_[0] & 0x00000009) ^ 0x00000009) == 0) {  // All required fields are present.
     // required string name = 1;
     total_size += 1 +
       ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
@@ -351,14 +378,23 @@ size_t DirectoryEntryMessage::ByteSizeLong() const {
   // Prevent compiler warnings about cached_has_bits being unused
   (void) cached_has_bits;
 
-  // optional string checksum = 3;
   cached_has_bits = _has_bits_[0];
-  if (cached_has_bits & 0x00000002u) {
-    total_size += 1 +
-      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
-        this->_internal_checksum());
-  }
+  if (cached_has_bits & 0x00000006u) {
+    // optional string checksum = 3;
+    if (cached_has_bits & 0x00000002u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::StringSize(
+          this->_internal_checksum());
+    }
 
+    // optional uint64 size = 4;
+    if (cached_has_bits & 0x00000004u) {
+      total_size += 1 +
+        ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::UInt64Size(
+          this->_internal_size());
+    }
+
+  }
   if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
     return ::PROTOBUF_NAMESPACE_ID::internal::ComputeUnknownFieldsSize(
         _internal_metadata_, total_size, &_cached_size_);
@@ -391,7 +427,7 @@ void DirectoryEntryMessage::MergeFrom(const DirectoryEntryMessage& from) {
   (void) cached_has_bits;
 
   cached_has_bits = from._has_bits_[0];
-  if (cached_has_bits & 0x00000007u) {
+  if (cached_has_bits & 0x0000000fu) {
     if (cached_has_bits & 0x00000001u) {
       _internal_set_name(from._internal_name());
     }
@@ -399,6 +435,9 @@ void DirectoryEntryMessage::MergeFrom(const DirectoryEntryMessage& from) {
       _internal_set_checksum(from._internal_checksum());
     }
     if (cached_has_bits & 0x00000004u) {
+      size_ = from.size_;
+    }
+    if (cached_has_bits & 0x00000008u) {
       type_ = from.type_;
     }
     _has_bits_[0] |= cached_has_bits;
@@ -430,7 +469,12 @@ void DirectoryEntryMessage::InternalSwap(DirectoryEntryMessage* other) {
   swap(_has_bits_[0], other->_has_bits_[0]);
   name_.Swap(&other->name_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
   checksum_.Swap(&other->checksum_, &::PROTOBUF_NAMESPACE_ID::internal::GetEmptyStringAlreadyInited(), GetArena());
-  swap(type_, other->type_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(DirectoryEntryMessage, type_)
+      + sizeof(DirectoryEntryMessage::type_)
+      - PROTOBUF_FIELD_OFFSET(DirectoryEntryMessage, size_)>(
+          reinterpret_cast<char*>(&size_),
+          reinterpret_cast<char*>(&other->size_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata DirectoryEntryMessage::GetMetadata() const {
