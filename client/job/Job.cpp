@@ -1,6 +1,9 @@
 #include <stdexcept>
 #include "Job.h"
 
+#define TERMINATION_ACTION CANCELLED
+#define TERMINATION_PATH ""
+
 const std::string &Job::getPath() const {
     return path;
 }
@@ -34,6 +37,14 @@ bool Job::operator!=(Job const &j) const {
 void Job::validateAct(Action a){
     if((isFile && a == ADD_DIRECTORY) || (!isFile && a==ADD_FILE ))
         throw std::logic_error("Impossible to set such an action on this file");
+}
+
+bool Job::isTerminatation() {
+    return path==TERMINATION_PATH && act==TERMINATION_ACTION ;
+}
+
+const Job Job::terminationJob() {
+    return Job(TERMINATION_PATH, TERMINATION_ACTION, false);
 }
 
 

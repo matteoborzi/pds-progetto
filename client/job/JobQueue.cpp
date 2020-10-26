@@ -141,6 +141,18 @@ void JobQueue::retry(const std::string &path) {
     return;
 
 }
+/**
+ * Add a job if the call is not blocking
+ * @param job to add
+ */
+void JobQueue::addIfEmpty(const Job &job) {
+    std::unique_lock l{m};
+
+    if(queue.empty()) {
+        queue.emplace_back(job);
+        empty.notify_one();
+    }
+}
 
 /**
  * Computes the resulting action of 2 consecutive actions
