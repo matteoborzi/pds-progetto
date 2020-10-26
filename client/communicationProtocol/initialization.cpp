@@ -76,7 +76,8 @@ bool chooseWorkspace(boost::asio::ip::tcp::socket &socket, std::string &machineI
                     return false;
                 std::string filePath{directoryEntry.name()};
                 std::string checksum{directoryEntry.checksum()};
-                if(!addFile(filePath, checksum, 0))
+                std::size_t size{directoryEntry.size()};
+                if(!addFile(filePath, checksum, 0, size))
                     return false;
                 break;
         }
