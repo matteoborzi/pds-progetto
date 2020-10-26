@@ -23,7 +23,8 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
     while (true) {
         //get a job
         Job j = queue.getLastAndSetSent();
-
+        if(j.isTerminatation())
+            return;
         BackupPB::JobRequest req;
 
         req.set_path(j.getPath());
@@ -66,7 +67,7 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
 
                 //TODO decide how handle errors
                 std::cerr<<"Error while sending "+basePath+": "+e.what()+"\n";
-                throw e;
+               return;
 
             }
 
@@ -91,7 +92,7 @@ void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
             response = readFromSocket<BackupPB::JobResponse>(socket);
         }
         catch(std::exception& e){
-            throw std::runtime_error("Error in receiving messages from server ");
+           return;
         }
 
         if(response.status() == BackupPB::JobResponse_Status_FAIL){

@@ -125,8 +125,7 @@ void watch(JobQueue &queue) {
         if(error) {
             error_count++;
             if(error_count>=MAX_RETRY)
-                //TODO decide if exception is needed
-                return;
+                throw std::runtime_error("Maximum number of consecutive folder scan error exceeded");
             continue;
         }
 
