@@ -77,13 +77,16 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
                     else {
                         message->set_type(BackupPB::DirectoryEntryMessage_Type_FILETYPE);
                         std::optional<std::string> checksum = getChecksum(directory_entry.path());
+                        std::size_t size = directory_entry.file_size();
                         if(!checksum.has_value()){
                             response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
                             response.clear_list();
                             break;
                         }
-                        else
+                        else{
                             message->set_checksum(checksum.value());
+                            message->set_size(size);
+                        }
 
                     }
                 }
