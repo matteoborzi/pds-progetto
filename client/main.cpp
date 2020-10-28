@@ -18,7 +18,6 @@
 
 
 int main(int argc, char *argv[]) {
-
     
 //    boost::asio::io_context io_service;
 ////socket creation
@@ -102,8 +101,23 @@ int main(int argc, char *argv[]) {
     JobQueue queue{};
     std::thread sender{sendData, std::ref(socket), std::ref(queue)},
             receiver{receiveData, std::ref(socket), std::ref(queue)};
+    try {
+        watch(queue);
+    } catch (std::exception& e) {
+        std::cerr<<e.what()<<std::endl;
 
-    watch(queue);
+        //closing the socket (receiver thread will get an exception and terminate
+        close_socket(socket);
+
+        //notifying waiting sender thread if blocked
+        queue.addIfEmpty(Job::terminationJob());
+    }
+    std::cout<<"Terminating the execution...\n"<<std::flush;
+
+    sender.join();
+    std::cout<<"Join the sender...\n"<<std::flush;
+    receiver.join();
+
     return 0;
 }
 

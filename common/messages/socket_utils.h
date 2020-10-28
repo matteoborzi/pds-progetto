@@ -3,6 +3,7 @@
 
 #include <boost/asio/read.hpp>
 #include <boost/asio/write.hpp>
+#include <boost/asio/ip/tcp.hpp>
 
 template<class T>
 /**
@@ -84,5 +85,7 @@ bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
 
     return true;
 }
+
+void close_socket(boost::asio::ip::tcp::socket& socket);
 
 #endif

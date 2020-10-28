@@ -26,7 +26,7 @@ add_executable(client main.cpp
         #UTILITIES
         ../common/time_utils.cpp ../common/time_utils.h
         ../common/Checksum.cpp ../common/Checksum.h
-        ../common/messages/socket_utils.h
+        ../common/messages/socket_utils.cpp ../common/messages/socket_utils.h
         ../common/job_utils.h ../common/job_utils.cpp
         ../common/messages/file_utils.cpp ../common/messages/file_utils.h
         ../common/fieldValidation.cpp ../common/fieldValidation.h
