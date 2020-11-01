@@ -3,7 +3,6 @@
 //
 
 #include "Waiter.h"
-#include <iostream>
 
 std::atomic_int Waiter::counter=0;
 std::mutex Waiter::m{};
@@ -18,7 +17,6 @@ Waiter::Waiter() {
 Waiter::~Waiter() {
     counter--;
     waitAvailable.notify_one();
-    std::cout<<counter<<" threads active"<<std::endl;
 }
 
 

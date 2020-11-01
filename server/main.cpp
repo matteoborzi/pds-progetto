@@ -55,7 +55,7 @@ int main(int argc, char* argv[]) {
     acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
     acceptor.bind(endpoint);
     acceptor.listen();
-    std::cout<<"I'm listening"<<std::endl;
+    std::cout<<"Server has started on port "<<port<<std::endl;
 
     while(true) {
 
@@ -101,7 +101,7 @@ int main(int argc, char* argv[]) {
                                     try {
                                         serveJobRequest(s, path, queue);
                                     } catch (std::exception &e) {
-                                        print_log_error(ipaddr,e.what());
+                                        print_log_error(ipaddr, username.value(), e.what());
                                         //interrupting other thread
                                         stopped_mine = true;
                                     }
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
                                 }
 
                                 responder.join();
-                                std::cout<<"Terminating "+username.value()+"\n";
+                                print_log_message(ipaddr,username.value(),"Terminating the connection");
 
 
                         }

@@ -28,3 +28,8 @@ void print_log_message(const std::string& ip, const std::string& logmsg) {
 void print_log_error(const std::string& ip, const std::string& logerr) {
     std::cerr << "[" << get_timestamp() << ", "<< ip << "]: "<<  logerr << std::endl;
 }
+
+void print_log_error(const std::string& ip, const std::string& user, const std::string& logmsg) {
+    std::cout << "[" << get_timestamp() << ", " << ip << ", " << user << "]: " << logmsg << std::endl;
+}
+
