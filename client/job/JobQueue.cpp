@@ -155,6 +155,23 @@ void JobQueue::addIfEmpty(const Job &job) {
 }
 
 /**
+ * Awake all thread that are waiting for empty (by adding Termination Job) or full queue (by empting the queue)
+ */
+void JobQueue::wakeAll() {
+    std::unique_lock l{m};
+
+    if(queue.empty()) {
+        queue.emplace_back(Job::terminationJob());
+        empty.notify_one();
+    }else if(queue.size() + sent.size() > MAX_SIZE){
+         queue.clear();
+         sent.clear();
+
+         full.notify_one();
+    }
+}
+
+/**
  * Computes the resulting action of 2 consecutive actions
  * @param oldAct
  * @param newAct

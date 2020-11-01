@@ -18,13 +18,7 @@
 
 
 int main(int argc, char *argv[]) {
-    
-//    boost::asio::io_context io_service;
-////socket creation
-//    boost::asio::ip::tcp::socket socket(io_service);
-////connection
-//    socket.connect( boost::asio::ip::tcp::endpoint( boost::asio::ip::address::from_string("127.0.0.1"), 8080 ));
-//    return 2;
+
     if ((argc != 2 && argc != 3) || (argc == 3 && std::string{argv[2]} != "--r")) {
         std::cerr << "Wrong parameters. Usage: client_executable configuration_file [--r]" << std::endl;
         return 1;
@@ -117,7 +111,6 @@ int main(int argc, char *argv[]) {
     std::cout<<"Terminating the execution...\n"<<std::flush;
 
     sender.join();
-    std::cout<<"Join the sender...\n"<<std::flush;
     receiver.join();
 
     return 0;
