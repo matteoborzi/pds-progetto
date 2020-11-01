@@ -16,7 +16,7 @@
 
 bool tryIncrement(std::filesystem::recursive_directory_iterator &iterator);
 
-void watch(JobQueue &queue) {
+void watch(JobQueue &queue, std::atomic_bool& termination) {
     // getting configuration
     std::optional<Configuration> conf = Configuration::getConfiguration();
     if (!conf.has_value())
@@ -27,7 +27,7 @@ void watch(JobQueue &queue) {
 
     int error_count=0;
 
-    while (true) {
+    while (!termination) {
         
         //clearing all previously visited elements
        unsetAllVisited();

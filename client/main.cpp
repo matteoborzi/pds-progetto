@@ -97,16 +97,18 @@ int main(int argc, char *argv[]) {
         return 7;
     }
 
-
+    std::atomic_bool termination=false;
     JobQueue queue{};
-    std::thread sender{sendData, std::ref(socket), std::ref(queue)},
-            receiver{receiveData, std::ref(socket), std::ref(queue)};
+    std::thread sender{sendData, std::ref(socket), std::ref(queue), std::ref(termination)},
+            receiver{receiveData, std::ref(socket), std::ref(queue), std::ref(termination)};
     try {
-        watch(queue);
+        watch(queue, termination);
     } catch (std::exception& e) {
         std::cerr<<e.what()<<std::endl;
 
-        //closing the socket (receiver thread will get an exception and terminate
+        termination= true; //signaling other thread to close
+
+        //closing the socket (receiver thread will get an exception and terminate)
         close_socket(socket);
 
         //notifying waiting sender thread if blocked
