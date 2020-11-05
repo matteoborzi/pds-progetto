@@ -15,7 +15,7 @@
 bool deleteDirectoryOrFile(const std::string& path);
 bool addDirectory(const std::string& path);
 bool addFile(const std::string& path);
-bool addFile(const std::string& path, std::string& checksum, long time, size_t size);
+bool addFile(const std::string& path, const std::string& checksum, long time, size_t size);
 std::shared_ptr<Directory> getDirectory(const std::string& path);
 std::shared_ptr<File> getFile(const std::string& path);
 std::string getLast(const std::string& path);

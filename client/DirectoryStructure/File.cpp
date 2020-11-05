@@ -14,6 +14,7 @@ void File::setChecksum(std::string checksum) {
 }
 
 std::string File::getChecksum(){
+    //checksum can be accessed by multiple threads
     std::shared_lock l(checksum_mutex);
     return this->checksum;
 }
