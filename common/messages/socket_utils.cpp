@@ -5,6 +5,10 @@
  * @param the socket to terminate
  */
 void close_socket(boost::asio::ip::tcp::socket& socket){
-    socket.shutdown(boost::asio::socket_base::shutdown_both);
-    socket.close();
+    try {
+        socket.shutdown(boost::asio::socket_base::shutdown_both);
+        socket.close();
+    }catch(...){
+        //socket already closed
+    };
 }
