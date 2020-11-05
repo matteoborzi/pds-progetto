@@ -54,8 +54,8 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
             if (element.is_directory()) {
                 //looking for a directory in DirectoryStructure
                 std::shared_ptr<Directory> dir = getDirectory(path);
-                if (dir == nullptr) {
-                    //directory must be added
+                if (dir == nullptr && getFile(path)==nullptr) {
+                    //directory must be added (if homonym file does not exist)
                     addDirectory(path);
                     dir = getDirectory(path);
                     if (dir == nullptr) {
@@ -66,15 +66,17 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
                     Job addDir{path, ADD_DIRECTORY, false};
                     queue.add(addDir);
                 }
-                //otherwise nothing to do (a directory cannot be updated)
-                dir->setVisited();
+
+                if(dir!=nullptr)
+                    //setting directory visited if it exists (created or already present)
+                    dir->setVisited();
 
 
             } else if(element.is_regular_file()){
                 //looking for a file
                 std::shared_ptr<File> file = getFile(path);
-                if (file == nullptr) {
-                    //file not existing
+                if (file == nullptr && getDirectory(path)==nullptr) {
+                    //file must be added (if homonym directory does not exist)
                     addFile(path);
                     file = getFile(path);
                     if (file == nullptr) {
@@ -87,7 +89,7 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
                     queue.add(fileToAdd);
 
 
-                } else {
+                } else if(file!=nullptr) {
                     time_t edit_time;
                     std::string checksum;
                     std::size_t size;
@@ -137,7 +139,10 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
                     }
 
                 }
-                file->setVisited();
+
+                if(file!=nullptr)
+                    //setting file visited if existing (created, updated or up-to-date)
+                    file->setVisited();
             }
             if(!tryIncrement(iter)){
                 error= true;
