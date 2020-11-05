@@ -31,7 +31,7 @@ void Job::setAct(Action a) {
 
 /**
  * Redefinition of operator== and operator!=
- * @return true iff the path are equal and are both files or both directories
+ * @return true if the path are equal and are both files or both directories
  */
 bool Job::operator==(Job const &j) const {
     return path==j.path && isFile==j.isFile;
