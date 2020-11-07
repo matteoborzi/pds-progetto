@@ -3,6 +3,7 @@
 
 #include <boost/asio/read.hpp>
 #include <boost/asio/write.hpp>
+#include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/ssl.hpp>
 
 template<class T>
