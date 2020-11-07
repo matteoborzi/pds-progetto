@@ -3,6 +3,7 @@
 
 #include <boost/asio/read.hpp>
 #include <boost/asio/write.hpp>
+#include <boost/asio/ssl.hpp>
 
 template<class T>
 /**
@@ -15,10 +16,9 @@ T readFromSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s){
     size_t size;
     size_t ret;
     try{
-        ret=  boost::asio::read(s,boost::asio::buffer(&size, sizeof(size)), boost::asio::transfer_all());
+        ret=  boost::asio::read(s,boost::asio::buffer(&size, sizeof(size)));
     }catch(boost::system::system_error& e) {
-        //TODO retry?
-        throw std::runtime_error("Something wrong happened");
+        throw std::runtime_error("Socket has been closed, cannot read message size");
     }
     if(ret<=0 || size<=0){
         //TODO can get here?
@@ -32,7 +32,7 @@ T readFromSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s){
         values[size]='\0';
     }catch(boost::system::system_error& e) {
         //TODO retry?
-        throw std::runtime_error("Something wrong happened");
+        throw std::runtime_error("Socket has been closed, cannot read message");
     }
     if(ret<=0){
         //TODO can get here?
@@ -64,7 +64,7 @@ bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T 
        ret= boost::asio::write(s,boost::asio::buffer(&size, sizeof(size)));
     }catch(boost::system::system_error& e) {
         //TODO retry?
-        throw std::runtime_error("Something wrong happened");
+        throw std::runtime_error("Socket has been closed, cannot write message size");
     }
     if(ret!=sizeof(size))
         //TODO can get here?
@@ -75,8 +75,7 @@ bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T 
     try {
         ret = boost::asio::write(s,boost::asio::buffer(serializedMessage, size));
     }catch(boost::system::system_error& e) {
-        //TODO retry?
-        throw std::runtime_error("Something wrong happened");
+        throw std::runtime_error("Socket has been closed, cannot write message");
     }
     if(ret!=size)
         //TODO can get here?
