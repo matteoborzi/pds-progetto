@@ -16,7 +16,7 @@
  *          file is not available or error occurred on the network
  * @throws boost::system::system_error if a network communication error occurs
  */
-void sendFile(boost::asio::ip::tcp::socket & socket,const std::string& path, size_t size){
+void sendFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,const std::string& path, size_t size){
     //check on file existence
     std::filesystem::directory_entry entry{path};
     if(!entry.exists() || !entry.is_regular_file() )
@@ -56,7 +56,7 @@ void sendFile(boost::asio::ip::tcp::socket & socket,const std::string& path, siz
  * @throws runtime_error if file cannot be created
  * @throws boost::system::system_error if a network communication error occurs
  */
-void receiveFile(boost::asio::ip::tcp::socket & socket,const std::string& path, size_t size){
+void receiveFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,const std::string& path, size_t size){
 
     std::ofstream file{path, std::ios::out | std::ios::binary};
     //check file opening (and creation)

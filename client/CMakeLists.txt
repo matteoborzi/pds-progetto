@@ -4,6 +4,10 @@ project(client)
 set(CMAKE_CXX_STANDARD 17)
 find_package(Boost REQUIRED)
 
+find_package(OpenSSL REQUIRED)
+if (OPENSSL_FOUND)
+    include_directories(${OPENSSL_INCLUDE_DIR})
+endif()
 
 find_package(Threads)
 link_libraries(stdc++fs -lprotobuf
@@ -43,5 +47,5 @@ add_executable(client main.cpp
         ../common/messages/MetaInfo.pb.cc   ../common/messages/MetaInfo.pb.h
         ../common/messages/RestoreResponse.pb.cc ../common/messages/RestoreResponse.pb.h
         )
-target_link_libraries(client ${CMAKE_THREAD_LIBS_INIT}  ${Boost_SYSTEM_LIBRARY})
+target_link_libraries(client ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${Boost_SYSTEM_LIBRARY})
 

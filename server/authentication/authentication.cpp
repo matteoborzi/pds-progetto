@@ -13,6 +13,7 @@
 #include <SQLiteCpp/Database.h>
 #include <SQLiteCpp/Transaction.h>
 #include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ssl.hpp>
 #include "authentication.h"
 #include "../../common/fieldValidation.h"
 #include "../../common/messages/AuthenticationRequest.pb.h"
@@ -32,7 +33,7 @@ std::string generateRandomSalt();
 //user informations are stored in the table USER(username, salt, hash)
 //in the authentication.db file
 
-std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
+std::optional<std::string> doAuthentication(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s){
 
     BackupPB::AuthenticationRequest authenticationRequest;
     BackupPB::AuthenticationResponse authenticationResponse;

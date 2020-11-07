@@ -10,7 +10,7 @@
 #include "../../common/messages/file_utils.h"
 
 
-void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPath, JobRequestQueue& queue){
+void serveJobRequest(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string& serverPath, JobRequestQueue& queue){
     //get job request
     BackupPB::JobRequest req= readFromSocket<BackupPB::JobRequest>(socket);
     //removing initial /
@@ -26,12 +26,12 @@ void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPa
 
 }
 
-void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue, const std::string& base_path,
+void sendResponses(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,  JobRequestQueue& queue, const std::string& base_path,
                    std::atomic_bool& stopped_other, std::atomic_bool& stopped_self){
     while(!stopped_other && !stopped_self){
         BackupPB::JobRequest request = queue.dequeueJobRequest();
         if(!request.IsInitialized()){
-            //got empty job to get awaked
+            //got empty job to get awakened
             stopped_self=true;
         }else {
             BackupPB::JobResponse response{};

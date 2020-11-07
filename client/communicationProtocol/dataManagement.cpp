@@ -16,7 +16,7 @@
 #include "../../common/messages/JobResponse.pb.h"
 
 
-void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue, std::atomic_bool &termination) {
+void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, JobQueue &queue, std::atomic_bool &termination) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -88,7 +88,7 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue, std::atomic
 
 }
 
-void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue, std::atomic_bool &termination) {
+void receiveData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, JobQueue &queue, std::atomic_bool &termination) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 

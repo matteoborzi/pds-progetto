@@ -12,7 +12,7 @@
 #include "../DirectoryStructure/utils.h"
 
 
-bool login(boost::asio::ip::tcp::socket &socket, std::string &username, std::string &password) {
+bool login(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string &username, std::string &password) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -40,7 +40,7 @@ bool login(boost::asio::ip::tcp::socket &socket, std::string &username, std::str
     return true;
 }
 
-bool chooseWorkspace(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
+bool chooseWorkspace(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string &machineId, std::string &path) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
