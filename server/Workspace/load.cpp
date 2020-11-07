@@ -17,9 +17,9 @@
 #include "../../common/messages/RestoreResponse.pb.h"
 
 
-std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::string& username){
+std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, std::string& username){
     // Get IP address for log purposes
-    std::string ipaddr = s.remote_endpoint().address().to_string();
+    std::string ipaddr = s.next_layer().remote_endpoint().address().to_string();
 
     /*read workspace from socket containing
         -client path
@@ -186,7 +186,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::st
         try{
             server_path = computeServerPath(username, chosenPath.machineid(), chosenPath.path());
         } catch(std::exception& e){
-            print_log_error("Could not compute server path for user " << username);
+            print_log_error(ipaddr, "Could not compute server path for user "+ username);
             print_log_error(ipaddr,e.what());
             return nullptr;
         }

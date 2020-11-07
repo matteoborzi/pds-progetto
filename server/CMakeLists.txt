@@ -3,6 +3,11 @@ project(server)
 
 set(CMAKE_CXX_STANDARD 17)
 
+find_package(OpenSSL REQUIRED)
+if (OPENSSL_FOUND)
+    include_directories(${OPENSSL_INCLUDE_DIR})
+endif()
+
 find_package(Boost REQUIRED)
 
 # adding third party library
@@ -47,9 +52,7 @@ add_executable(server main.cpp
         ../common/messages/RestoreResponse.pb.cc ../common/messages/RestoreResponse.pb.h
        )
 
-target_link_libraries(server ${CMAKE_THREAD_LIBS_INIT}  ${Boost_SYSTEM_LIBRARY}  SQLiteCpp
+target_link_libraries(server ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${Boost_SYSTEM_LIBRARY}  SQLiteCpp
         sqlite3
         pthread
         dl)
-
-

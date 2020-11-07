@@ -16,7 +16,7 @@
 #include "../../common/messages/JobResponse.pb.h"
 
 
-void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
+void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, JobQueue &queue) {
     while (true) {
         //get a job
         Job j = queue.getLastAndSetSent();
@@ -77,7 +77,7 @@ void sendData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
 
 }
 
-void receiveData(boost::asio::ip::tcp::socket &socket, JobQueue &queue) {
+void receiveData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, JobQueue &queue) {
     static std::atomic_int counter = 0;
     while (true) {
         BackupPB::JobResponse response{};

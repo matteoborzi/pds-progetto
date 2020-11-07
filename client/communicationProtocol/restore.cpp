@@ -13,7 +13,7 @@
 
 int promptChoice(BackupPB::AvailableWorkspaces);
 
-bool restore(boost::asio::ip::tcp::socket &socket, std::string &machineId, std::string &path) {
+bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string &machineId, std::string &path) {
 
     // Prepare restore message
     BackupPB::Workspace restore_request{};

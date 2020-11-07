@@ -3,32 +3,23 @@
 #include <thread>
 #include <filesystem>
 #include <boost/algorithm/string.hpp>
+#include <boost/asio/ssl.hpp>
 
 #include "waiter/Waiter.h"
 #include "pathPool/PathPool.h"
 #include "authentication/authentication.h"
 #include "jobRequestQueue/JobRequestQueue.h"
-#include "Workspace/workspace_utils.h"
 #include "ChecksumStorage/ChecksumStorage.h"
 
 #include "../common/messages/socket_utils.h"
 #include "../common/messages/file_utils.h"
 #include "log/log_utils.h"
-#include "../common/messages/AuthenticationRequest.pb.h"
-#include "../common/messages/AuthenticationResponse.pb.h"
-#include "../common/messages/Workspace.pb.h"
-#include "../common/messages/DirectoryEntryMessage.pb.h"
-#include "../common/messages/MetaInfo.pb.h"
-#include "../common/messages/MachinePath.pb.h"
-#include "../common/messages/AvailableWorkspaces.pb.h"
-#include "../common/messages/RestoreResponse.pb.h"
-#include "../common/messages/JobRequest.pb.h"
-#include "../common/messages/JobResponse.pb.h"
+
 #include "Workspace/load.h"
 #include "jobRequestQueue/jobManager.h"
 
 
-bool restore(boost::asio::ip::tcp::socket&, const std::string&);
+bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, const std::string&);
 
 int main(int argc, char* argv[]) {
 
@@ -50,6 +41,20 @@ int main(int argc, char* argv[]) {
     }
 
     boost::asio::io_context my_context;
+    boost::asio::ssl::context ssl_context(boost::asio::ssl::context::sslv23);
+    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
+    boost::asio::ip::tcp::acceptor acceptor(my_context, endpoint);
+
+    ssl_context.set_options(
+            boost::asio::ssl::context::default_workarounds
+            | boost::asio::ssl::context::no_sslv2
+            | boost::asio::ssl::context::single_dh_use);
+
+    ssl_context.use_certificate_chain_file("../../common/cert/server.pem");
+    ssl_context.use_private_key_file("../../common/cert/server.pem", boost::asio::ssl::context::pem);
+
+    /*
+    boost::asio::io_context my_context;
     boost::asio::ip::tcp::acceptor acceptor(my_context);
 
     boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
@@ -57,23 +62,33 @@ int main(int argc, char* argv[]) {
     acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
     acceptor.bind(endpoint);
     acceptor.listen();
+
+*/
+
     std::cout<<"I'm listening"<<std::endl;
 
     while(true) {
 
         std::shared_ptr<Waiter> w=std::make_shared<Waiter>();
 
-        boost::asio::ip::tcp::socket socket(my_context);
+        std::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> socket =
+                std::make_shared<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>(my_context, ssl_context);
 
-        acceptor.accept(socket);
-        
+        acceptor.accept(socket->next_layer());
+        try{
+            socket->handshake(boost::asio::ssl::stream_base::server);
+        } catch(std::exception &e){
+            std::cerr<<e.what()<<std::endl;
+        }
+
         // Get IP address for logs 
-        std::string ipaddr = socket.remote_endpoint().address().to_string();
+        std::string ipaddr = socket->next_layer().remote_endpoint().address().to_string();
         
         print_log_message(ipaddr,"Connection accepted");
 
         print_log_message(ipaddr,"Creating the thread");
-        std::thread thread{[w, ipaddr](boost::asio::ip::tcp::socket&& s)->void{
+        std::thread thread{[w, ipaddr, socket]()->void{
+            boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s = *socket;
             try {
                 std::optional<std::string> username = doAuthentication(s);
 
@@ -86,7 +101,9 @@ int main(int argc, char* argv[]) {
                         switch (poolItem->getRestore()) {
                             case true:
                                 //TODO check restore return
-                                bool restoreStatus = restore(s, path);
+                                bool restoreStatus;
+                                restoreStatus = restore(s, path);
+
                                 if(restoreStatus)
                                     print_log_message(ipaddr, username.value(),"Restore completed");
                                 else
@@ -140,7 +157,7 @@ int main(int argc, char* argv[]) {
 
 
             return;
-        }, std::move(socket)};
+        }};
         thread.detach();
 
     }
@@ -149,7 +166,8 @@ int main(int argc, char* argv[]) {
 }
 
 
-bool restore(boost::asio::ip::tcp::socket& socket, const std::string& path) {
+bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, const std::string& path) {
+    std::string ipaddr = socket.next_layer().remote_endpoint().address().to_string();
     for (std::filesystem::directory_entry entry : std::filesystem::recursive_directory_iterator(path)) {
         BackupPB::JobRequest request{};
         if (entry.is_directory())

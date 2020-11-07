@@ -1,5 +1,7 @@
 #include <iostream>
 #include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ssl.hpp>
+#include <boost/asio/connect.hpp>
 #include <thread>
 #include <filesystem>
 
@@ -39,15 +41,26 @@ int main(int argc, char *argv[]) {
     Configuration conf = configuration.value();
 
     boost::asio::io_context io_service;
+    boost::asio::ssl::context ssl_context(boost::asio::ssl::context::sslv23);
+    boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket(io_service, ssl_context);
+    boost::asio::ip::tcp::resolver resolver(io_service);
 
-    boost::asio::ip::tcp::socket socket(io_service);
+
+    //ssl_context.load_verify_file("../../common/cert/server.pem");
+    ssl_context.set_verify_mode(boost::asio::ssl::verify_peer);
+    //ssl_context.set_verify_callback(boost::asio::ssl::rfc2818_verification("127.0.0.1"));
+
+    auto endpoints = resolver.resolve(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(
+            conf.getIpAddress()), conf.getPort()));
+
 
     int attempts = MAX_CONNECTION_ATTEMPTS;
     bool connected = true;
     do {
         try {
-            socket.connect(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(
-                    conf.getIpAddress()), conf.getPort()));
+            boost::asio::connect(socket.next_layer(), endpoints);
+            socket.handshake(boost::asio::ssl::stream_base::client);
+
         } catch (boost::system::system_error &e) {
 
             attempts--;

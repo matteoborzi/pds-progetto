@@ -11,7 +11,7 @@ template<class T>
  * @param socket from which read data
  * @return message
  */
-T readFromSocket(boost::asio::ip::tcp::socket& s){
+T readFromSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s){
     size_t size;
     size_t ret;
     try{
@@ -51,9 +51,9 @@ template<class T>
  * @tparam T type of message to send
  * @param socket on which send data
  * @param message to be sent
- * @return bool indicating succcess
+ * @return bool indicating success
  */
-bool writeToSocket(boost::asio::ip::tcp::socket& s,T message){
+bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T message){
     size_t size = message.ByteSizeLong();
     size_t ret;
 
