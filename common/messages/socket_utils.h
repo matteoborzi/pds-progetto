@@ -32,7 +32,6 @@ T readFromSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s){
         ret = boost::asio::read(s,boost::asio::buffer(values, size));
         values[size]='\0';
     }catch(boost::system::system_error& e) {
-        //TODO retry?
         throw std::runtime_error("Socket has been closed, cannot read message");
     }
     if(ret<=0){
@@ -64,7 +63,6 @@ bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T 
     try{
        ret= boost::asio::write(s,boost::asio::buffer(&size, sizeof(size)));
     }catch(boost::system::system_error& e) {
-        //TODO retry?
         throw std::runtime_error("Socket has been closed, cannot write message size");
     }
     if(ret!=sizeof(size))
