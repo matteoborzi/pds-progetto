@@ -10,6 +10,9 @@ enum Type {DIRTYPE, FILETYPE};
 #include <string>
 #include <list>
 
+/**
+ * Virtual base class for Directory and file
+ */
 class DirectoryEntry {
 private:
     std::string name;

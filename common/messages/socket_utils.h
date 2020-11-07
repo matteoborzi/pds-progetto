@@ -84,4 +84,6 @@ bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T 
     return true;
 }
 
+void close_socket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket);
+
 #endif

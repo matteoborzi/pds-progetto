@@ -1,6 +1,12 @@
 #include <stdexcept>
 #include "file_util.h"
 
+/**
+ * Function to concatenate base path with relative path without having duplicated /
+ * @param base
+ * @param relative
+ * @return the concatenated string
+ */
 std::string concatenatePath(const std::string& base,const std::string& relative){
     std::string abs;
 

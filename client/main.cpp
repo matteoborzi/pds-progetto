@@ -20,12 +20,7 @@
 
 
 int main(int argc, char *argv[]) {
-//    boost::asio::io_context io_service;
-////socket creation
-//    boost::asio::ip::tcp::socket socket(io_service);
-////connection
-//    socket.connect( boost::asio::ip::tcp::endpoint( boost::asio::ip::address::from_string("127.0.0.1"), 8080 ));
-//    return 2;
+
     if ((argc != 2 && argc != 3) || (argc == 3 && std::string{argv[2]} != "--r")) {
         std::cerr << "Wrong parameters. Usage: client_executable configuration_file [--r]" << std::endl;
         return 1;
@@ -109,12 +104,28 @@ int main(int argc, char *argv[]) {
         return 7;
     }
 
-
+    std::atomic_bool termination=false;
     JobQueue queue{};
-    std::thread sender{sendData, std::ref(socket), std::ref(queue)},
-            receiver{receiveData, std::ref(socket), std::ref(queue)};
+    std::thread sender{sendData, std::ref(socket), std::ref(queue), std::ref(termination)},
+            receiver{receiveData, std::ref(socket), std::ref(queue), std::ref(termination)};
+    try {
+        watch(queue, termination);
+    } catch (std::exception& e) {
+        std::cerr<<e.what()<<std::endl;
 
-    watch(queue);
+        termination= true; //signaling other thread to close
+
+        //closing the socket (receiver thread will get an exception and terminate)
+        close_socket(socket);
+
+        //notifying waiting sender thread if blocked
+        queue.addIfEmpty(Job::terminationJob());
+    }
+    std::cout<<"Terminating the execution...\n"<<std::flush;
+
+    sender.join();
+    receiver.join();
+
     return 0;
 }
 

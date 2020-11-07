@@ -14,6 +14,7 @@ void File::setChecksum(std::string checksum) {
 }
 
 std::string File::getChecksum(){
+    //checksum can be accessed by multiple threads
     std::shared_lock l(checksum_mutex);
     return this->checksum;
 }
@@ -24,4 +25,12 @@ time_t File::getLastEditTime() {
 
 int File::myType() const {
     return FILETYPE;
+}
+
+void File::setSize(std::size_t size) {
+    this->size = size;
+}
+
+std::size_t File::getSize() {
+    return this->size;
 }

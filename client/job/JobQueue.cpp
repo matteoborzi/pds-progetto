@@ -2,12 +2,16 @@
 #include <iostream>
 #include "JobQueue.h"
 
+/**
+ * maximum number of Jobs considering the sum of the ones present in the two lists
+ */
 #define MAX_SIZE 100
 
 Action getAction(Action oldAct, Action newAct);
 
 /**
  * Method to add a new Job in the queue
+ * or eventually update the action in case there is an equal Job on the queue
  * @param Job to add
  * @throws logic_error if the action to be performed is in conflict with other Job on the same path
  */
@@ -16,6 +20,7 @@ void JobQueue::add(Job &j) {
     for (Job &j1:queue) {
         if (j1 == j) {
             //updating action when a Job on the same element is already present
+            //getAction throws a logic_error if the Actions passed are incompatible
             j1.setAct(getAction(j1.getAct(), j.getAct()));
             if (j1.getAct() == CANCELLED)
                 //removing job if cancelled
@@ -23,7 +28,7 @@ void JobQueue::add(Job &j) {
             return;
         }
     }
-    //waiting for some new space
+    //waiting for some new space 
     full.wait(l, [this] { return queue.size() + sent.size() <= MAX_SIZE; });
     //adding the element
     queue.emplace_back(j);
@@ -52,7 +57,8 @@ Job JobQueue::getLastAndSetSent() {
                     break;
                 }
             }
-            // a Job on the same file has been found, scanning next element in queue
+            // a Job on the same file has been sent and not confirmed,
+            // scanning next element in queue
             if (foundSent)
                 continue;
 
@@ -63,6 +69,8 @@ Job JobQueue::getLastAndSetSent() {
             break;
 
         }
+        //if the function arrives here means that the queue is not empty
+        //but there is not a Job that can be sent to the server
         if(!res.has_value())
             empty.wait(l);
     }
@@ -113,8 +121,10 @@ void JobQueue::retry(const std::string &path) {
     if (!j.has_value())
         throw std::logic_error("No action was pending for " + path);
     for (Job &j1:queue) {
-        //searching in queue, if found a new action has to be computed
+        //searching in queue;
+        // if found a job with the same path, a new action has to be computed
         if (j1 == j.value()) {
+            //getAction throws a logic_error if the Actions passed are incompatible
             j1.setAct(getAction(j.value().getAct(), j1.getAct()));
 
             if(j1.getAct()==CANCELLED)
@@ -141,12 +151,42 @@ void JobQueue::retry(const std::string &path) {
     return;
 
 }
+/**
+ * Add a job if the call is not blocking
+ * @param job to add
+ */
+void JobQueue::addIfEmpty(const Job &job) {
+    std::unique_lock l{m};
+
+    if(queue.empty()) {
+        queue.emplace_back(job);
+        empty.notify_one();
+    }
+}
+
+/**
+ * Awake all thread that are waiting for empty (by adding Termination Job) or full queue (by empting the queue)
+ */
+void JobQueue::wakeAll() {
+    std::unique_lock l{m};
+
+    if(queue.empty()) {
+        queue.emplace_back(Job::terminationJob());
+        empty.notify_one();
+    }else if(queue.size() + sent.size() > MAX_SIZE){
+         queue.clear();
+         sent.clear();
+
+         full.notify_one();
+    }
+}
 
 /**
  * Computes the resulting action of 2 consecutive actions
- * @param oldAct
- * @param newAct
- * @return the write change to do
+ * @param old Action
+ * @param new Action
+ * @throws std::logic_error if the Actions are incoherent
+ * @return the right Action to do
  */
 Action getAction(Action oldAct, Action newAct) {
     if (oldAct == CANCELLED)
@@ -164,7 +204,7 @@ Action getAction(Action oldAct, Action newAct) {
          (oldAct == ADD_DIRECTORY || oldAct == ADD_FILE) )//combination not valid:
                                                             // a file or directory cannot be added twice
         || (oldAct == DELETE && newAct == UPDATE) //after a deletion a file cannot be updated anymore
-        || (oldAct == UPDATE)) //an update cannot preceed an ADD_*
+        || (oldAct == UPDATE)) //an update cannot precede an ADD_*
         //should not go there
         throw std::logic_error("Impossible combination of action to be updated");
 

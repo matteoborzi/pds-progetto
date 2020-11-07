@@ -16,7 +16,7 @@ BackupPB::JobRequest JobRequestQueue::dequeueJobRequest(){
     std::unique_lock l{m};
 
     BackupPB::JobRequest jr{};
-    empty.wait(l, [this] { return !queue.empty(); });
+    empty.wait(l, [this]()->bool { return !queue.empty(); });
     jr = queue.front();
     queue.pop();
 

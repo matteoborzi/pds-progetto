@@ -34,3 +34,8 @@ void print_log_error(const std::string& ip, const std::string& logerr) {
     buffer << "[" << get_timestamp() << ", "<< ip << "]: "<<  logerr << "\n";
     std::cerr << buffer.str();
 }
+
+void print_log_error(const std::string& ip, const std::string& user, const std::string& logmsg) {
+    std::cout << "[" << get_timestamp() << ", " << ip << ", " << user << "]: " << logmsg << std::endl;
+}
+

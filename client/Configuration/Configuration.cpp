@@ -14,8 +14,14 @@ std::optional<Configuration> Configuration::configuration = std::nullopt;
 
 void printCorrectConfFile();
 
+/**
+ * Function to get Configuration instance
+ * @param filename of the config file
+ * @return the Configuration if correctly loaded
+ */
 std::optional<Configuration> Configuration::getConfiguration(std::string& filename) {
     if(!configuration.has_value()){
+        //reading the file if not previously loaded
         std::ifstream file{filename, std::ifstream::in};
         if(!file) {
             return std::nullopt;
@@ -101,6 +107,10 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
     return configuration;
 }
 
+/**
+ * Function to get the configuration (if loaded)
+ * @return optional containg the configuration
+ */
 std::optional<Configuration> Configuration::getConfiguration() {
     return configuration;
 }
@@ -131,7 +141,9 @@ std::string& Configuration::getIpAddress() {
 int Configuration::getPort() {
     return port;
 }
-
+/**
+ * Function to print the correct configuration file format
+ */
 void printCorrectConfFile() {
     std::cerr<<"Correct file format:"<<std::endl;
     

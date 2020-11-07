@@ -19,6 +19,10 @@ public:
     bool getIsFile() const;
     bool operator==(Job const& j) const;
     bool operator!=(Job const& j) const;
+
+    bool isTerminatation();
+
+    static const Job terminationJob();
 };
 
 

@@ -8,20 +8,6 @@
 #include <thread>
 #include <iostream>
 
-/* TODO
- * in createUserFolder
- * se non si riesce a creare una cartella
- * forse sarebbe il caso di eliminare l'utente
- * dal file DB
- */
-
-/* TODO
- * forse è opportuno controllare il nome utente
- * al primo accesso
- * ad esempio controllando che non ci siano / o altri caratteri
- * (anche se il controllo è già fatto lato client)
- */
-
 BOOST_AUTO_TEST_SUITE( test_suite_authentication);
 
 

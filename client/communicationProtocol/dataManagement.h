@@ -9,7 +9,7 @@
 #include <boost/asio/ssl.hpp>
 #include "../job/JobQueue.h"
 
-void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, JobQueue &);
-void receiveData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, JobQueue &);
+void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, JobQueue &, std::atomic_bool &);
+void receiveData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, JobQueue &, std::atomic_bool &);
 
 #endif //CLIENT_DATAMANAGEMENT_H

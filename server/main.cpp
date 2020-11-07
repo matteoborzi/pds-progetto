@@ -23,10 +23,8 @@ bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, const std:
 
 int main(int argc, char* argv[]) {
 
-    //TODO see how it works    GOOGLE_PROTOBUF_VERIFY_VERSION;
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
     int port;
-
-
 
     if(argc < 2) {
         std::cerr<<"Not enough arguments: port_number is missing" << std::endl;
@@ -53,19 +51,8 @@ int main(int argc, char* argv[]) {
     ssl_context.use_certificate_chain_file("../../common/cert/server.pem");
     ssl_context.use_private_key_file("../../common/cert/server.pem", boost::asio::ssl::context::pem);
 
-    /*
-    boost::asio::io_context my_context;
-    boost::asio::ip::tcp::acceptor acceptor(my_context);
 
-    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
-    acceptor.open(endpoint.protocol());
-    acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
-    acceptor.bind(endpoint);
-    acceptor.listen();
-
-*/
-
-    std::cout<<"I'm listening"<<std::endl;
+    std::cout<<"Server has started on port "<<port<<std::endl;
 
     while(true) {
 
@@ -100,11 +87,10 @@ int main(int argc, char* argv[]) {
                         std::string path = poolItem->getPath();
                         switch (poolItem->getRestore()) {
                             case true:
-                                //TODO check restore return
+                                
                                 bool restoreStatus;
                                 restoreStatus = restore(s, path);
-
-                                if(restoreStatus)
+				if(restoreStatus)
                                     print_log_message(ipaddr, username.value(),"Restore completed");
                                 else
                                     print_log_message(ipaddr,username.value(),"Restore failed");
@@ -122,7 +108,7 @@ int main(int argc, char* argv[]) {
                                     try {
                                         serveJobRequest(s, path, queue);
                                     } catch (std::exception &e) {
-                                        print_log_error(ipaddr,e.what());
+                                        print_log_error(ipaddr, username.value(), e.what());
                                         //interrupting other thread
                                         stopped_mine = true;
                                     }
@@ -140,7 +126,7 @@ int main(int argc, char* argv[]) {
                                 }
 
                                 responder.join();
-                                std::cout<<"Terminating "+username.value()+"\n";
+                                print_log_message(ipaddr,username.value(),"Terminating the connection");
 
 
                         }
@@ -186,7 +172,7 @@ bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, con
                 sendFile(socket, entry.path(), request.size());
         }
         catch (std::exception &e) {
-            print_log_error(ipaddr,e.what());
+            //print_log_error(ipaddr,e.what());
             return false;
         }
     }
@@ -197,7 +183,7 @@ bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, con
         writeToSocket(socket, end);
     }
     catch (std::exception &e) {
-        print_log_error(ipaddr,e.what());
+        //print_log_error(ipaddr,e.what());
         return false;
     }
 

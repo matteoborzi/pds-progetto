@@ -7,4 +7,5 @@ message DirectoryEntryMessage{
     enum Type  {DIRTYPE =0; FILETYPE=1;}
     required Type type  = 2;
     optional string checksum = 3;
+    optional uint64 size = 4;
 }

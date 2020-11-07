@@ -13,6 +13,9 @@
 
 
 bool login(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string &username, std::string &password) {
+
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     BackupPB::AuthenticationRequest req;
 
     req.set_username(username);
@@ -38,6 +41,9 @@ bool login(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::
 }
 
 bool chooseWorkspace(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string &machineId, std::string &path) {
+
+    GOOGLE_PROTOBUF_VERIFY_VERSION;
+
     BackupPB::Workspace workspaceChoice;
 
     workspaceChoice.set_machineid(machineId);
@@ -76,7 +82,8 @@ bool chooseWorkspace(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& soc
                     return false;
                 std::string filePath{directoryEntry.name()};
                 std::string checksum{directoryEntry.checksum()};
-                if(!addFile(filePath, checksum, 0))
+                std::size_t size{directoryEntry.size()};
+                if(!addFile(filePath, checksum, 0, size))
                     return false;
                 break;
         }

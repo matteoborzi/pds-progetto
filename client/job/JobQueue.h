@@ -25,6 +25,9 @@ public:
 
     void retry(const std::string& path);
 
+    void addIfEmpty(const Job &job);
+
+    void wakeAll();
 };
 
 
