@@ -51,18 +51,8 @@ int main(int argc, char* argv[]) {
     ssl_context.use_certificate_chain_file("../../common/cert/server.pem");
     ssl_context.use_private_key_file("../../common/cert/server.pem", boost::asio::ssl::context::pem);
 
-    /*
-    boost::asio::io_context my_context;
-    boost::asio::ip::tcp::acceptor acceptor(my_context);
 
-    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
-    acceptor.open(endpoint.protocol());
-    acceptor.set_option(boost::asio::ip::tcp::acceptor::reuse_address(true));
-    acceptor.bind(endpoint);
-    acceptor.listen();
     std::cout<<"Server has started on port "<<port<<std::endl;
-*/
-
 
     while(true) {
 

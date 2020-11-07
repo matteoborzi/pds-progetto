@@ -4,6 +4,7 @@
 #include <boost/asio/read.hpp>
 #include <boost/asio/write.hpp>
 #include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ssl.hpp>
 
 template<class T>
 /**
@@ -86,6 +87,6 @@ bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T 
     return true;
 }
 
-void close_socket(boost::asio::ip::tcp::socket& socket);
+void close_socket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket);
 
 #endif
