@@ -19,22 +19,22 @@
 #include "jobRequestQueue/jobManager.h"
 
 
-bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, const std::string&);
+bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &, const std::string &);
 
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
     int port;
 
-    if(argc < 2) {
-        std::cerr<<"Not enough arguments: port_number is missing" << std::endl;
+    if (argc < 2) {
+        std::cerr << "Not enough arguments: port_number is missing" << std::endl;
         return 1;
     }
 
-    try{
+    try {
         port = std::stoi(argv[1]);
-    } catch (std::exception& e) {
-        std::cerr<<"Invalid port argument: not a number"<<std::endl;
+    } catch (std::exception &e) {
+        std::cerr << "Invalid port argument: not a number" << std::endl;
         return 2;
     }
 
@@ -52,48 +52,46 @@ int main(int argc, char* argv[]) {
     ssl_context.use_private_key_file("../../common/cert/server.pem", boost::asio::ssl::context::pem);
 
 
-    std::cout<<"Server has started on port "<<port<<std::endl;
+    std::cout << "Server has started on port " << port << std::endl;
 
-    while(true) {
+    while (true) {
 
-        std::shared_ptr<Waiter> w=std::make_shared<Waiter>();
+        std::shared_ptr<Waiter> w = std::make_shared<Waiter>();
 
         std::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> socket =
                 std::make_shared<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>(my_context, ssl_context);
 
         acceptor.accept(socket->next_layer());
-        try{
+        try {
             socket->handshake(boost::asio::ssl::stream_base::server);
-        } catch(std::exception &e){
-            std::cerr<<e.what()<<std::endl;
+        } catch (std::exception &e) {
+            std::cerr << e.what() << std::endl;
+            continue;
         }
 
         // Get IP address for logs 
         std::string ipaddr = socket->next_layer().remote_endpoint().address().to_string();
-        
-        print_log_message(ipaddr,"Connection accepted");
-
-        print_log_message(ipaddr,"Creating the thread");
-        std::thread thread{[w, ipaddr, socket]()->void{
-            boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s = *socket;
+        print_log_message(ipaddr, "Connection accepted");
+        print_log_message(ipaddr, "Creating the thread");
+        std::thread thread{[w, ipaddr, socket]() -> void {
+            boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &s = *socket;
             try {
                 std::optional<std::string> username = doAuthentication(s);
 
                 if (username.has_value()) {
-                    print_log_message(ipaddr,username.value(),"Successfully logged in");
+                    print_log_message(ipaddr, username.value(), "Successfully logged in");
 
                     std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
                     if (poolItem->isValid()) {
                         std::string path = poolItem->getPath();
                         switch (poolItem->getRestore()) {
                             case true:
-                                
                                 bool restoreStatus;
                                 restoreStatus = restore(s, path);
-				if(restoreStatus)
-                                    print_log_message(ipaddr, username.value(),"Restore completed");
+                                if (restoreStatus)
+                                    print_log_message(ipaddr, username.value(), "Restore completed");
                                 else
-                                    print_log_message(ipaddr,username.value(),"Restore failed");
+                                    print_log_message(ipaddr, username.value(), "Restore failed");
                                 break;
                             case false:
 
@@ -113,32 +111,26 @@ int main(int argc, char* argv[]) {
                                         stopped_mine = true;
                                     }
                                 }
-                                if(stopped_mine){
+                                if (stopped_mine) {
                                     //adding a fictional job to awake other thread if sleeping
                                     BackupPB::JobRequest empty_req{};
                                     queue.enqueueJobRequest(empty_req);
-
-//                                    std::unique_lock l(terminated_mutex);
-//
-//                                    terminated.wait(l, [& stopped_other]()->bool{ return stopped_other;});
-//
-//                                    std::cout<<"Terminating "+username.value()+"\n";
                                 }
 
                                 responder.join();
-                                print_log_message(ipaddr,username.value(),"Terminating the connection");
+                                print_log_message(ipaddr, username.value(), "Terminating the connection");
 
 
                         }
 
                     } else {
-                        print_log_message(ipaddr,username.value(),"Failed to connect to the workspace");
+                        print_log_message(ipaddr, username.value(), "Failed to connect to the workspace");
                     }
 
-                } else  print_log_message(ipaddr,"Failed to log in");
+                } else print_log_message(ipaddr, "Failed to log in");
 
-            }catch(std::exception& e ){
-                print_log_error(ipaddr,e.what());
+            } catch (std::exception &e) {
+                print_log_error(ipaddr, e.what());
             }
 
 
@@ -152,7 +144,7 @@ int main(int argc, char* argv[]) {
 }
 
 
-bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, const std::string& path) {
+bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &socket, const std::string &path) {
     std::string ipaddr = socket.next_layer().remote_endpoint().address().to_string();
     for (std::filesystem::directory_entry entry : std::filesystem::recursive_directory_iterator(path)) {
         BackupPB::JobRequest request{};
