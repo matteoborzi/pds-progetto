@@ -21,11 +21,14 @@
 
 int main(int argc, char *argv[]) {
 
+    //parameter check
+    //  usage: <conf_file_path> [--r]
     if ((argc != 2 && argc != 3) || (argc == 3 && std::string{argv[2]} != "--r")) {
         std::cerr << "Wrong parameters. Usage: client_executable configuration_file [--r]" << std::endl;
         return 1;
     }
 
+    //loading configuration file
     std::string confFile{argv[1]};
     std::optional<Configuration> configuration = Configuration::getConfiguration(confFile);
 
@@ -35,34 +38,37 @@ int main(int argc, char *argv[]) {
     }
     Configuration conf = configuration.value();
 
+    //setting up connection and SSL parameters
     boost::asio::io_context io_service;
     boost::asio::ssl::context ssl_context(boost::asio::ssl::context::sslv23);
     boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket(io_service, ssl_context);
-    boost::asio::ip::tcp::resolver resolver(io_service);
-
-
-    //ssl_context.load_verify_file("../../common/cert/server.pem");
     ssl_context.set_verify_mode(boost::asio::ssl::verify_peer);
-    //ssl_context.set_verify_callback(boost::asio::ssl::rfc2818_verification("127.0.0.1"));
 
-    auto endpoints = resolver.resolve(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(
+    //resolving server endpoint
+    boost::asio::ip::tcp::resolver resolver(io_service);
+    boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> endpoints
+        = resolver.resolve(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(
             conf.getIpAddress()), conf.getPort()));
 
-
+    //performing the connection
     int attempts = MAX_CONNECTION_ATTEMPTS;
     bool connected = true;
     do {
+        //trying to connect
         try {
             boost::asio::connect(socket.next_layer(), endpoints);
             socket.handshake(boost::asio::ssl::stream_base::client);
 
         } catch (boost::system::system_error &e) {
+            //rollback in case of exception thrown by handshake
+            if(socket.next_layer().is_open())
+                socket.next_layer().close();
 
             attempts--;
             connected= false;
 
             if(attempts==0) {
-
+                //max number of attempts exceeded
                 std::cerr << "Impossible to connect to the server" << std::endl;
                 return 3;
             }
@@ -71,6 +77,7 @@ int main(int argc, char *argv[]) {
         }
     }while(!connected);
 
+    //performing checks for restore
     try {
         if (argc == 3 && !std::filesystem::is_empty(std::filesystem::path{conf.getPath()})) {
             std::cerr << "Error: root chosen for restore is not empty" << std::endl;
@@ -81,6 +88,7 @@ int main(int argc, char *argv[]) {
         return 4;
     }
 
+    //performing authentication to server
     if (!login(socket, conf.getUsername(), conf.getPassword())) {
         std::cerr << "Error during authentication" << std::endl;
         return 5;
@@ -90,22 +98,29 @@ int main(int argc, char *argv[]) {
 
 
     if (argc == 3) {
+        //performing restore
         if (!restore(socket, conf.getMachineID(), conf.getPath())) {
             std::cerr << "Error during file restore" << std::endl;
             return 6;
         } 
         else{
+            //restore ended correctly
         	std::cout << "Terminating program..." << std::endl;	
         	return 0;
         }
     }
+
+    //sending data to select the workspace to use
     if (!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())) {
         std::cerr << "Error during workspace choice" << std::endl;
         return 7;
     }
 
+
     std::atomic_bool termination=false;
-    JobQueue queue{};
+    JobQueue queue{}; //the Queue that will accept jobs to deliver to the server
+
+    //configuring thread to manage backup system
     std::thread sender{sendData, std::ref(socket), std::ref(queue), std::ref(termination)},
             receiver{receiveData, std::ref(socket), std::ref(queue), std::ref(termination)};
     try {
