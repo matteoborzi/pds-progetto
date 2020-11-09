@@ -1,9 +1,6 @@
-//
-// Created by rober on 06/10/2020.
-//
-
 #include <filesystem>
 #include "restore.h"
+
 #include "../../common/messages/Workspace.pb.h"
 #include "../../common/messages/socket_utils.h"
 #include "../../common/messages/AvailableWorkspaces.pb.h"
@@ -13,6 +10,13 @@
 
 int promptChoice(BackupPB::AvailableWorkspaces);
 
+/**
+ * this function performs the restore operation in case the --r option is set
+ * @param socket to communicate with the server
+ * @param machineId local identifier of the machine
+ * @param path absolute path of the directory to store the restored data
+ * @return true in case of success, false otherwise
+ */
 bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string &machineId, std::string &path) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
@@ -33,11 +37,9 @@ bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std
         return false;
     }
 
-
     // Try to read the list of available workspaces from socket
     // Returns if read fails
     BackupPB::AvailableWorkspaces available_workspaces{};
-
     try{
         available_workspaces = readFromSocket<BackupPB::AvailableWorkspaces>(socket);
     } catch(std::exception& e) {
@@ -45,10 +47,8 @@ bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std
         return false;
     }
 
-
     if(available_workspaces.status() == BackupPB::AvailableWorkspaces_Status_OK){
         int ind = promptChoice(available_workspaces);
-
         // Returning for non valid machine-path choice
         if(ind < 0){
             std::cerr << "The selected path to restore is not valid" << std::endl;
@@ -70,7 +70,6 @@ bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std
         // Try to read a restore response from socket
         // Returns if read fails
         BackupPB::RestoreResponse restore_response{};
-
         try{
             restore_response = readFromSocket<BackupPB::RestoreResponse>(socket);
         } catch(std::exception& e) {
@@ -112,7 +111,7 @@ bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std
                 }
             }
 
-                // If the request is an ADD_DIRECTORY there is no socket read
+            // If the request is an ADD_DIRECTORY there is no socket read
             else if(job_request.pbaction() == BackupPB::JobRequest_PBAction_ADD_DIRECTORY)
                 std::filesystem::create_directories(complete_path);
 
