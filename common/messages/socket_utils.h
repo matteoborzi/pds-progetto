@@ -17,27 +17,29 @@ T readFromSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s){
     size_t size;
     size_t ret;
     try{
+        //reading dimension of the message
         ret=  boost::asio::read(s,boost::asio::buffer(&size, sizeof(size)));
     }catch(boost::system::system_error& e) {
         throw std::runtime_error("Socket has been closed, cannot read message size");
     }
     if(ret<=0 || size<=0){
-        //TODO can get here?
-        throw std::runtime_error("Something wrong happened HERE");
+        throw std::runtime_error("Unexpected message size read from socket");
     }
 
-
+    //allocating bytes for the message
     char values[size+1];
     try {
+        //reading the message from socket
         ret = boost::asio::read(s,boost::asio::buffer(values, size));
+        //terminating the stream of bytes
         values[size]='\0';
     }catch(boost::system::system_error& e) {
         throw std::runtime_error("Socket has been closed, cannot read message");
     }
     if(ret<=0){
-        //TODO can get here?
-        throw std::runtime_error("Something wrong happened");
+        throw std::runtime_error("Unexpected message read from socket");
     }
+    //deserializing result
     T result;
     result.ParseFromArray(values, size);
     if(!result.IsInitialized())
@@ -61,23 +63,25 @@ bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T 
         throw std::logic_error("Message to send is not initialized");
 
     try{
+       //writing dimension of the file on the socket
        ret= boost::asio::write(s,boost::asio::buffer(&size, sizeof(size)));
     }catch(boost::system::system_error& e) {
         throw std::runtime_error("Socket has been closed, cannot write message size");
     }
     if(ret!=sizeof(size))
-        //TODO can get here?
         return false;
+
+    //getting serialized message
     char serializedMessage[size+1];
     message.SerializeToArray(serializedMessage, size);
     serializedMessage[size]='\0';
     try {
+        //writing message on the socket
         ret = boost::asio::write(s,boost::asio::buffer(serializedMessage, size));
     }catch(boost::system::system_error& e) {
         throw std::runtime_error("Socket has been closed, cannot write message");
     }
     if(ret!=size)
-        //TODO can get here?
         return false;
 
     return true;
