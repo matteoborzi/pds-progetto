@@ -30,10 +30,16 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
         boost::property_tree::read_json(file, pt);
 
         try{
+            bool error= false;
+
             std::string local_path = boost::algorithm::trim_copy(pt.get<std::string>("path"));
             //if path is NOT "/" and ends with "/", the "/" is removed
             if(local_path!="/" && local_path.compare(local_path.size()-1,1,"/") == 0 )
                 local_path = local_path.substr(0, local_path.size() -1);
+            if(local_path[0]!='/'){
+                std::cerr<<"Path of the directory should be absolute"<<std::endl;
+                error=true;
+            }
             //TODO implement checks for path containing \ on Windows
 
             std::string local_machineID = pt.get<std::string>("machineID");
@@ -58,20 +64,23 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
             }
 
 
-            bool error= false;
 
+
+            //loading server address
             int32_t addr;
             if (inet_pton(AF_INET, local_ipAddress.c_str(), &addr) !=1) { //if returns 1, the ip address is valid
                 std::cerr<<"Wrong IP address format, only IPv4 accepted"<<std::endl;
                 error=true;
             }
 
+            //loading directory to use
             std::filesystem::directory_entry dir{local_path};
             if (!(dir.exists() && dir.is_directory())) { //check that the path exists and is a directory
                 std::cerr<<"Directory to backup or restore does not exists"<<std::endl;
                 error=true;
             }
 
+            //loading server port
             if (!(local_port > 0 && local_port <= MAX_PORT)){//check that the port is in a valid range
                 std::cerr<<"Port is not in a valid range "<<std::endl;
                 error=true;
