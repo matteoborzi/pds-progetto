@@ -53,9 +53,8 @@ template<class T>
  * @tparam T type of message to send
  * @param socket on which send data
  * @param message to be sent
- * @return bool indicating success
  */
-bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T message){
+void writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T message){
     size_t size = message.ByteSizeLong();
     size_t ret;
 
@@ -69,7 +68,7 @@ bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T 
         throw std::runtime_error("Socket has been closed, cannot write message size");
     }
     if(ret!=sizeof(size))
-        return false;
+        throw std::runtime_error("Unexpected number of bytes written on socket");
 
     //getting serialized message
     char serializedMessage[size+1];
@@ -82,9 +81,8 @@ bool writeToSocket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, T 
         throw std::runtime_error("Socket has been closed, cannot write message");
     }
     if(ret!=size)
-        return false;
+        throw std::runtime_error("Unexpected number of bytes written on socket for message");
 
-    return true;
 }
 
 void close_socket(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket);

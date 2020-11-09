@@ -65,11 +65,7 @@ void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, Jo
             fileToBeSent = true;
         }
         try {
-            if (!writeToSocket(socket, req)) {
-                std::cerr<<"Impossible to send <" + j.getPath() + ">'s job to the server"<<std::endl;
-                termination= true;
-                continue;
-            }
+            writeToSocket(socket, req);
             if (fileToBeSent) {
                 //compute checksum (if a file has to be sent)
                 std::string checksum = computeChecksum(absolutePath);
