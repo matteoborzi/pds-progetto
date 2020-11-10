@@ -80,7 +80,6 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
                     addFile(path);
                     file = getFile(path);
                     if (file == nullptr) {
-                        //TODO manage case of delete folder + create file (and viceversa) with same name
                         throw std::runtime_error("Unable to create metadata for file " + path);
                     }
 
