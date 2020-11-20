@@ -101,7 +101,7 @@ int main(int argc, char *argv[]) {
 
                                 JobRequestQueue queue{};
                                 std::thread responder{sendResponses, std::ref(s), std::ref(queue), std::cref(path),
-                                                      std::ref(stopped_mine), std::ref(stopped_other)};
+                                                      std::ref(stopped_mine), std::ref(stopped_other), std::ref(username.value())};
                                 while (!stopped_mine && !stopped_other) {
                                     try {
                                         serveJobRequest(s, path, queue);

@@ -8,6 +8,7 @@
 #include "../ChecksumStorage/ChecksumStorage.h"
 #include "../../common/messages/JobResponse.pb.h"
 #include "../../common/messages/file_utils.h"
+#include "../log/log_utils.h"
 
 
 void serveJobRequest(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string& serverPath, JobRequestQueue& queue){
@@ -27,7 +28,10 @@ void serveJobRequest(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& soc
 }
 
 void sendResponses(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,  JobRequestQueue& queue, const std::string& base_path,
-                   std::atomic_bool& stopped_other, std::atomic_bool& stopped_self){
+                   std::atomic_bool& stopped_other, std::atomic_bool& stopped_self, const std::string& user){
+    // Get IP address for logs
+    std::string ipaddr = socket.next_layer().remote_endpoint().address().to_string();
+
     while(!stopped_other && !stopped_self){
         BackupPB::JobRequest request = queue.dequeueJobRequest();
         if(!request.IsInitialized()){
@@ -43,24 +47,32 @@ void sendResponses(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socke
                 case BackupPB::JobRequest_PBAction_UPDATE :
                     if (!updateChecksum(complete_path)) {
                         response.set_status(BackupPB::JobResponse_Status_FAIL);
+                        print_log_error(ipaddr, user, "Error while storing "+complete_path);
                     } else {
                         std::optional<std::string> checksum = getChecksum(complete_path);
-                        if (!checksum.has_value())
+                        if (!checksum.has_value()) {
                             response.set_status(BackupPB::JobResponse_Status_FAIL);
+                            print_log_error(ipaddr, user, "Error while computing checksum of "+complete_path);
+                        }
                         else {
+                            print_log_message(ipaddr, user, complete_path+" received correctly");
                             response.set_status(BackupPB::JobResponse_Status_OK);
                             response.set_checksum(checksum.value());
                         }
                     }
                     break;
                 case BackupPB::JobRequest_PBAction_ADD_DIRECTORY:
+                    print_log_message(ipaddr, user, complete_path+" created");
                     response.set_status(BackupPB::JobResponse_Status_OK);
                     break;
                 case BackupPB::JobRequest_PBAction_DELETE :
-                    if (!deleteFolderRecursively(complete_path))
+                    if (!deleteFolderRecursively(complete_path)) {
+                        print_log_message(ipaddr, user, "Error while deleting " +complete_path);
                         response.set_status(BackupPB::JobResponse_Status_FAIL);
-                    else
+                    }else {
                         response.set_status(BackupPB::JobResponse_Status_OK);
+                        print_log_message(ipaddr, user, complete_path+" deleted");
+                    }
                     break;
             }
 
@@ -68,7 +80,7 @@ void sendResponses(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socke
                 writeToSocket(socket, response);
             }
             catch (std::exception &e) {
-                std::cerr << e.what();
+                print_log_error(ipaddr, user, e.what());
                 //stopping other thread
                 stopped_self = true;
                 return;

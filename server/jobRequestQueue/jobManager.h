@@ -12,6 +12,6 @@
 
 void serveJobRequest(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, std::string&, JobRequestQueue&);
 void sendResponses(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&,  JobRequestQueue&, const std::string&,
-                   std::atomic_bool&, std::atomic_bool&);
+                   std::atomic_bool&, std::atomic_bool&, const std::string&);
 
 #endif //SERVER_JOBMANAGER_H
