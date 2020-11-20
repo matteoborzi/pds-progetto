@@ -48,10 +48,9 @@ int main(int argc, char *argv[]) {
             | boost::asio::ssl::context::no_sslv2
             | boost::asio::ssl::context::single_dh_use);
 
-    ssl_context.use_certificate_chain_file("../../common/cert/server.cert.pem");
-    ssl_context.use_private_key_file("../../common/cert/server.key.pem", boost::asio::ssl::context::pem);
-
-
+    ssl_context.use_certificate_chain_file("../cert/server.cert.pem");
+    ssl_context.use_private_key_file("../cert/server.key.pem", boost::asio::ssl::context::pem);
+    
     std::cout << "Server has started on port " << port << std::endl;
 
     while (true) {
@@ -62,16 +61,18 @@ int main(int argc, char *argv[]) {
                 std::make_shared<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>(my_context, ssl_context);
 
         acceptor.accept(socket->next_layer());
+
+        // Get IP address for logs
+        std::string ipaddr = socket->next_layer().remote_endpoint().address().to_string();
+        print_log_message(ipaddr, "Connection accepted");
+
         try {
             socket->handshake(boost::asio::ssl::stream_base::server);
         } catch (std::exception &e) {
-            std::cerr << e.what() << std::endl;
+            print_log_error(ipaddr, "Unable to perform TLS handshake");
             continue;
         }
 
-        // Get IP address for logs 
-        std::string ipaddr = socket->next_layer().remote_endpoint().address().to_string();
-        print_log_message(ipaddr, "Connection accepted");
         print_log_message(ipaddr, "Creating the thread");
         std::thread thread{[w, ipaddr, socket]() -> void {
             boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &s = *socket;

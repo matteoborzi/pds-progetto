@@ -41,8 +41,9 @@ int main(int argc, char *argv[]) {
     //setting up connection and SSL parameters
     boost::asio::io_context io_service;
     boost::asio::ssl::context ssl_context(boost::asio::ssl::context::sslv23);
-    boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket(io_service, ssl_context);
     ssl_context.set_verify_mode(boost::asio::ssl::verify_peer);
+    ssl_context.load_verify_file("../cert/server.cert.pem");
+    boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket(io_service, ssl_context);
 
     //resolving server endpoint
     boost::asio::ip::tcp::resolver resolver(io_service);
@@ -57,12 +58,8 @@ int main(int argc, char *argv[]) {
         //trying to connect
         try {
             boost::asio::connect(socket.next_layer(), endpoints);
-            socket.handshake(boost::asio::ssl::stream_base::client);
 
         } catch (boost::system::system_error &e) {
-            //rollback in case of exception thrown by handshake
-            if(socket.next_layer().is_open())
-                socket.next_layer().close();
 
             attempts--;
             connected= false;
@@ -74,6 +71,14 @@ int main(int argc, char *argv[]) {
             }
             std::cerr<<"An attempt to connect to the server failed, retrying in "<<CONNECTION_RETRY_PERIOD<<" second(s)"<<std::endl;
             std::this_thread::sleep_for(std::chrono::seconds(CONNECTION_RETRY_PERIOD));
+            continue;
+        }
+        try{
+            socket.handshake(boost::asio::ssl::stream_base::client);
+        } catch (boost::system::system_error &e) {
+            socket.next_layer().close();
+            std::cerr << "Certificate validation failed" << std::endl;
+            return 3;
         }
     }while(!connected);
 
