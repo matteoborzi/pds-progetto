@@ -97,7 +97,6 @@ int main(int argc, char *argv[]) {
 
                                 std::atomic_bool stopped_mine = false, stopped_other = false;
                                 std::condition_variable terminated;
-                                std::mutex terminated_mutex;
 
                                 JobRequestQueue queue{};
                                 std::thread responder{sendResponses, std::ref(s), std::ref(queue), std::cref(path),
