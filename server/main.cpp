@@ -48,8 +48,8 @@ int main(int argc, char *argv[]) {
             | boost::asio::ssl::context::no_sslv2
             | boost::asio::ssl::context::single_dh_use);
 
-    ssl_context.use_certificate_chain_file("../../common/cert/server.pem");
-    ssl_context.use_private_key_file("../../common/cert/server.pem", boost::asio::ssl::context::pem);
+    ssl_context.use_certificate_chain_file("../../common/cert/server.cert.pem");
+    ssl_context.use_private_key_file("../../common/cert/server.key.pem", boost::asio::ssl::context::pem);
 
 
     std::cout << "Server has started on port " << port << std::endl;
