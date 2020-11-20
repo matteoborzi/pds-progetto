@@ -42,12 +42,10 @@ std::optional<std::string> doAuthentication(boost::asio::ssl::stream<boost::asio
     try{
         authenticationRequest = readFromSocket<BackupPB::AuthenticationRequest>(s);
     } catch(std::exception& e) {
-        std::cerr<< e.what() << std::endl;
         return std::nullopt;
     }
 
     if(!authenticate(authenticationRequest.username(), authenticationRequest.password())){
-        //std::cerr << "Login failed" << std::endl;
         authenticationResponse.set_status(BackupPB::AuthenticationResponse_Status_FAIL);
         username = std::nullopt;
     } else {
@@ -58,7 +56,6 @@ std::optional<std::string> doAuthentication(boost::asio::ssl::stream<boost::asio
     try{
         writeToSocket(s, authenticationResponse);
     } catch(std::exception& e){
-        std::cerr << e.what() << std::endl;
         return std::nullopt;
     }
 
@@ -76,7 +73,6 @@ std::optional<std::string> doAuthentication(boost::asio::ssl::stream<boost::asio
 bool authenticate(std::string username, std::string password){
 
     if(!validateFieldFormat(username) || ! validateFieldFormat(password)){
-        std::cerr << "invalid character set used, only utf8 is allowed" << std::endl;
         return false;
     }
 

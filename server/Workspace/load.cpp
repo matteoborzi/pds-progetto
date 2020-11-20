@@ -171,8 +171,6 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             if( (chosenPath.machineid() != workspace.machineid()
                  || chosenPath.path() != workspace.path() )
                 && isClientPathAlreadyPresent(username, workspace.machineid(), workspace.path())){
-                std::cerr << "Error, the mapping "+username+", "+workspace.machineid()+", "+workspace.path()+" already exists"+
-                             " and can not be overwritten " << std::endl;
                 BackupPB::RestoreResponse restoreResponse{};
                 restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
                 writeToSocket(s, restoreResponse);
@@ -204,8 +202,6 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             else
                 restoreResponse.set_status(BackupPB::RestoreResponse_Status_OK);
         } catch(std::exception& e){
-            std::cerr << "Could not update DB mapping for user " << username << std::endl;
-            std::cerr << e.what() << std::endl;
             restoreResponse.set_status(BackupPB::RestoreResponse_Status_FAIL);
         }
 
@@ -213,7 +209,6 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             writeToSocket(s, restoreResponse);
         }
         catch(std::exception& e){
-            std::cerr << e.what() << std::endl;
             return nullptr;
         }
 

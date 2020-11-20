@@ -57,7 +57,6 @@ bool deleteFolderRecursively(const std::string &path) {
         //commit
         transaction.commit();
     }catch(std::exception& e) {
-        std::cerr<<e.what()<<std::endl;
         return false;
     }
     return true;
@@ -103,7 +102,6 @@ bool updateChecksum(const std::string &path) {
         //commit
         transaction.commit();
     }catch(std::exception& e) {
-        std::cerr<<e.what()<<std::endl;
         return false;
     }
     return true;
