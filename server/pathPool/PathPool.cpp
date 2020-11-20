@@ -28,9 +28,6 @@ PathPool::~PathPool() {
 
     //check if path has value
     if(path.has_value()) {
-        //throws exception if not present in pool
-        if(pool.find(path.value())==pool.end())
-            std::cerr<<"Error while trying to remove "+path.value()+" from pathPool, since not present\n";
 
         //delete from pool
         pool.erase(path.value());
