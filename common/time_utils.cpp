@@ -1,7 +1,3 @@
-//
-// Created by Angelica on 27/07/2020.
-//
-
 #include "time_utils.h"
 
 template <typename TP>

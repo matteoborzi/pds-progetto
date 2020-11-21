@@ -1,7 +1,3 @@
-//
-// Created by rober on 16/10/2020.
-//
-
 #include <boost/locale/encoding_errors.hpp>
 #include <boost/locale.hpp>
 #include "fieldValidation.h"

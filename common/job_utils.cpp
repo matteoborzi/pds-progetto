@@ -1,7 +1,3 @@
-//
-// Created by Matteo on 18/09/20.
-//
-
 #include "job_utils.h"
 
 /**
