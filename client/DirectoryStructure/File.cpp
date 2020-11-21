@@ -1,7 +1,3 @@
-//
-// Created by Angelica on 24/07/2020.
-//
-
 #include "File.h"
 
 void File::setLastEditTime(std::time_t last) {

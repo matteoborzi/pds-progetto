@@ -1,7 +1,3 @@
-//
-// Created by Angelica on 28/07/2020.
-//
-
 #include "utils.h"
 #include "../Configuration/Configuration.h"
 #include "../../common/Checksum.h"

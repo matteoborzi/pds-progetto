@@ -1,7 +1,3 @@
-//
-// Created by rober on 06/10/2020.
-//
-
 #ifndef CLIENT_DATAMANAGEMENT_H
 #define CLIENT_DATAMANAGEMENT_H
 

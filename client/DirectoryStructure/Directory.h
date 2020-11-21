@@ -1,7 +1,3 @@
-//
-// Created by Angelica on 24/07/2020.
-//
-
 #ifndef CLIENT_DIRECTORY_H
 #define CLIENT_DIRECTORY_H
 
@@ -9,6 +5,7 @@
 #include <unordered_map>
 #include <unordered_set>
 #include <memory>
+
 #include "DirectoryEntry.h"
 #include "File.h"
 

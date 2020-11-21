@@ -1,7 +1,3 @@
-//
-// Created by rober on 11/08/2020.
-//
-
 #ifndef CLIENT_WATCHER_H
 #define CLIENT_WATCHER_H
 
