@@ -1,7 +1,3 @@
-//
-// Created by rober on 06/10/2020.
-//
-
 #include <filesystem>
 #include "jobManager.h"
 #include "../../common/messages/socket_utils.h"

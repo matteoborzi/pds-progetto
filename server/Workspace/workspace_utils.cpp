@@ -1,7 +1,3 @@
-//
-// Created by Angelica on 12/08/2020.
-//
-
 #include <filesystem>
 #include <iostream>
 #include "workspace_utils.h"
@@ -9,7 +5,6 @@
 #include "../../common/fieldValidation.h"
 #include <boost/algorithm/string.hpp>
 #include <SQLiteCpp/Database.h>
-#include <SQLiteCpp/Statement.h>
 #include <SQLiteCpp/Transaction.h>
 
 #define filename "../mapping.db"

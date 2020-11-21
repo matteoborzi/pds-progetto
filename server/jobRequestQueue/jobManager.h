@@ -1,7 +1,3 @@
-//
-// Created by rober on 06/10/2020.
-//
-
 #ifndef SERVER_JOBMANAGER_H
 #define SERVER_JOBMANAGER_H
 

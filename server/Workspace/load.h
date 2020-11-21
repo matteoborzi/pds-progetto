@@ -1,7 +1,3 @@
-//
-// Created by rober on 06/10/2020.
-//
-
 #ifndef SERVER_LOAD_H
 #define SERVER_LOAD_H
 
