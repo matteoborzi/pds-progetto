@@ -1,7 +1,3 @@
-//
-// Created by Angelica on 24/07/2020.
-//
-
 #ifndef CLIENT_DIRECTORYENTRY_H
 #define CLIENT_DIRECTORYENTRY_H
 

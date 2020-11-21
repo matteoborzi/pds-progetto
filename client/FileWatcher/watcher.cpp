@@ -1,14 +1,12 @@
-//
-// Created by rober on 11/08/2020.
-//
-
 #include <optional>
 #include <thread>
 #include <filesystem>
 #include "watcher.h"
+
 #include "../Configuration/Configuration.h"
 #include "../DirectoryStructure/Directory.h"
 #include "../DirectoryStructure/utils.h"
+
 #include "../../common/Checksum.h"
 
 #define MAX_RETRY 5

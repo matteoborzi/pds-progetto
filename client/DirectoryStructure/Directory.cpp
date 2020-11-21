@@ -1,7 +1,3 @@
-//
-// Created by Angelica on 24/07/2020.
-//
-
 #include <algorithm>
 #include <iostream>
 #include "Directory.h"

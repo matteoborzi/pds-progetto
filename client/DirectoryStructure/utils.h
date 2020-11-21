@@ -1,15 +1,14 @@
-//
-// Created by Angelica on 28/07/2020.
-//
-
 #ifndef CLIENT_UTILS_H
 #define CLIENT_UTILS_H
 
-#include <boost/algorithm/string.hpp>
-#include "../../common/time_utils.h"
-#include "../../common/messages/DirectoryEntryMessage.pb.h"
 #include "Directory.h"
 #include "File.h"
+
+#include <boost/algorithm/string.hpp>
+
+#include "../../common/time_utils.h"
+#include "../../common/messages/DirectoryEntryMessage.pb.h"
+
 
 
 bool deleteDirectoryOrFile(const std::string& path);

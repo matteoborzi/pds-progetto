@@ -5,8 +5,11 @@
 #include <mutex>
 #include <condition_variable>
 #include <list>
-#include "../../common/Action.h"
+
 #include "Job.h"
+
+#include "../../common/Action.h"
+
 
 /**
  * Thread-safe structure to manage Jobs
