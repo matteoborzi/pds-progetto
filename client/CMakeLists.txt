@@ -46,6 +46,6 @@ add_executable(client main.cpp
         ../common/messages/MachinePath.pb.cc ../common/messages/MachinePath.pb.h
         ../common/messages/MetaInfo.pb.cc   ../common/messages/MetaInfo.pb.h
         ../common/messages/RestoreResponse.pb.cc ../common/messages/RestoreResponse.pb.h
-        )
+        communicationProtocol/connection_utils.cpp communicationProtocol/connection_utils.h)
 target_link_libraries(client ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${Boost_SYSTEM_LIBRARY})
 

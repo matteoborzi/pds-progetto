@@ -1,23 +1,21 @@
 #include <iostream>
-#include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ssl.hpp>
-#include <boost/asio/connect.hpp>
 #include <thread>
 #include <filesystem>
 
 #include "Configuration/Configuration.h"
+#include "Configuration/file_util.h"
 #include "job/JobQueue.h"
 #include "FileWatcher/watcher.h"
 
-#include "../common/messages/socket_utils.h"
-#include "Configuration/file_util.h"
 #include "communicationProtocol/initialization.h"
 #include "communicationProtocol/dataManagement.h"
 #include "communicationProtocol/restore.h"
+#include "communicationProtocol/connection_utils.h"
+
+#include "../common/messages/socket_utils.h"
 
 #define MAX_CONNECTION_ATTEMPTS 3
 #define CONNECTION_RETRY_PERIOD 2 //seconds to wait before a reconnection
-
 
 int main(int argc, char *argv[]) {
 
@@ -46,10 +44,8 @@ int main(int argc, char *argv[]) {
     boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket(io_service, ssl_context);
 
     //resolving server endpoint
-    boost::asio::ip::tcp::resolver resolver(io_service);
-    boost::asio::ip::basic_resolver_results<boost::asio::ip::tcp> endpoints
-        = resolver.resolve(boost::asio::ip::tcp::endpoint(boost::asio::ip::address::from_string(
-            conf.getIpAddress()), conf.getPort()));
+    boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(
+                    conf.getIpAddress()), conf.getPort());
 
     //performing the connection
     int attempts = MAX_CONNECTION_ATTEMPTS;
@@ -57,9 +53,9 @@ int main(int argc, char *argv[]) {
     do {
         //trying to connect
         try {
-            boost::asio::connect(socket.next_layer(), endpoints);
+            custom_connect(socket.next_layer(), endpoint, std::chrono::seconds(10), io_service);
 
-        } catch (boost::system::system_error &e) {
+        } catch (std::system_error &e) {
 
             attempts--;
             connected= false;
@@ -74,10 +70,10 @@ int main(int argc, char *argv[]) {
             continue;
         }
         try{
-            socket.handshake(boost::asio::ssl::stream_base::client);
-        } catch (boost::system::system_error &e) {
+            custom_handshake(socket,std::chrono::seconds(15), io_service);
+        } catch (std::system_error &e) {
             socket.next_layer().close();
-            std::cerr << "Certificate validation failed" << std::endl;
+            std::cerr << "Error in performing handshake: " << e.what() << std::endl;
             return 3;
         }
     }while(!connected);
