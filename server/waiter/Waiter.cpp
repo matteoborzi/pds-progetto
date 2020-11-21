@@ -1,7 +1,3 @@
-//
-// Created by rober on 15/09/2020.
-//
-
 #include "Waiter.h"
 
 std::atomic_int Waiter::counter=0;
@@ -10,7 +6,7 @@ std::condition_variable Waiter::waitAvailable{};
 
 Waiter::Waiter() {
     std::unique_lock l(m);
-    waitAvailable.wait(l, []()->bool{return counter<=MAX_CONCURRENT_CLIENTS;});
+    waitAvailable.wait(l, []()->bool{return counter<MAX_CONCURRENT_CLIENTS;});
     counter++;
 }
 
