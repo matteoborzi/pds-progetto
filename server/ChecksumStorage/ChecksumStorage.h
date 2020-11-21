@@ -1,7 +1,3 @@
-//
-// Created by rober on 21/09/2020.
-//
-
 #ifndef SERVER_CHECKSUMSTORAGE_H
 #define SERVER_CHECKSUMSTORAGE_H
 

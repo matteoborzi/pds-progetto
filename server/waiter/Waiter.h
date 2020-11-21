@@ -1,7 +1,3 @@
-//
-// Created by rober on 15/09/2020.
-//
-
 #ifndef SERVER_WAITER_H
 #define SERVER_WAITER_H
 #include <atomic>

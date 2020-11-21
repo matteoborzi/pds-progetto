@@ -1,10 +1,5 @@
-//
-// Created by rober on 21/09/2020.
-//
-
 #include "ChecksumStorage.h"
 #include <SQLiteCpp/Database.h>
-#include <SQLiteCpp/Statement.h>
 #include <filesystem>
 #include <SQLiteCpp/Transaction.h>
 #include <iostream>

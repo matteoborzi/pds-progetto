@@ -1,7 +1,3 @@
-//
-// Created by Angelica on 12/08/2020.
-//
-
 #ifndef CLIENT_WORKSPACE_UTILS_H
 #define CLIENT_WORKSPACE_UTILS_H
 
