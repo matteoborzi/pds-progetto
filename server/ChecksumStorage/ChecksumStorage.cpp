@@ -2,7 +2,6 @@
 #include <SQLiteCpp/Database.h>
 #include <filesystem>
 #include <SQLiteCpp/Transaction.h>
-#include <iostream>
 #include "../../common/Checksum.h"
 #define filename "../checksum_storage.db"
 

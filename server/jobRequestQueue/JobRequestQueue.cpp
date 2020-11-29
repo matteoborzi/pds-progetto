@@ -1,5 +1,9 @@
 #include "JobRequestQueue.h"
 
+/**
+ * Insert a JobRequest into the shared queue
+ * @param jr
+ */
 void JobRequestQueue::enqueueJobRequest(BackupPB::JobRequest& jr){
     std::unique_lock l{m};
 
@@ -8,6 +12,10 @@ void JobRequestQueue::enqueueJobRequest(BackupPB::JobRequest& jr){
 
 }
 
+/**
+ * Read a JobRequest from the shared queue
+ * @return JobRequest read
+ */
 BackupPB::JobRequest JobRequestQueue::dequeueJobRequest(){
     std::unique_lock l{m};
 

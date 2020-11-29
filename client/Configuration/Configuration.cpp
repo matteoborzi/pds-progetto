@@ -61,9 +61,6 @@ std::optional<Configuration> Configuration::getConfiguration(std::string& filena
                 return std::nullopt;
             }
 
-
-
-
             //loading server address
             int32_t addr;
             if (inet_pton(AF_INET, local_ipAddress.c_str(), &addr) !=1) { //if returns 1, the ip address is valid
@@ -163,7 +160,3 @@ void printCorrectConfFile() {
                "  \"port\": number [1-"<<MAX_PORT<<"]\n"
                "}"<<std::endl;
 }
-
-
-
-

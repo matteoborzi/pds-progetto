@@ -5,6 +5,12 @@
 std::unordered_set<std::string> PathPool::pool{};
 std::mutex PathPool::m{};
 
+/**
+ * PathPool constructor.
+ * If path is not present in the pool, it is inserted.
+ * @param path
+ * @param restore
+ */
 PathPool::PathPool(const std::string &path, bool restore) {
     std::unique_lock l(m);
 
@@ -19,6 +25,10 @@ PathPool::PathPool(const std::string &path, bool restore) {
 
 }
 
+/**
+ * PathPool destructor.
+ * Removes the path from the set.
+ */
 PathPool::~PathPool() {
     std::unique_lock l(m);
 

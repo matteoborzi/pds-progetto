@@ -26,11 +26,14 @@ int main(int argc, char *argv[]) {
     GOOGLE_PROTOBUF_VERIFY_VERSION;
     int port;
 
+    // Parameters check
+    // Usage: <server_port>
     if (argc < 2) {
         std::cerr << "Not enough arguments: port_number is missing" << std::endl;
         return 1;
     }
 
+    // Checking type of port parameter
     try {
         port = std::stoi(argv[1]);
     } catch (std::exception &e) {
@@ -38,6 +41,7 @@ int main(int argc, char *argv[]) {
         return 2;
     }
 
+    // SSL connection setup
     boost::asio::io_context my_context;
     boost::asio::ssl::context ssl_context(boost::asio::ssl::context::sslv23);
     boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
@@ -54,7 +58,7 @@ int main(int argc, char *argv[]) {
     std::cout << "Server has started on port " << port << std::endl;
 
     while (true) {
-
+        // Reserve server resources through an instance of Waiter
         std::shared_ptr<Waiter> w = std::make_shared<Waiter>();
 
         std::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> socket =
@@ -66,6 +70,7 @@ int main(int argc, char *argv[]) {
         std::string ipaddr = socket->next_layer().remote_endpoint().address().to_string();
         print_log_message(ipaddr, "Connection accepted");
 
+        // Perform the connection
         try {
             socket->handshake(boost::asio::ssl::stream_base::server);
         } catch (std::exception &e) {
@@ -73,25 +78,30 @@ int main(int argc, char *argv[]) {
             continue;
         }
 
+        // Thread creation for a single request
         print_log_message(ipaddr, "Creating the thread");
         std::thread thread{[w, ipaddr, socket]() -> void {
             boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &s = *socket;
             try {
+                // User authentication
                 std::optional<std::string> username = doAuthentication(s);
-
                 if (username.has_value()) {
                     print_log_message(ipaddr, username.value(), "Successfully logged in");
 
+                    // Load the workspace on server either in backup mode or in restore mode
                     std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
                     if (poolItem->isValid()) {
                         std::string path = poolItem->getPath();
                         switch (poolItem->getRestore()) {
                             case true:
+                                // Performing restore
                                 bool restoreStatus;
                                 restoreStatus = restore(s, path);
                                 if (restoreStatus)
+                                    // Restore ended correctly
                                     print_log_message(ipaddr, username.value(), "Restore completed");
                                 else
+                                    // Restore ended with errors
                                     print_log_message(ipaddr, username.value(), "Restore failed");
                                 break;
                             case false:
@@ -99,6 +109,9 @@ int main(int argc, char *argv[]) {
                                 std::atomic_bool stopped_mine = false, stopped_other = false;
                                 std::condition_variable terminated;
 
+                                // Performing backup
+                                // Another thread is created: the first one reads the requests from the socket,
+                                // while the other one digests them
                                 JobRequestQueue queue{};
                                 std::thread responder{sendResponses, std::ref(s), std::ref(queue), std::cref(path),
                                                       std::ref(stopped_mine), std::ref(stopped_other), std::ref(username.value())};
@@ -107,20 +120,18 @@ int main(int argc, char *argv[]) {
                                         serveJobRequest(s, path, queue);
                                     } catch (std::exception &e) {
                                         print_log_error(ipaddr, username.value(), e.what());
-                                        //interrupting other thread
+                                        // Interrupting other thread
                                         stopped_mine = true;
                                     }
                                 }
                                 if (stopped_mine) {
-                                    //adding a fictional job to awake other thread if sleeping
+                                    // Adding a fictional job to awake other thread if sleeping
                                     BackupPB::JobRequest empty_req{};
                                     queue.enqueueJobRequest(empty_req);
                                 }
 
                                 responder.join();
                                 print_log_message(ipaddr, username.value(), "Terminating the connection");
-
-
                         }
 
                     } else {
@@ -133,7 +144,6 @@ int main(int argc, char *argv[]) {
                 print_log_error(ipaddr, e.what());
             }
 
-
             return;
         }};
         thread.detach();
@@ -143,9 +153,19 @@ int main(int argc, char *argv[]) {
 //    return 1;
 }
 
-
+/**
+ * Function that performs the restore functionality server-side.
+ * The function checks recursively and creates a request for each directory entry in the restore path,
+ * then sends them to the client through the socket.
+ * @param socket to send/receive messages
+ * @param path to restore
+ * @return true if restore has been performed successfully
+ */
 bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &socket, const std::string &path) {
+    // Get IP address for log purposes
     std::string ipaddr = socket.next_layer().remote_endpoint().address().to_string();
+
+    // For each entry in the workspace create a JobRequest
     for (std::filesystem::directory_entry entry : std::filesystem::recursive_directory_iterator(path)) {
         BackupPB::JobRequest request{};
         if (entry.is_directory())
@@ -154,10 +174,14 @@ bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &socket, con
             request.set_pbaction(BackupPB::JobRequest_PBAction_ADD_FILE);
             request.set_size(entry.file_size());
         }
+
+        // Compute the correct client path
         std::string path_to_send = entry.path();
         boost::algorithm::erase_first(path_to_send, path);
         request.set_path(path_to_send);
 
+        // Try to send a JobRequest to client on the socket and eventually sends the relative file
+        // Returns if write fails
         try {
             writeToSocket(socket, request);
             if (request.pbaction() == BackupPB::JobRequest_PBAction_ADD_FILE)

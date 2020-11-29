@@ -4,7 +4,7 @@
 #include <boost/asio/read.hpp>
 #include "file_utils.h"
 
-#define BLOCK_SIZE 1024*4 //size of each chunck that can be sent on the net
+#define BLOCK_SIZE 1024*4 // Size of each chunk that can be sent on the net
 
 /**
  * Send a file on the network
