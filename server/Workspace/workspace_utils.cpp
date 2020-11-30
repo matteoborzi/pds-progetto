@@ -145,7 +145,7 @@ bool updateMapping(const std::string &user, const std::string &oldMachineID, con
 void cleanFileSystem(const std::string& path){
     std::filesystem::directory_entry dir{path};
     if(!dir.exists() || !dir.is_directory())
-        throw std::logic_error("Expecting an existing folder but get "+path);
+        throw std::runtime_error(path+" not existing in the file system");
     for(std::filesystem::directory_entry element : std::filesystem::recursive_directory_iterator(path)) {
         //scan recursively all files in path
         std::string file_path{element.path().string()};

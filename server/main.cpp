@@ -49,13 +49,6 @@ int main(int argc, char *argv[]) {
             | boost::asio::ssl::context::no_sslv2
             | boost::asio::ssl::context::single_dh_use);
 
-    //boost::asio::socket_base::keep_alive keep_alive_option(true);
-    int optval = 1;
-    int optval2 = 5;
-    int optval3 = 1;
-    int optval4 = 5;
-    socklen_t optlen = sizeof(optval);
-
     ssl_context.use_certificate_chain_file("../cert/server.cert.pem");
     ssl_context.use_private_key_file("../cert/server.key.pem", boost::asio::ssl::context::pem);
     
@@ -69,14 +62,6 @@ int main(int argc, char *argv[]) {
                 std::make_shared<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>(my_context, ssl_context);
 
         acceptor.accept(socket->next_layer());
-
-        //socket->next_layer().set_option(keep_alive_option);
-
-        std::cout << setsockopt(socket->next_layer().native_handle(), SOL_SOCKET, SO_KEEPALIVE, &optval, optlen);
-        std::cout << setsockopt(socket->next_layer().native_handle(), IPPROTO_TCP, TCP_KEEPIDLE, &optval2, optlen);
-        std::cout << setsockopt(socket->next_layer().native_handle(), IPPROTO_TCP, TCP_KEEPINTVL, &optval3, optlen);
-        std::cout << setsockopt(socket->next_layer().native_handle(), IPPROTO_TCP, TCP_KEEPCNT, &optval4, optlen);
-        std::cout << std::endl;
 
         // Get IP address for logs
         std::string ipaddr = socket->next_layer().remote_endpoint().address().to_string();
@@ -99,6 +84,10 @@ int main(int argc, char *argv[]) {
                     print_log_message(ipaddr, username.value(), "Successfully logged in");
 
                     std::shared_ptr<PathPool> poolItem = loadWorkspace(s, username.value());
+                    if(!poolItem){
+                        print_log_message(ipaddr, username.value(), "Terminating the connection");
+                        return;
+                    }
                     if (poolItem->isValid()) {
                         std::string path = poolItem->getPath();
                         switch (poolItem->getRestore()) {

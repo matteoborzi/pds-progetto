@@ -93,7 +93,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
                     }
                 }
             }catch(std::exception& e){
-                std::cerr << e.what() << std::endl;
+                print_log_error(ipaddr, username, e.what());
                 response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
             }
 
@@ -102,7 +102,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
                 writeToSocket(s, response);
             }
             catch(std::exception& e){
-                std::cerr << e.what() << std::endl;
+                print_log_error(ipaddr, username, e.what());
                 return nullptr;
             }
             if(response.status() == BackupPB::WorkspaceMetaInfo_Status_OK)
