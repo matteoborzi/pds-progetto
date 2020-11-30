@@ -12,8 +12,6 @@
 #include <crypto++/sha.h>
 #include <SQLiteCpp/Database.h>
 #include <SQLiteCpp/Transaction.h>
-#include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ssl.hpp>
 #include "authentication.h"
 #include "../../common/fieldValidation.h"
 #include "../../common/messages/AuthenticationRequest.pb.h"
@@ -30,9 +28,12 @@ std::string generateRandomSalt();
 
 
 
-//user informations are stored in the table USER(username, salt, hash)
-//in the authentication.db file
-
+/**
+ * Wrapper function that reads an authentication request from the socket and calls the
+ * authentication function. If the login fails, a null value is returned.
+ * @param s socket
+ * @return username if authentication was successful
+ */
 std::optional<std::string> doAuthentication(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s){
 
     BackupPB::AuthenticationRequest authenticationRequest;
@@ -64,7 +65,8 @@ std::optional<std::string> doAuthentication(boost::asio::ssl::stream<boost::asio
 
 
 /**
- * Function to authenticate a user. The user is also added whether the username is not yet present in the list
+ * Function to authenticate a user. The user is also added whether the username is not yet present in the list.
+ * User information is stored in the table USER(username, salt, hash) in the authentication.db file.
  * @param username
  * @param password
  * @return boolean to indicate if the user will be authenticated
@@ -104,6 +106,7 @@ bool authenticate(std::string username, std::string password){
     }
 }
 
+
 /**
  * Add a new user to the DB file
  * @param user
@@ -115,7 +118,7 @@ bool addUser( std::string& user, std::string& pw, SQLite::Database& db){
 	std::string salt{generateRandomSalt()};
 	std::string hashedPassword{ computeSaltedHash(pw,salt) };
 
-	//adding informations
+	//adding information
     SQLite::Statement query(db, "INSERT INTO USER (username, salt, hash) VALUES (?, ?, ?)");
     query.bind(1, user);
     query.bind(2, salt);
@@ -148,6 +151,7 @@ std::string computeSaltedHash( std::string& password, std::string& salt) {
 
 	return digest;
 }
+
 
 /**
  * Generate a cryptographically secure random salt 

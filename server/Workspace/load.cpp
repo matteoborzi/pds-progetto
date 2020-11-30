@@ -12,15 +12,26 @@
 #include "../ChecksumStorage/ChecksumStorage.h"
 #include "../../common/messages/RestoreResponse.pb.h"
 
-
+/**
+ * Function that loads the workspace requested by the user after login.
+ *  If the user asks for a backup operation, the server checks that there are no other active sessions
+ *      on the workspace and sends to the client every checksum in the current state of the selected workspace.
+ *  If the user requests a restore operation, the server sends all the available workspaces to the client and waits for
+ *      a response that will determine which workspace will be restored.
+ *      If the user tries to restore a folder into a different, already existing and non-empty workspace, the operation
+ *      fails; otherwise, an affermative reply is sent to the client.
+ * @param socket to read/receive messages
+ * @param username to compute the operations related to the server paths
+ * @return a shared pointer to the path for the current session
+ */
 std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, std::string& username){
     // Get IP address for log purposes
     std::string ipaddr = s.next_layer().remote_endpoint().address().to_string();
 
-    /*read workspace from socket containing
-        -client path
-        -machineid
-        -a flag which indicates if a restore or a backup operation has to be done
+    /* Read workspace from socket containing
+        - client path
+        - machineid
+        - a flag which indicates if a restore or a backup operation has to be done
     */
     BackupPB::Workspace workspace;
     try{
@@ -31,9 +42,8 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
         return nullptr;
     }
 
+    // Restore flag is NOT active --> backup
     if(!workspace.restore()){
-
-        //restore flag is NOT active --> backup
         print_log_message(ipaddr,username,"Backup request: " + workspace.path() + " @ " + workspace.machineid());
         std::string server_path;
 
@@ -53,7 +63,8 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
         if(response.status()==BackupPB::WorkspaceMetaInfo_Status_OK)
             pool = std::make_shared<PathPool>(server_path, false);
 
-        if(pool==nullptr|| !pool->isValid()){ //there is already another client that is using that workspace
+        //If there is already another client that is using that workspace the session is terminated
+        if(pool==nullptr|| !pool->isValid()){
             response.set_status(BackupPB::WorkspaceMetaInfo_Status_FAIL);
             try{
                 writeToSocket(s, response);
@@ -65,8 +76,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             return pool;
         } else{
 
-            //retrieve folders, files and checksum and send to client
-
+            // Retrieve folders, files and checksum and send to client
             try {
                 cleanFileSystem(server_path);
                 for(auto directory_entry : std::filesystem::recursive_directory_iterator(server_path)){
@@ -110,13 +120,16 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             else return nullptr;
         }
     }
+
+    // Restore flag is active --> restore
     else{
-        //restore flag is active --> restore
         print_log_message(ipaddr,username,"Restore request");
-        //send available clientPath for that user
+
+        // Send available clientPath for that user
         std::set<std::pair<std::string, std::string>> availablePaths;
         BackupPB::AvailableWorkspaces availablePathMessage{};
 
+        // Retrieve all the (machine,path) pairs the user has used for backup
         try{
             availablePaths = getAvailableClientPath(username);
 
@@ -131,7 +144,6 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             availablePathMessage.clear_paths();
         }
 
-
         try{
             writeToSocket(s, availablePathMessage);
         }
@@ -142,7 +154,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
         if(availablePathMessage.status()==BackupPB::AvailableWorkspaces_Status_FAIL)
             return nullptr;
 
-        //receive chosen machineID,path
+        // Receive chosen (machineID,path) pair
         BackupPB::MachinePath chosenPath;
         try{
             chosenPath = readFromSocket<BackupPB::MachinePath>(s);
@@ -152,17 +164,17 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             return nullptr;
         }
         try{
-            // if the selection of the folder to restore was not successful
+            // If the selection of the folder to restore was not successful
             if(chosenPath.erroronselection())
                 return nullptr;
 
-            /* check that, given a certain user, the chosen combination machineID-path of the folder to restore is ok
+            /* Check that, given a certain user, the chosen (machineID,path) combination of the folder to restore is ok
              * in particular, can not be accepted a combination where
-             * - the machineID-path related to the folder where the user wants to copy the restored folder
+             * - the (machineID,path) pair related to the folder where the user wants to copy the restored folder
              *   already exists on the server
-             * - the machineID-path related to the folder whose content the user wants to restore,
-             *   is different with respect to the previous one.
-             * this combination is not allowed since all the data contained in the first folder (on the server) would be loss
+             * - the (machineID,path) pair related to the folder that contains the content the user wants to restore,
+             *   is different from the previous one.
+             * This combination is not allowed since all the data contained in the first folder (on the server) would be lost
              */
             if( (chosenPath.machineid() != workspace.machineid()
                  || chosenPath.path() != workspace.path() )
@@ -178,7 +190,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             return nullptr;
         }
 
-        //retrieve associated server path
+        // Retrieve associated server path
         std::string server_path;
         try{
             server_path = computeServerPath(username, chosenPath.machineid(), chosenPath.path());
@@ -188,7 +200,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             return nullptr;
         }
 
-        //create PathPool, update db and send response to client (OK or FAIL)
+        // Create PathPool, update db and send response to client (OK or FAIL)
         std::shared_ptr<PathPool> pool=std::make_shared<PathPool>(server_path, true);
         BackupPB::RestoreResponse restoreResponse{};
 
@@ -208,6 +220,7 @@ std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip
             return nullptr;
         }
 
+        // If restore fails, set the response up with a failure message; otherwise server cache is updated
         if(pool->isValid()) {
             if(restoreResponse.status() == BackupPB::RestoreResponse_Status_FAIL)
                 return nullptr;

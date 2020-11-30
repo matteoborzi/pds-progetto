@@ -1,5 +1,4 @@
 #include <filesystem>
-#include <iostream>
 #include "workspace_utils.h"
 #include "../ChecksumStorage/ChecksumStorage.h"
 #include "../../common/fieldValidation.h"
@@ -50,7 +49,15 @@ std::string computeServerPath(std::string user, std::string machineID, std::stri
     return server_path + "/";
 }
 
-
+/**
+ * This function generates a new entry in the Workspace DB
+ * and maps that entry on the server filesystem
+ * @param user
+ * @param machineID
+ * @param client_path
+ * @param db
+ * @return server_path string corresponding to the entry
+ */
 std::string addNewMapping(std::string user,std::string machineID,std::string client_path, SQLite::Database& db){
 
     SQLite::Statement insert(db, "INSERT INTO WORKSPACE (username, machineID, clientPath) VALUES (?, ?, ?) ");
@@ -75,6 +82,10 @@ std::string addNewMapping(std::string user,std::string machineID,std::string cli
     }
 }
 
+/**
+ * This function creates the actual folder in the server filesystem
+ * @param server_path
+ */
 void createServerFolder(std::string server_path){
     std::string dir_path{"./"+server_path};
     std::filesystem::path dir(dir_path);
@@ -83,7 +94,6 @@ void createServerFolder(std::string server_path){
 }
 
 /**
- *
  * @param user
  * @param machineID
  * @param path
@@ -104,7 +114,6 @@ bool isClientPathAlreadyPresent(const std::string& user, const std::string& mach
 }
 
 /**
- *
  * @param user
  * @return a set containing all pairs (machineID, clientPath) associated with the selected user
  */
@@ -123,9 +132,19 @@ std::set<std::pair<std::string, std::string>> getAvailableClientPath(const std::
     return availables;
 }
 
+/**
+ * Re-map a (machineId,path) pair for a certain user to a new pair.
+ * Used for restore purposes.
+ * @param user
+ * @param oldMachineID
+ * @param oldClientPath
+ * @param newMachineID
+ * @param newClientPath
+ * @return true if update is successful
+ */
 bool updateMapping(const std::string &user, const std::string &oldMachineID, const std::string &oldClientPath,
                    const std::string &newMachineID, const std::string &newClientPath) {
-    //opening the DB file
+    // Opening the DB file
     SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open
 
     SQLite::Statement query(db, "UPDATE WORKSPACE\n"
@@ -142,23 +161,30 @@ bool updateMapping(const std::string &user, const std::string &oldMachineID, con
     return res==1;
 }
 
+/**
+ * This function scans recursively a certain path and checks the presence of temporary files.
+ *  If there is a temp file but not the relative regular file, the
+ * @param path
+ */
 void cleanFileSystem(const std::string& path){
     std::filesystem::directory_entry dir{path};
     if(!dir.exists() || !dir.is_directory())
         throw std::runtime_error(path+" not existing in the file system");
+
     for(std::filesystem::directory_entry element : std::filesystem::recursive_directory_iterator(path)) {
-        //scan recursively all files in path
+        // Scan recursively all files in path
         std::string file_path{element.path().string()};
+
+        // Check presence of temp files
         if(element.is_regular_file() && boost::algorithm::ends_with(element.path().string(), TMP_EXTENSION)) {
             boost::algorithm::erase_last(file_path, std::string{TMP_EXTENSION});
 
             std::filesystem::directory_entry old{file_path};
-            // if (.tmp is present && normal !present)
+            // If temp file is present and normal is not present, update the checksum
             if(!old.exists())
                 updateChecksum(file_path);
             else
-                // if (both presents)
-                //keep older
+                // If both are present keep older
                 std::filesystem::remove(file_path+TMP_EXTENSION);
         }
     }

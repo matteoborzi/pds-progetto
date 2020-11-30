@@ -2,6 +2,8 @@
 #define SERVER_AUTHENTICATION_H
 
 #include <string>
+#include <boost/asio/ip/tcp.hpp>
+#include <boost/asio/ssl.hpp>
 
 std::optional<std::string> doAuthentication(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&);
 
