@@ -9,8 +9,12 @@ if (OPENSSL_FOUND)
     include_directories(${OPENSSL_INCLUDE_DIR})
 endif()
 
+include(FindProtobuf)
+find_package(Protobuf REQUIRED)
+include_directories(${PROTOBUF_INCLUDE_DIR})
+
 find_package(Threads)
-link_libraries(stdc++fs -lprotobuf
+link_libraries(stdc++fs
        -lboost_locale
         -lcryptopp)
 
@@ -47,5 +51,11 @@ add_executable(client main.cpp
         ../common/messages/MetaInfo.pb.cc   ../common/messages/MetaInfo.pb.h
         ../common/messages/RestoreResponse.pb.cc ../common/messages/RestoreResponse.pb.h
         communicationProtocol/connection_utils.cpp communicationProtocol/connection_utils.h)
-target_link_libraries(client ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${Boost_SYSTEM_LIBRARY})
+target_link_libraries(client
+        ${CMAKE_THREAD_LIBS_INIT}
+        ${OPENSSL_LIBRARIES}
+        ${Boost_SYSTEM_LIBRARY}
+        ${Boost_FILESYSTEM_LIBRARY}
+        ${PROTOBUF_LIBRARY}
+        )
 

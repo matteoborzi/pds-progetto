@@ -18,9 +18,12 @@ include_directories(
         ${CMAKE_CURRENT_LIST_DIR}/thirdparty/SQLiteCpp/include
 )
 
+include(FindProtobuf)
+find_package(Protobuf REQUIRED)
+include_directories(${PROTOBUF_INCLUDE_DIR})
 
 find_package(Threads)
-link_libraries(stdc++fs  -lprotobuf -lcryptopp -lboost_locale)
+link_libraries(stdc++fs -lcryptopp -lboost_locale)
 
 add_executable(server main.cpp
         authentication/authentication.cpp authentication/authentication.h
@@ -52,7 +55,13 @@ add_executable(server main.cpp
         ../common/messages/RestoreResponse.pb.cc ../common/messages/RestoreResponse.pb.h
        )
 
-target_link_libraries(server ${CMAKE_THREAD_LIBS_INIT} ${OPENSSL_LIBRARIES} ${Boost_SYSTEM_LIBRARY}  SQLiteCpp
+target_link_libraries(server
+        ${CMAKE_THREAD_LIBS_INIT}
+        ${OPENSSL_LIBRARIES}
+        ${Boost_SYSTEM_LIBRARY}
+        SQLiteCpp
         sqlite3
         pthread
-        dl)
+        dl
+        ${Boost_FILESYSTEM_LIBRARY}
+        ${PROTOBUF_LIBRARY} )
