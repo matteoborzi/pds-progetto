@@ -16,35 +16,46 @@
  *          file is not available or error occurred on the network
  * @throws boost::system::system_error if a network communication error occurs
  */
-void sendFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,const std::string& path, size_t size){
+void sendFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &socket, const std::string &path, size_t size) {
     //check on file existence
     std::filesystem::directory_entry entry{path};
-    if(!entry.exists() || !entry.is_regular_file() )
-        throw std::logic_error(path+" does not exist");
+   
 
+
+    bool invalid_file = false;
     //check on file size
-    if( entry.file_size()!=size )
-        throw std::runtime_error("Expecting "+path+" to be "+std::to_string(size) +" Bytes but is "+
-        std::to_string(entry.file_size())+ " Bytes");
+    if (entry.file_size() != size || !entry.exists() || !entry.is_regular_file())
+        invalid_file = true;
 
-    std::ifstream file{path, std::ios::in | std::ios::binary};
 
-    if(!file)
-        throw std::runtime_error("Cannot open "+path);
+
 
     //file is read in blocks, which are sent sequentially on the network
     size_t bytes_read;
     //creating a block
-    char buf[BLOCK_SIZE];
-    while((bytes_read=file.read(buf, BLOCK_SIZE).gcount())>0){
-        boost::asio::write(socket, boost::asio::buffer(buf, bytes_read));
-        size -= bytes_read;
+    char buf[BLOCK_SIZE] = {};
+    if (invalid_file) {
+        while (size > 0) {
+            size_t len = size > BLOCK_SIZE ? BLOCK_SIZE : size;
+            boost::asio::write(socket, boost::asio::buffer(buf, len));
+            size -= len;
+        }
+    } else {
+        std::ifstream file{path, std::ios::in | std::ios::binary};
+
+        if (!file)
+            throw std::runtime_error("Cannot open " + path);
+        while ((bytes_read = file.read(buf, BLOCK_SIZE).gcount()) > 0) {
+            boost::asio::write(socket, boost::asio::buffer(buf, bytes_read));
+            size -= bytes_read;
+        }
+        file.close();
     }
-    file.close();
+
 
     //checking if the expected number of bytes has been sent on the network
-    if(size!=0)
-        throw std::logic_error("The file "+path+ " has not been sent correctly");
+    if (size != 0)
+        throw std::logic_error("The file " + path + " has not been sent correctly");
 
 }
 
@@ -56,22 +67,22 @@ void sendFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,con
  * @throws runtime_error if file cannot be created
  * @throws boost::system::system_error if a network communication error occurs
  */
-void receiveFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,const std::string& path, size_t size){
+void receiveFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &socket, const std::string &path, size_t size) {
 
     std::ofstream file{path, std::ios::out | std::ios::binary};
     //check file opening (and creation)
-    if(!file)
-        throw std::runtime_error("Cannot create "+path);
+    if (!file)
+        throw std::runtime_error("Cannot create " + path);
 
     //allocating block
     char buf[BLOCK_SIZE];
 
-    while(size>0){
+    while (size > 0) {
         //computing number of bytes to read (a block or the residual)
-        size_t byte_to_read  = size>BLOCK_SIZE ? BLOCK_SIZE : size;
+        size_t byte_to_read = size > BLOCK_SIZE ? BLOCK_SIZE : size;
 
         //reading bytes from network
-        boost::asio::read(socket, boost::asio::buffer(buf,byte_to_read));
+        boost::asio::read(socket, boost::asio::buffer(buf, byte_to_read));
 
         //storing bytes in the file
         file.write(buf, byte_to_read);
