@@ -63,6 +63,9 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
                     //creating the job to perform
                     Job addDir{path, ADD_DIRECTORY, false};
                     queue.add(addDir);
+
+                    if(termination)
+                        return;
                 }
 
                 if(dir!=nullptr)
@@ -84,6 +87,9 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
                     //creating the job to perform
                     Job fileToAdd{path, ADD_FILE, true};
                     queue.add(fileToAdd);
+
+                    if(termination)
+                        return;
 
 
                 } else if(file!=nullptr) {
@@ -120,6 +126,9 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
                         //The file has been updated
                         Job update{path, UPDATE, true};
                         queue.add(update);
+
+                        if(termination)
+                            return;
 
                         if(!first) { //(otherwise this call is made in following lines)
                             //updating information about file
@@ -165,6 +174,9 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
             
             Job deleteDoF{deletePath, DELETE, entry.second->myType()==FILETYPE };
             queue.add(deleteDoF);
+
+            if(termination)
+                return;
 
             deleteDirectoryOrFile(deletePath);
         }
