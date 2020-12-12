@@ -20,7 +20,7 @@ public:
     bool operator==(Job const& j) const;
     bool operator!=(Job const& j) const;
 
-    bool isTerminatation();
+    bool isTermination();
 
     static const Job terminationJob();
 };

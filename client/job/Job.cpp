@@ -52,7 +52,7 @@ void Job::validateAct(Action a){
         throw std::logic_error("Impossible to set such an action on this file");
 }
 
-bool Job::isTerminatation() {
+bool Job::isTermination() {
     return path==TERMINATION_PATH && act==TERMINATION_ACTION ;
 }
 
