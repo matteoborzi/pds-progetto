@@ -5,7 +5,7 @@
 /**
  * maximum number of Jobs considering the sum of the ones present in the two lists
  */
-#define MAX_SIZE 100
+#define MAX_SIZE 10
 
 Action getAction(Action oldAct, Action newAct);
 
@@ -170,15 +170,11 @@ void JobQueue::addIfEmpty(const Job &job) {
 void JobQueue::wakeAll() {
     std::unique_lock l{m};
 
-    if(queue.empty()) {
-        queue.emplace_back(Job::terminationJob());
-        empty.notify_one();
-    }else if(queue.size() + sent.size() > MAX_SIZE){
-         queue.clear();
-         sent.clear();
-
-         full.notify_one();
-    }
+    queue.clear();
+    sent.clear();
+    queue.emplace_back(Job::terminationJob());
+    empty.notify_all();
+    full.notify_all();
 }
 
 /**
