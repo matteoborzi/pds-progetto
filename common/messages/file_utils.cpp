@@ -4,7 +4,7 @@
 #include <boost/asio/read.hpp>
 #include "file_utils.h"
 
-#define BLOCK_SIZE 1024*4 // Size of each chunk that can be sent on the net
+#define BLOCK_SIZE 1024 // Size of each chunk that can be sent on the net
 
 /**
  * Send a file on the network
@@ -19,7 +19,6 @@
 void sendFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &socket, const std::string &path, size_t size) {
     //check on file existence
     std::filesystem::directory_entry entry{path};
-   
 
 
     bool invalid_file = false;
@@ -46,7 +45,9 @@ void sendFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &socket, co
         if (!file)
             throw std::runtime_error("Cannot open " + path);
         while ((bytes_read = file.read(buf, BLOCK_SIZE).gcount()) > 0) {
-            boost::asio::write(socket, boost::asio::buffer(buf, bytes_read));
+            size_t bytes_written = boost::asio::write(socket, boost::asio::buffer(buf, bytes_read));
+            if (bytes_written != bytes_read)
+                throw std::runtime_error("Cannot write expected number of bytes of file");
             size -= bytes_read;
         }
         file.close();
@@ -82,7 +83,9 @@ void receiveFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &socket,
         size_t byte_to_read = size > BLOCK_SIZE ? BLOCK_SIZE : size;
 
         //reading bytes from network
-        boost::asio::read(socket, boost::asio::buffer(buf, byte_to_read));
+        size_t bytes_read = boost::asio::read(socket, boost::asio::buffer(buf, byte_to_read));
+        if (bytes_read != byte_to_read)
+            throw std::runtime_error("Cannot read expected number of bytes of file");
 
         //storing bytes in the file
         file.write(buf, byte_to_read);
