@@ -31,8 +31,9 @@ void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, Jo
         //get a job from the queue
         Job j = queue.getLastAndSetSent();
         //check if the job is the one inserted to notify the thread for termination
-        if (j.isTerminatation())
+        if (j.isTermination()){
             return;
+        }
         BackupPB::JobRequest req;
 
         req.set_path(j.getPath());
@@ -51,7 +52,7 @@ void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, Jo
             if (!f.exists()) {
                 //if it does not exists anymore, remove the job from the sent queue
                 queue.setConcluded(j.getPath());
-                break;
+                continue;
             }
 
             if (f.is_directory()) {
@@ -80,7 +81,7 @@ void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, Jo
                 }
             }
         } catch (std::exception &e) {
-            std::cerr << "Error while sending " + basePath + ": " + e.what() + "\n";
+            std::cerr << "Error while sending " + j.getPath() + ": " + e.what() + "\n";
             termination= true;
             continue;
         }
@@ -90,6 +91,7 @@ void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, Jo
     queue.wakeAll();
     close_socket(socket);
 
+    return;
 }
 
 /**
@@ -137,7 +139,7 @@ void receiveData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,
             if (!response.has_checksum()) //status OK and it is an add_folder or a delete
                 queue.setConcluded(response.path());
             else {
-                std::cout << response.path() + " sent correctly\n";
+                std::cout << "------> " <<response.path() + " sent correctly\n";
                 //a file has been sent for an add_file or for an update
                 std::shared_ptr<File> file = getFile(response.path());
                 if (file == nullptr)
@@ -160,4 +162,6 @@ void receiveData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,
     //it wakes the other threads eventually waiting on the queue and close the socket
     queue.wakeAll();
     close_socket(socket);
+
+    return;
 }
