@@ -120,7 +120,7 @@ int main(int argc, char *argv[]) {
     try {
         watch(queue, termination);
     } catch (std::exception& e) {
-        std::cerr<<e.what()<<std::endl;
+        std::cerr<<std::string(e.what())+"\n";
 
         termination= true; //signaling other thread to close
 

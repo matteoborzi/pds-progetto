@@ -64,6 +64,12 @@ void sendData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::atomic
             req.set_size(f.file_size());
 
             fileToBeSent = true;
+        } else if(j.getAct() == ADD_DIRECTORY){
+            std::string message = "Adding folder " + j.getPath() + "\n";
+            std::cout << message;
+        } else if(j.getAct() == DELETE){
+            std::string message = "Deleting " + j.getPath() + "\n";
+            std::cout << message;
         }
         try {
             writeToSocket(socket, req);
