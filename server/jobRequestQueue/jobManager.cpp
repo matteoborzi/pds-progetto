@@ -18,16 +18,17 @@
  * @param serverPath
  * @param queue
  */
-void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPath, JobRequestQueue& queue){
+void serveJobRequest(boost::asio::ip::tcp::socket &socket, std::string &serverPath, JobRequestQueue &queue) {
     // Get job request
     BackupPB::JobRequest req = readFromSocket<BackupPB::JobRequest>(socket);
     // Removing initial /
-    std::string path{serverPath+req.path().substr(1,req.path().size() )};
+    std::string path{serverPath + req.path().substr(1, req.path().size())};
 
-    if(req.pbaction()==BackupPB::JobRequest_PBAction_ADD_FILE ||req.pbaction()==BackupPB::JobRequest_PBAction_UPDATE )
+    if (req.pbaction() == BackupPB::JobRequest_PBAction_ADD_FILE ||
+        req.pbaction() == BackupPB::JobRequest_PBAction_UPDATE)
         // Add_file && update -> receive file, save into temporary and put into queue
-        receiveFile(socket, path+TMP_EXTENSION, req.size());
-    else if(req.pbaction()==BackupPB::JobRequest_PBAction_ADD_DIRECTORY)
+        receiveFile(socket, path + TMP_EXTENSION, req.size());
+    else if (req.pbaction() == BackupPB::JobRequest_PBAction_ADD_DIRECTORY)
         std::filesystem::create_directories(path);
 
     // Saving in queue
@@ -46,17 +47,17 @@ void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPa
  * @param stopped_self
  * @param user
  */
-void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue, const std::string& base_path,
-                   std::atomic_bool& stopped_other, std::atomic_bool& stopped_self, const std::string& user){
+void sendResponses(boost::asio::ip::tcp::socket &socket, JobRequestQueue &queue, const std::string &base_path,
+                   std::atomic_bool &stopped_other, std::atomic_bool &stopped_self, const std::string &user) {
     // Get IP address for logs
     std::string ipaddr = socket.remote_endpoint().address().to_string();
 
-    while(!stopped_other && !stopped_self){
+    while (!stopped_other && !stopped_self) {
         BackupPB::JobRequest request = queue.dequeueJobRequest();
-        if(!request.IsInitialized()){
+        if (!request.IsInitialized()) {
             // Got empty job to get awakened
-            stopped_self=true;
-        }else {
+            stopped_self = true;
+        } else {
             // Response is set up
             BackupPB::JobResponse response{};
             response.set_path(request.path());
@@ -68,34 +69,40 @@ void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue
                 // If a file is created or updated, checksum is computed and stored
                 case BackupPB::JobRequest_PBAction_ADD_FILE :
                 case BackupPB::JobRequest_PBAction_UPDATE :
-                    if (!updateChecksum(complete_path)) {
-                        response.set_status(BackupPB::JobResponse_Status_FAIL);
-                        print_log_error(ipaddr, user, "Error while storing "+complete_path);
-                    } else {
-                        std::optional<std::string> checksum = getChecksum(complete_path);
-                        if (!checksum.has_value()) {
+                    try {
+                        if (!updateChecksum(complete_path)) {
                             response.set_status(BackupPB::JobResponse_Status_FAIL);
-                            print_log_error(ipaddr, user, "Error while computing checksum of "+complete_path);
+                            print_log_error(ipaddr, user, "Error while storing " + complete_path);
+                        } else {
+                            std::optional<std::string> checksum = getChecksum(complete_path);
+                            if (!checksum.has_value()) {
+                                response.set_status(BackupPB::JobResponse_Status_FAIL);
+                                print_log_error(ipaddr, user, "Error while computing checksum of " + complete_path);
+                            } else {
+                                print_log_message(ipaddr, user, complete_path + " received correctly");
+                                response.set_status(BackupPB::JobResponse_Status_OK);
+                                response.set_checksum(checksum.value());
+                            }
                         }
-                        else {
-                            print_log_message(ipaddr, user, complete_path+" received correctly");
-                            response.set_status(BackupPB::JobResponse_Status_OK);
-                            response.set_checksum(checksum.value());
-                        }
+                    }catch (std::exception &e) {
+                        //Something wrong in computing file checksum
+                        response.set_status(BackupPB::JobResponse_Status_FAIL);
+
                     }
+
                     break;
                 case BackupPB::JobRequest_PBAction_ADD_DIRECTORY:
-                    print_log_message(ipaddr, user, complete_path+" created");
+                    print_log_message(ipaddr, user, complete_path + " created");
                     response.set_status(BackupPB::JobResponse_Status_OK);
                     break;
-                //If a file or a directory is deleted its mapping is removed
+                    //If a file or a directory is deleted its mapping is removed
                 case BackupPB::JobRequest_PBAction_DELETE :
                     if (!deleteFolderRecursively(complete_path)) {
-                        print_log_message(ipaddr, user, "Error while deleting " +complete_path);
+                        print_log_message(ipaddr, user, "Error while deleting " + complete_path);
                         response.set_status(BackupPB::JobResponse_Status_FAIL);
-                    }else {
+                    } else {
                         response.set_status(BackupPB::JobResponse_Status_OK);
-                        print_log_message(ipaddr, user, complete_path+" deleted");
+                        print_log_message(ipaddr, user, complete_path + " deleted");
                     }
                     break;
             }
