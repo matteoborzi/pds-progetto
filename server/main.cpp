@@ -2,9 +2,7 @@
 #include <iostream>
 #include <thread>
 #include <filesystem>
-#include <sys/socket.h>
 #include <boost/algorithm/string.hpp>
-#include <boost/asio/ssl.hpp>
 
 #include "waiter/Waiter.h"
 #include "pathPool/PathPool.h"

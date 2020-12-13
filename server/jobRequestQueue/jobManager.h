@@ -2,7 +2,6 @@
 #define SERVER_JOBMANAGER_H
 
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ssl.hpp>
 #include <string>
 #include "JobRequestQueue.h"
 

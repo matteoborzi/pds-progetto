@@ -3,7 +3,7 @@
 
 #include <string>
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ssl.hpp>
+
 
 std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket&);
 

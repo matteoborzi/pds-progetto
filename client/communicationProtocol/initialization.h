@@ -2,7 +2,6 @@
 #define CLIENT_INITIALIZATION_H
 
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ssl.hpp>
 #include <string>
 
 bool login(boost::asio::ip::tcp::socket&, std::string &, std::string &);

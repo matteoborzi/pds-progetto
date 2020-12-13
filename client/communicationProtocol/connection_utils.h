@@ -3,7 +3,6 @@
 
 #include <chrono>
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ssl.hpp>
 #include <boost/asio/connect.hpp>
 
 void custom_connect(boost::asio::ip::tcp::socket &socket,

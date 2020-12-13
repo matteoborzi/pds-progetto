@@ -4,7 +4,7 @@
 #include <boost/asio/read.hpp>
 #include <boost/asio/write.hpp>
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ssl.hpp>
+
 
 #define MAX_MESSAGE_SIZE 1 * 1024 * 1024 * 1024 //1 GB max PB message dimension
 
