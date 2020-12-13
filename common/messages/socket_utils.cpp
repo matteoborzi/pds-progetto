@@ -1,3 +1,4 @@
+
 #include "socket_utils.h"
 
 /**
@@ -6,7 +7,7 @@
  */
 void close_socket(boost::asio::ip::tcp::socket& socket){
     try {
-        socket.shutdown(boost::asio::socket_base::shutdown_both);
+        socket.shutdown(boost::asio::ip::tcp::socket::shutdown_both);
         socket.close();
     }catch(...){
         //socket already closed
