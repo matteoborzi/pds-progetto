@@ -5,7 +5,7 @@
 /**
  * maximum number of Jobs considering the sum of the ones present in the two lists
  */
-#define MAX_SIZE 10
+#define MAX_SIZE 100
 
 Action getAction(Action oldAct, Action newAct);
 
