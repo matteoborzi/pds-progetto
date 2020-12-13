@@ -17,7 +17,7 @@ int promptChoice(BackupPB::AvailableWorkspaces);
  * @param path absolute path of the directory to store the restored data
  * @return true in case of success, false otherwise
  */
-bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string &machineId, std::string &path) {
+bool restore(boost::asio::ip::tcp::socket& socket, std::string &machineId, std::string &path) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 

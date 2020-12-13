@@ -24,9 +24,9 @@
  * @param username to compute the operations related to the server paths
  * @return a shared pointer to the path for the current session
  */
-std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s, std::string& username){
+std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket& s, std::string& username){
     // Get IP address for log purposes
-    std::string ipaddr = s.next_layer().remote_endpoint().address().to_string();
+    std::string ipaddr = s.remote_endpoint().address().to_string();
 
     /* Read workspace from socket containing
         - client path

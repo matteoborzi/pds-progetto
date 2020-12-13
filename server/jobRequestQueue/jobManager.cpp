@@ -18,7 +18,7 @@
  * @param serverPath
  * @param queue
  */
-void serveJobRequest(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string& serverPath, JobRequestQueue& queue){
+void serveJobRequest(boost::asio::ip::tcp::socket& socket, std::string& serverPath, JobRequestQueue& queue){
     // Get job request
     BackupPB::JobRequest req = readFromSocket<BackupPB::JobRequest>(socket);
     // Removing initial /
@@ -46,10 +46,10 @@ void serveJobRequest(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& soc
  * @param stopped_self
  * @param user
  */
-void sendResponses(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket,  JobRequestQueue& queue, const std::string& base_path,
+void sendResponses(boost::asio::ip::tcp::socket& socket,  JobRequestQueue& queue, const std::string& base_path,
                    std::atomic_bool& stopped_other, std::atomic_bool& stopped_self, const std::string& user){
     // Get IP address for logs
-    std::string ipaddr = socket.next_layer().remote_endpoint().address().to_string();
+    std::string ipaddr = socket.remote_endpoint().address().to_string();
 
     while(!stopped_other && !stopped_self){
         BackupPB::JobRequest request = queue.dequeueJobRequest();

@@ -36,12 +36,9 @@ int main(int argc, char *argv[]) {
     }
     Configuration conf = configuration.value();
 
-    //setting up connection and SSL parameters
+    //setting up connection
     boost::asio::io_context io_service;
-    boost::asio::ssl::context ssl_context(boost::asio::ssl::context::sslv23);
-    ssl_context.set_verify_mode(boost::asio::ssl::verify_peer);
-    ssl_context.load_verify_file("../cert/server.cert.pem");
-    boost::asio::ssl::stream<boost::asio::ip::tcp::socket> socket(io_service, ssl_context);
+    boost::asio::ip::tcp::socket socket(io_service);
 
     //resolving server endpoint
     boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::address::from_string(
@@ -53,7 +50,7 @@ int main(int argc, char *argv[]) {
     do {
         //trying to connect
         try {
-            custom_connect(socket.next_layer(), endpoint, std::chrono::seconds(10), io_service);
+            custom_connect(socket, endpoint, std::chrono::seconds(10), io_service);
 
         } catch (std::system_error &e) {
 
@@ -69,13 +66,7 @@ int main(int argc, char *argv[]) {
             std::this_thread::sleep_for(std::chrono::seconds(CONNECTION_RETRY_PERIOD));
             continue;
         }
-        try{
-            custom_handshake(socket,std::chrono::seconds(15), io_service);
-        } catch (std::system_error &e) {
-            socket.next_layer().close();
-            std::cerr << "Error in performing handshake: " << e.what() << std::endl;
-            return 3;
-        }
+
     }while(!connected);
 
     //performing checks for restore

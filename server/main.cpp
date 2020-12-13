@@ -20,7 +20,7 @@
 #include "jobRequestQueue/jobManager.h"
 
 
-bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &, const std::string &);
+bool restore(boost::asio::ip::tcp::socket &, const std::string &);
 
 int main(int argc, char *argv[]) {
 
@@ -42,19 +42,11 @@ int main(int argc, char *argv[]) {
         return 2;
     }
 
-    // SSL connection setup
+    //  connection setup
     boost::asio::io_context my_context;
-    boost::asio::ssl::context ssl_context(boost::asio::ssl::context::sslv23);
     boost::asio::ip::tcp::endpoint endpoint(boost::asio::ip::tcp::v4(), port);
     boost::asio::ip::tcp::acceptor acceptor(my_context, endpoint);
 
-    ssl_context.set_options(
-            boost::asio::ssl::context::default_workarounds
-            | boost::asio::ssl::context::no_sslv2
-            | boost::asio::ssl::context::single_dh_use);
-
-    ssl_context.use_certificate_chain_file("../cert/server.cert.pem");
-    ssl_context.use_private_key_file("../cert/server.key.pem", boost::asio::ssl::context::pem);
     
     std::cout << "Server has started on port " << port << std::endl;
 
@@ -62,27 +54,19 @@ int main(int argc, char *argv[]) {
         // Reserve server resources through an instance of Waiter
         std::shared_ptr<Waiter> w = std::make_shared<Waiter>();
 
-        std::shared_ptr<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>> socket =
-                std::make_shared<boost::asio::ssl::stream<boost::asio::ip::tcp::socket>>(my_context, ssl_context);
+        boost::asio::ip::tcp::socket socket (my_context);
 
-        acceptor.accept(socket->next_layer());
+        acceptor.accept(socket);
 
         // Get IP address for logs
-        std::string ipaddr = socket->next_layer().remote_endpoint().address().to_string();
+        std::string ipaddr = socket.remote_endpoint().address().to_string();
         print_log_message(ipaddr, "Connection accepted");
 
-        // Perform the connection
-        try {
-            socket->handshake(boost::asio::ssl::stream_base::server);
-        } catch (std::exception &e) {
-            print_log_error(ipaddr, "Unable to perform TLS handshake");
-            continue;
-        }
 
         // Thread creation for a single request
         print_log_message(ipaddr, "Creating the thread");
-        std::thread thread{[w, ipaddr, socket]() -> void {
-            boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &s = *socket;
+        std::thread thread{[w, ipaddr](boost::asio::ip::tcp::socket &&s) -> void {
+
             try {
                 // User authentication
                 std::optional<std::string> username = doAuthentication(s);
@@ -150,7 +134,7 @@ int main(int argc, char *argv[]) {
             }
 
             return;
-        }};
+        }, std::move(socket)};
         thread.detach();
 
     }
@@ -166,9 +150,9 @@ int main(int argc, char *argv[]) {
  * @param path to restore
  * @return true if restore has been performed successfully
  */
-bool restore(boost::asio::ssl::stream<boost::asio::ip::tcp::socket> &socket, const std::string &path) {
+bool restore(boost::asio::ip::tcp::socket &socket, const std::string &path) {
     // Get IP address for log purposes
-    std::string ipaddr = socket.next_layer().remote_endpoint().address().to_string();
+    std::string ipaddr = socket.remote_endpoint().address().to_string();
 
     // For each entry in the workspace create a JobRequest
     for (std::filesystem::directory_entry entry : std::filesystem::recursive_directory_iterator(path)) {

@@ -23,7 +23,7 @@
  * @param queue to get the Job
  * @param termination atomic_bool passed by reference to understand whether it has to terminate or not
  */
-void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, JobQueue &queue, std::atomic_bool &termination) {
+void sendData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::atomic_bool &termination) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -103,7 +103,7 @@ void sendData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, Jo
  * @param queue to remove/put Jobs
  * @param termination atomic_bool passed by reference to understand whether it has to terminate or not
  */
-void receiveData(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, JobQueue &queue, std::atomic_bool &termination) {
+void receiveData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::atomic_bool &termination) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 

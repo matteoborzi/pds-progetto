@@ -16,7 +16,7 @@
  * @param password
  * @return true if login is successful
  */
-bool login(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string &username, std::string &password) {
+bool login(boost::asio::ip::tcp::socket& socket, std::string &username, std::string &password) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 
@@ -54,7 +54,7 @@ bool login(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::
  * @param path absolute path of the directory
  * @return true in case of success, false otherwise
  */
-bool chooseWorkspace(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& socket, std::string &machineId, std::string &path) {
+bool chooseWorkspace(boost::asio::ip::tcp::socket& socket, std::string &machineId, std::string &path) {
 
     GOOGLE_PROTOBUF_VERIFY_VERSION;
 

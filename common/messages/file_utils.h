@@ -4,7 +4,7 @@
 #include <boost/asio/ssl.hpp>
 #include <string>
 
-void sendFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, const std::string&, size_t);
-void receiveFile(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, const std::string&, size_t);
+void sendFile(boost::asio::ip::tcp::socket&, const std::string&, size_t);
+void receiveFile(boost::asio::ip::tcp::socket&, const std::string&, size_t);
 
 #endif //FILE_UTILS_COMMON_H

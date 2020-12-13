@@ -5,7 +5,7 @@
 #include <boost/asio/ssl.hpp>
 #include <string>
 
-bool login(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, std::string &, std::string &);
-bool chooseWorkspace(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, std::string &, std::string &);
+bool login(boost::asio::ip::tcp::socket&, std::string &, std::string &);
+bool chooseWorkspace(boost::asio::ip::tcp::socket&, std::string &, std::string &);
 
 #endif //CLIENT_INITIALIZATION_H

@@ -7,6 +7,6 @@
 #include <memory>
 #include "../pathPool/PathPool.h"
 
-std::shared_ptr<PathPool> loadWorkspace(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>&, std::string&);
+std::shared_ptr<PathPool> loadWorkspace(boost::asio::ip::tcp::socket&, std::string&);
 
 #endif //SERVER_LOAD_H

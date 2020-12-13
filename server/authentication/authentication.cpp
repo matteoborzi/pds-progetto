@@ -34,7 +34,7 @@ std::string generateRandomSalt();
  * @param s socket
  * @return username if authentication was successful
  */
-std::optional<std::string> doAuthentication(boost::asio::ssl::stream<boost::asio::ip::tcp::socket>& s){
+std::optional<std::string> doAuthentication(boost::asio::ip::tcp::socket& s){
 
     BackupPB::AuthenticationRequest authenticationRequest;
     BackupPB::AuthenticationResponse authenticationResponse;
