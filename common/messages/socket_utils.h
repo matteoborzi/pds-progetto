@@ -6,6 +6,8 @@
 #include <boost/asio/ip/tcp.hpp>
 #include <boost/asio/ssl.hpp>
 
+#define MAX_MESSAGE_SIZE 1 * 1024 * 1024 * 1024 //1 GB max PB message dimension
+
 template<class T>
 /**
  * function to read a message from socket
@@ -22,9 +24,11 @@ T readFromSocket(boost::asio::ip::tcp::socket& s){
     }catch(boost::system::system_error& e) {
         throw std::runtime_error("Socket has been closed, cannot read message size");
     }
-    if(ret<=0 || size<=0){
+    if(ret<=0 || size<=0 ){
         throw std::runtime_error("Unexpected message size read from socket");
     }
+    if(size> MAX_MESSAGE_SIZE )
+        throw std::runtime_error("Received anormal message size, aborting");
 
     //allocating bytes for the message
     char values[size+1];
