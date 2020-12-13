@@ -73,7 +73,9 @@ void watch(JobQueue &queue, std::atomic_bool& termination) {
                     dir->setVisited();
 
 
-            } else if(element.is_regular_file()){
+            } else if(element.is_regular_file() && !element.is_symlink()
+            // checking if permission to read is available
+            && (std::ifstream{element.path(), std::ios::in})  ){
                 //looking for a file
                 std::shared_ptr<File> file = getFile(path);
                 if (file == nullptr && getDirectory(path)==nullptr) {

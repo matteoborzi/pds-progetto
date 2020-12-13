@@ -89,8 +89,9 @@ void sendData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::atomic
     }
     //the functions executes this lines in case of termination
     //it wakes the other threads eventually waiting on the queue and close the socket
-    queue.wakeAll();
+
     close_socket(socket);
+    queue.wakeAll();
 
     return;
 }
@@ -163,8 +164,8 @@ void receiveData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::ato
 
     //the functions executes this lines in case of termination
     //it wakes the other threads eventually waiting on the queue and close the socket
-    queue.wakeAll();
     close_socket(socket);
+    queue.wakeAll();
 
     return;
 }
