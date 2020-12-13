@@ -66,8 +66,10 @@ bool deleteFolderRecursively(const std::string &path) {
 bool updateChecksum(const std::string &path) {
     std::string tmp_path{path+TMP_EXTENSION};
     std::filesystem::directory_entry temporary_file{tmp_path};
-    if(!temporary_file.exists() || temporary_file.is_directory())
+    if(!temporary_file.exists() )
         throw std::logic_error("Expecting "+tmp_path+" to exist");
+    if(temporary_file.is_directory() )
+        throw std::logic_error("Expecting "+tmp_path+" to be a file");
     try{
         //opening the DB file
         SQLite::Database db(filename, SQLite::OPEN_READWRITE); //throws an exception if it can not be open
