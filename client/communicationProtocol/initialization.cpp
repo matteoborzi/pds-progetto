@@ -27,7 +27,7 @@ bool login(boost::asio::ip::tcp::socket& socket, std::string &username, std::str
     try {
         writeToSocket(socket, req);
     } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << std::string(e.what()) + "\n";
         return false;
     }
 
@@ -36,7 +36,7 @@ bool login(boost::asio::ip::tcp::socket& socket, std::string &username, std::str
     try {
         response = readFromSocket<BackupPB::AuthenticationResponse>(socket);
     } catch (std::exception &e) {
-        std::cerr << e.what() << std::endl;
+        std::cerr << std::string(e.what()) + "\n";
         return false;
     }
 
@@ -67,7 +67,7 @@ bool chooseWorkspace(boost::asio::ip::tcp::socket& socket, std::string &machineI
     try{
         writeToSocket(socket,workspaceChoice);
     } catch(std::exception& e){
-        std::cerr << e.what() << std::endl;
+        std::cerr << std::string(e.what()) + "\n";
         return false;
     }
 
@@ -75,7 +75,7 @@ bool chooseWorkspace(boost::asio::ip::tcp::socket& socket, std::string &machineI
     try{
         response = readFromSocket<BackupPB::WorkspaceMetaInfo>(socket);
     } catch(std::exception& e){
-        std::cerr << e.what() << std::endl;
+        std::cerr << std::string(e.what()) + "\n";
         return false;
     }
 

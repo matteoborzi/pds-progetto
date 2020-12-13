@@ -104,7 +104,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, std::string &machineId, std::
                 try {
 
                     receiveFile(socket, complete_path, job_request.size());
-                    std::cout<<job_request.path()<<" received"<<std::endl;
+                    std::cout<<job_request.path()+" received\n";
                 } catch (std::exception &e) {
                     std::cerr << "Error while receiving "+job_request.path()+": " << e.what() << std::endl;
                     return false;
@@ -119,7 +119,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, std::string &machineId, std::
 
     }
 
-    std::cout << "Restore completed successfully" << std::endl;
+    std::cout << "Restore completed successfully\n";
     return true;
 }
 

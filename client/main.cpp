@@ -102,11 +102,13 @@ int main(int argc, char *argv[]) {
         }
     }
 
+    std::cout << "Preparing workspace\n";
     //sending data to select the workspace to use
     if (!chooseWorkspace(socket, conf.getMachineID(), conf.getPath())) {
         std::cerr << "Error during workspace choice" << std::endl;
         return 7;
     }
+    std::cout << "Workspace prepared, starting the scan\n";
 
 
     std::atomic_bool termination=false;

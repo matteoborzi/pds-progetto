@@ -56,7 +56,7 @@ void sendData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::atomic
             }
 
             if (f.is_directory()) {
-                std::cerr << "Expected " + j.getPath() + " to be a file" << std::endl;
+                std::cerr << "Expected " + j.getPath() + " to be a file\n";
                 termination = true;
                 continue;
             }
@@ -71,7 +71,8 @@ void sendData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::atomic
                 //compute checksum (if a file has to be sent)
                 std::string checksum = computeChecksum(absolutePath);
                 //send data
-                std::cout << "Sending " + j.getPath() << " to the server\n";
+                std::string message = "Sending " + j.getPath() + " to the server\n";
+                std::cout << message;
                 sendFile(socket, absolutePath, req.size());
 
                 //update checksum (if a file has been sent) in Directory structure
@@ -115,7 +116,8 @@ void receiveData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::ato
             response = readFromSocket<BackupPB::JobResponse>(socket);
         }
         catch (std::exception &e) {
-            std::cerr<<"Error in listening from the socket: "<<e.what()<<std::endl;
+            std::string message = "Error in listening from the socket: " + std::string(e.what()) +"\n";
+            std::cerr << message;
             termination= true;
             continue;
         }
@@ -129,7 +131,7 @@ void receiveData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::ato
                 counter++;
                 queue.retry(response.path());
             } else {
-                std::cerr<<"Server is not working properly"<<std::endl;
+                std::cerr<<"Server is not working properly\n";
                 termination = true;
                 continue;
             }
@@ -139,7 +141,8 @@ void receiveData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::ato
             if (!response.has_checksum()) //status OK and it is an add_folder or a delete
                 queue.setConcluded(response.path());
             else {
-                std::cout << "------> " <<response.path() + " sent correctly\n";
+                std::string message = "------> " + response.path() + " sent correctly\n";
+                std::cout << message;
                 //a file has been sent for an add_file or for an update
                 std::shared_ptr<File> file = getFile(response.path());
                 if (file == nullptr)
