@@ -2,7 +2,6 @@
 #define SERVER_LOAD_H
 
 #include <boost/asio/ip/tcp.hpp>
-#include <boost/asio/ssl.hpp>
 #include <string>
 #include <memory>
 #include "../pathPool/PathPool.h"

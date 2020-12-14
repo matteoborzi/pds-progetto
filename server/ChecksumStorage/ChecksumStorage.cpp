@@ -25,8 +25,8 @@ std::optional <std::string> getChecksum(const std::string &path) {
 }
 
 /**
- * Delete all the checksums belonging to a specified folder
- * @param path of the folder
+ * Delete all the checksums belonging to a specified folder or file
+ * @param path of the folder or file
  * @return bool indicating success
  * @throws logic_error if the directory does not exists
  */
