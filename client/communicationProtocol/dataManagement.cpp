@@ -49,17 +49,13 @@ void sendData(boost::asio::ip::tcp::socket& socket, JobQueue &queue, std::atomic
         if (j.getAct() == ADD_FILE || j.getAct() == UPDATE) {
 
             std::filesystem::directory_entry f{absolutePath};
-            if (!f.exists()) {
-                //if it does not exists anymore, remove the job from the sent queue
-                queue.setConcluded(j.getPath());
+            if (!f.exists() || f.is_directory()) {
+                //if it does not exists anymore (or has been replaced by a folder), waiting the watcher to be aware
+                // of the change
+                queue.retry(j.getPath());
                 continue;
             }
 
-            if (f.is_directory()) {
-                std::cerr << "Expected " + j.getPath() + " to be a file\n";
-                termination = true;
-                continue;
-            }
 
             req.set_size(f.file_size());
 
