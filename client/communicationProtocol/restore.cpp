@@ -8,7 +8,7 @@
 #include "../../common/messages/JobRequest.pb.h"
 #include "../../common/messages/file_utils.h"
 
-int promptChoice(BackupPB::AvailableWorkspaces);
+int promptChoice(BackupPB::AvailableWorkspaces&);
 
 /**
  * this function performs the restore operation in case the --r option is set
@@ -112,8 +112,14 @@ bool restore(boost::asio::ip::tcp::socket& socket, std::string &machineId, std::
             }
 
             // If the request is an ADD_DIRECTORY there is no socket read
-            else if(job_request.pbaction() == BackupPB::JobRequest_PBAction_ADD_DIRECTORY)
-                std::filesystem::create_directories(complete_path);
+            else if(job_request.pbaction() == BackupPB::JobRequest_PBAction_ADD_DIRECTORY) {
+                try {
+                    std::filesystem::create_directories(complete_path);
+                } catch (std::exception &e) {
+                    std::cerr << "Error while creating directory" + job_request.path() + ": " << e.what() << std::endl;
+                    return false;
+                }
+            }
 
         } while(job_request.pbaction() != BackupPB::JobRequest_PBAction_END_RESTORE);
 
@@ -128,7 +134,7 @@ bool restore(boost::asio::ip::tcp::socket& socket, std::string &machineId, std::
  * @param ws AvailableWorkspaces message
  * @return the index of the selected Workspace, -1 if error (empty message or index selected is out of bound)
  */
-int promptChoice(BackupPB::AvailableWorkspaces ws){
+int promptChoice(BackupPB::AvailableWorkspaces& ws){
     if(ws.paths().empty()) {
         std::cout<<"No workspace to restore available on the server"<<std::endl;
         return -1;
